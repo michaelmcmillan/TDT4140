@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -22,7 +23,12 @@
                      <children>
                         <ScrollPane prefHeight="778.0" prefWidth="720.0">
                            <content>
-                              <VBox prefHeight="676.0" prefWidth="200.0" />
+                              <HBox prefHeight="777.0" prefWidth="716.0">
+                                 <children>
+                                     <fx:include fx:id="dayDetailView" source="DayDetailView.fxml"/>
+                                     <Pane prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </HBox>
                            </content>
                         </ScrollPane>
                      </children>
