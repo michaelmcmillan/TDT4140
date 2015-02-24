@@ -4,9 +4,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DayDetailViewController">
-    <fx:include fx:id="hourDetailView" source="HourDetailView.fxml"/>
-    <children>
-      <Pane prefHeight="80.0" prefWidth="200.0" />
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="1000.0" style="fx-width:2.3%;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DayDetailViewController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+             <fx:include fx:id="0000" source="HourDetailView.fxml" />
+             <fx:include fx:id="0100" source="HourDetailView.fxml" />
+             <fx:include fx:id="0200" source="HourDetailView.fxml" />
+             <fx:include fx:id="0300" source="HourDetailView.fxml" />
+             <fx:include fx:id="0400" source="HourDetailView.fxml" />
+             <fx:include fx:id="0500" source="HourDetailView.fxml" />
+             <fx:include fx:id="0600" source="HourDetailView.fxml" />
+             <fx:include fx:id="0700" source="HourDetailView.fxml" />
+             <fx:include fx:id="0800" source="HourDetailView.fxml" />
+             <fx:include fx:id="0900" source="HourDetailView.fxml" />
+             <fx:include fx:id="1000" source="HourDetailView.fxml" />
+             <fx:include fx:id="1100" source="HourDetailView.fxml" />
+             <fx:include fx:id="1200" source="HourDetailView.fxml" />
+             <fx:include fx:id="1300" source="HourDetailView.fxml" />
+             <fx:include fx:id="1400" source="HourDetailView.fxml" />
+             <fx:include fx:id="1500" source="HourDetailView.fxml" />
+             <fx:include fx:id="1600" source="HourDetailView.fxml" />
+             <fx:include fx:id="1700" source="HourDetailView.fxml" />
+             <fx:include fx:id="1800" source="HourDetailView.fxml" />
+             <fx:include fx:id="1900" source="HourDetailView.fxml" />
+             <fx:include fx:id="2000" source="HourDetailView.fxml" />
+             <fx:include fx:id="2100" source="HourDetailView.fxml" />
+             <fx:include fx:id="2200" source="HourDetailView.fxml" />
+             <fx:include fx:id="2300" source="HourDetailView.fxml" />
+         </children>
+      </VBox>
    </children>
 </Pane>
