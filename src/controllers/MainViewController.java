@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
 
-    @FXML private Pane dialog;
-    @FXML private DayDetailViewController dayDetailViewController;
+    //@FXML private Pane dialog;
+    //@FXML private DayDetailViewController dayDetailViewController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
