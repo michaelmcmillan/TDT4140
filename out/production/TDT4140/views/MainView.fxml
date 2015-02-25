@@ -26,17 +26,11 @@
                               <HBox prefHeight="1000.0">
                                  <children>
                                      <fx:include fx:id="monday" source="DayDetailView.fxml" />
-
                                      <fx:include fx:id="tuesday" source="DayDetailView.fxml" />
-
                                      <fx:include fx:id="wednesday" source="DayDetailView.fxml" />
-
                                      <fx:include fx:id="thursday" source="DayDetailView.fxml" />
-
                                      <fx:include fx:id="friday" source="DayDetailView.fxml" />
-
                                      <fx:include fx:id="saturday" source="DayDetailView.fxml" />
-
                                      <fx:include fx:id="sunday" source="DayDetailView.fxml" />
                                  </children>
                               </HBox>
