@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainViewController">
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <Pane prefHeight="768.0" prefWidth="1024.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<Pane prefHeight="770.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
          <children>
-            <SplitPane dividerPositions="0.2" layoutX="-7.0" layoutY="-8.0" prefHeight="778.0" prefWidth="1024.0">
+            <SplitPane dividerPositions="0.2" layoutX="-7.0" layoutY="28.0" prefHeight="742.0" prefWidth="1024.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0">
+               <children>
+                  <ListView fx:id="calendarListView" prefHeight="740.0" prefWidth="200.0" />
+               </children></AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="776.0">
                      <children>
                         <ScrollPane prefHeight="750.0" prefWidth="814.0">
@@ -40,7 +34,20 @@
                   </AnchorPane>
               </items>
             </SplitPane>
+      <MenuBar layoutX="-8.0" prefHeight="29.0" prefWidth="1024.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Account">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Logout" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="New calendar" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
          </children>
-      </Pane>
-   </children>
-</GridPane>
+
+</Pane>
