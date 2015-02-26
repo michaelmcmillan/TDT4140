@@ -51,7 +51,6 @@ public class MainViewController   {
                 System.out.print(calendarListView.getSelectionModel().getSelectedItem()); //Handles clicks in sidemenu
             }
         });
-
     }
 
     public void init(){
