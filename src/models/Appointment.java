@@ -5,7 +5,7 @@ package models;
  */
 public class Appointment {
 
-    public Appointment(){
+    public Appointment () {
 
     }
 }
