@@ -32,6 +32,10 @@ public class Appointment {
 
     }
 
+    public Date getStartTime(){ return this.startTime }
+    public Date getEndTime(){ return this.endTime }
+
+
     public void addParticipant(Person person){
         participants.add(person);
     }
