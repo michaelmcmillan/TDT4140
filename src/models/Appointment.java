@@ -15,7 +15,15 @@ public class Appointment {
     ArrayList<Person> participants;
     Person createdBy;
 
-    public Appointment () {
+    public Appointment (Date startTime, Date endTime, String title, String description, Person createdBy) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.title = title;
+        this.description = description;
+        this.createdBy = createdBy;
+
+        participants = new ArrayList<Person>();
+        participants.add(createdBy);
 
     }
 
