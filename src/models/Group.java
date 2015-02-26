@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,9 @@ import java.util.List;
  */
 public class Group {
 
-    List<Person> persons;
+    List<Person> members;
+    ArrayList<Group> subGroups; //Burde det ikke vaere superGroups?
+    String name;
 
     public Group() {
 
