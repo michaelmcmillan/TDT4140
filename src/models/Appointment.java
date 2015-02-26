@@ -8,4 +8,12 @@ public class Appointment {
     public Appointment () {
 
     }
+
+    public void heisann(){
+
+    }
+
+    public void hadet(){
+
+    }
 }
