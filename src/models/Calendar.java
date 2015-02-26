@@ -30,8 +30,9 @@ public class Calendar {
         for(int i = 0; i < appointments.size(); i++){
             Appointment currentAppointment = appointments.get(i);
 
-            //if(startTime.before(currentAppointment.))
-
+            if (startTime.before(currentAppointment.getStartTime()) && endTime.after(currentAppointment.getEndTime())) {
+                appointmentsBetween.add(currentAppointment);
+            }
         }
         return appointmentsBetween;
     }
