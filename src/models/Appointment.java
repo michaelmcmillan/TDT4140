@@ -12,4 +12,8 @@ public class Appointment {
     public void heisann(){
 
     }
+
+    public void hadet(){
+
+    }
 }
