@@ -30,10 +30,7 @@ public class MainViewController   {
 
     private final String MAINVIEW_PATH = "MainView.fxml";
 
-
-
     public MainViewController(Stage primaryStage) throws Exception{
-
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/"+MAINVIEW_PATH));
         Parent main = (Parent) loader.load();
@@ -86,7 +83,6 @@ public class MainViewController   {
     }
 
     public void init(){
-
 
     }
 
