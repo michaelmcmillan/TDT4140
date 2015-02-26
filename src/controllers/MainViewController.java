@@ -135,14 +135,14 @@ public class MainViewController {
     }
 
     public void createRectangle(Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
-        int startTime[] = convertYAxisToHourAndMinutes(pane, startY);
+        int startTime[] = convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.set(java.util.Calendar.HOUR_OF_DAY, startTime[0]);
         cal.set(java.util.Calendar.MINUTE, startTime[1]);
         cal.set(java.util.Calendar.SECOND, 0);
         Date startDate = cal.getTime();
 
-        int endTime[] = convertYAxisToHourAndMinutes(pane, endY);
+        int endTime[] = convertYAxisToHourAndMinutes(pane, Math.max(startY, endY));
         java.util.Calendar cal2 = java.util.Calendar.getInstance();
         cal2.set(java.util.Calendar.HOUR_OF_DAY, endTime[0]);
         cal2.set(java.util.Calendar.MINUTE, endTime[1]);
