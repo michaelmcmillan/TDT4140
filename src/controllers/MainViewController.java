@@ -40,18 +40,17 @@ public class MainViewController   {
 
         final ListView<String> calendarListView = (ListView) main.lookup("#calendarListView");
 
+
+
         ObservableList<String> list = FXCollections.observableArrayList("KAttt","Hund","hest");
         calendarListView.setItems(list);
 
         calendarListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.print(calendarListView.getSelectionModel().getSelectedItem());
+                System.out.print(calendarListView.getSelectionModel().getSelectedItem()); //Handles clicks in sidemenu
             }
         });
-
-
-
 
     }
 
@@ -59,5 +58,9 @@ public class MainViewController   {
 
 
     }
+
+
+
+
 
 }

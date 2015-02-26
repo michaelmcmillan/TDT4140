@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="770.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<Pane prefHeight="770.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
          <children>
             <SplitPane dividerPositions="0.2" layoutX="-7.0" layoutY="28.0" prefHeight="742.0" prefWidth="1024.0">
               <items>
@@ -15,20 +15,20 @@
                </children></AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="776.0">
                      <children>
-                        <ScrollPane prefHeight="750.0" prefWidth="814.0">
-                           <content>
-                              <HBox prefHeight="1950.0">
-                                 <children>
-                                     <fx:include fx:id="monday" source="DayDetailView.fxml" />
-                                     <fx:include fx:id="tuesday" source="DayDetailView.fxml" />
-                                     <fx:include fx:id="wednesday" source="DayDetailView.fxml" />
-                                     <fx:include fx:id="thursday" source="DayDetailView.fxml" />
-                                     <fx:include fx:id="friday" source="DayDetailView.fxml" />
-                                     <fx:include fx:id="saturday" source="DayDetailView.fxml" />
-                                     <fx:include fx:id="sunday" source="DayDetailView.fxml" />
-                                 </children>
-                              </HBox>
-                           </content>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="1208.0" prefWidth="814.0">
+                     <content>
+                        <HBox prefHeight="748.0" prefWidth="485.0">
+                           <children>
+                              <Pane id="dayMonday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                              <Pane id="dayTuesday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                              <Pane id="dayWednesday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                              <Pane id="dayThursday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                              <Pane id="dayFriday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                              <Pane id="daySaturday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                              <Pane id="daySunday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                           </children>
+                        </HBox>
+                     </content>
                         </ScrollPane>
                      </children>
                   </AnchorPane>
