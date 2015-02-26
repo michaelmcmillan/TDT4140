@@ -14,10 +14,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
+import models.Appointment;
+import models.Calendar;
+import models.Person;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.floor;
 import static java.lang.Math.min;
 
 public class MainViewController {
@@ -30,6 +36,8 @@ public class MainViewController {
     double endY;
     AnchorPane fxmlPane;
     ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+    ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+    Calendar calendar = new Calendar();
 
     public MainViewController(Stage primaryStage) throws Exception {
 
@@ -48,8 +56,7 @@ public class MainViewController {
         final Pane saturdayPane = (Pane) main.lookup("#daySaturday");
         final Pane sundayPane = (Pane) main.lookup("#daySunday");
 
-        Pane[] dayPanes = {mondayPane,tuesdayPane,wednesdayPane,thursdayPane,fridayPane,saturdayPane,sundayPane};
-
+        Pane[] dayPanes = {mondayPane, tuesdayPane, wednesdayPane, thursdayPane, fridayPane, saturdayPane, sundayPane};
 
         //Handle clicks in calendar
         for (Pane pane:dayPanes) {
@@ -97,7 +104,7 @@ public class MainViewController {
 
     }
 
-    private void calendarDayClicked(Pane pane,String paneID, Double mouseY){
+    private void calendarDayClicked(Pane pane, String paneID, Double mouseY){
         //DAY_WIDTH = pane.getWidth();
         Double height = pane.getHeight();
         double hour = (mouseY/(height/24));
@@ -107,7 +114,50 @@ public class MainViewController {
         System.out.print(paneID + "  :  " + Double.toString(height) + " : " + Double.toString(mouseY) + " Hour: " + Integer.toString(hourInt) +System.lineSeparator());
     }
 
+    private int[] convertYAxisToHourAndMinutes(Pane pane, double yAxis) {
+        double height = pane.getHeight();
+        int hour = (int)floor(yAxis / (height / 24));
+        int minutes = (int)(yAxis / (height / 24) - hour);
+        return new int[]{hour, minutes * 60};
+    }
+
+    private Date[] getFirstAndLastDayOfCurrentWeek() {
+        Date date = new Date();
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTime(date);
+        int dayOfWeek = c.get(java.util.Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
+        c.add(java.util.Calendar.DAY_OF_MONTH, -dayOfWeek);
+
+        Date weekStart = c.getTime();
+        c.add(java.util.Calendar.DAY_OF_MONTH, 6);
+        Date weekEnd = c.getTime();
+        return new Date[]{weekStart, weekEnd};
+    }
+
     public void createRectangle(Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
+        int startTime[] = convertYAxisToHourAndMinutes(pane, startY);
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.HOUR_OF_DAY, startTime[0]);
+        cal.set(java.util.Calendar.MINUTE, startTime[1]);
+        cal.set(java.util.Calendar.SECOND, 0);
+        Date startDate = cal.getTime();
+
+        int endTime[] = convertYAxisToHourAndMinutes(pane, endY);
+        java.util.Calendar cal2 = java.util.Calendar.getInstance();
+        cal2.set(java.util.Calendar.HOUR_OF_DAY, endTime[0]);
+        cal2.set(java.util.Calendar.MINUTE, endTime[1]);
+        cal2.set(java.util.Calendar.SECOND, 0);
+        Date endDate = cal2.getTime();
+
+        Person morten = new Person("Morten", "Møkkamann");
+        Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
+        calendar.addAppointment(appointment);
+
+        Date[] firstAndLastDayOfWeek = getFirstAndLastDayOfCurrentWeek();
+        for(Appointment a : calendar.getAppointmentsBetween(firstAndLastDayOfWeek[0], firstAndLastDayOfWeek[1])) {
+            System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
+        }
+
         final Rectangle rectangle = new Rectangle();
         //rectangle.setX(min(startX, endX));
         rectangle.setX(1);

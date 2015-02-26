@@ -8,7 +8,11 @@ import java.util.Date;
  */
 public class Calendar {
 
-    ArrayList<Appointment> appointments;
+    ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+
+    public void Calendar() {
+
+    }
 
     public void addAppointment(Appointment appointment){
         appointments.add(appointment);
@@ -47,5 +51,4 @@ public class Calendar {
         }
         return appointmentsBetween;
     }
-
 }
