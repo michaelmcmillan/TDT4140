@@ -12,7 +12,25 @@ public class Group {
     ArrayList<Group> subGroups; //Burde det ikke vaere superGroups?
     String name;
 
-    public Group() {
+    public Group(String name) {
+        this.name = name;
+        members = new ArrayList<Person>();
+        subGroups = new ArrayList<Group>();
+    }
 
+    public void addMember(Person person){
+        members.add(person);
+    }
+
+    public void addSubGroup(Group group){
+        subGroups.add(group);
+    }
+
+    public void removeMember(Person person){
+        members.remove(person);
+    }
+
+    public void changeName(String name){
+        this.name = name;
     }
 }
