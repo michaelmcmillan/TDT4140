@@ -26,13 +26,6 @@ public class LoginViewController{
         if (true){ //TODO implement check against database
 
             new MainViewController(primaryStage);
-            /*
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/"+MAINVIEW_PATH));
-            Parent main = (Parent) loader.load();
-            primaryStage.setTitle("Kalendersystem");
-            primaryStage.setScene(new Scene(main));
-            */
-
 
         }
 
