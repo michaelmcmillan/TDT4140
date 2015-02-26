@@ -13,11 +13,11 @@
                <children>
                   <ListView fx:id="calendarListView" prefHeight="740.0" prefWidth="200.0" />
                </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="776.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="727.0" prefWidth="814.0">
                      <children>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="1208.0" prefWidth="814.0">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="740.0" prefWidth="814.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <HBox prefHeight="748.0" prefWidth="485.0">
+                        <HBox maxHeight="1.7976931348623157E308" prefHeight="739.0" prefWidth="812.0">
                            <children>
                               <Pane id="dayMonday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
                               <Pane id="dayTuesday" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
