@@ -57,7 +57,4 @@ public class Appointment {
         this.description = description;
     }
 
-    public void heisann(){
-
-    }
 }
