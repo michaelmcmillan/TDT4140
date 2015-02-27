@@ -14,7 +14,7 @@
                   <ListView fx:id="calendarListView" maxWidth="200.0" minWidth="100.0" prefHeight="740.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="500.0" prefHeight="600.0" prefWidth="700.0">
+                <AnchorPane fx:id="mainPane" minHeight="0.0" minWidth="500.0" prefHeight="600.0" prefWidth="700.0">
                      <children>
                         <ScrollPane fx:id="weekView" fitToHeight="true" fitToWidth="true" prefHeight="740.0" prefWidth="814.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>

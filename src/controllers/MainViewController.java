@@ -18,14 +18,11 @@ import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
 import models.Person;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
-import static java.lang.Math.min;
 
 public class MainViewController {
 
@@ -38,17 +35,20 @@ public class MainViewController {
     AnchorPane fxmlPane;
     ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     Calendar calendar = new Calendar();
+    Parent main;
+    final AnchorPane mainPane;
+    final ListView<String> calendarListView;
 
     public MainViewController(Stage primaryStage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/" + MAINVIEW_PATH));
-        Parent main = loader.load();
+        main = loader.load();
         loader.setController(this);
         primaryStage.setTitle("Kalendersystem");
         primaryStage.setScene(new Scene(main));
 
-        final ListView<String> calendarListView = (ListView) main.lookup("#calendarListView");
-        final ScrollPane weekPane = (ScrollPane) main.lookup("#weekView");
+        calendarListView = (ListView) main.lookup("#calendarListView");
+        mainPane = (AnchorPane) main.lookup("#mainPane");
         final Pane mondayPane = (Pane) main.lookup("#dayMonday");
         final Pane tuesdayPane = (Pane) main.lookup("#dayTuesday");
         final Pane wednesdayPane = (Pane) main.lookup("#dayWednesday");
@@ -139,7 +139,7 @@ public class MainViewController {
     }
 
 
-    public void createRectangle(Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
+    public void createRectangle(final Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
         // Get start and end times based on the rectangle positioning
         int startTime[] = convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
         java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -185,6 +185,15 @@ public class MainViewController {
             @Override
             public void handle(MouseEvent t) {
                 rectangle.setFill(Color.RED);
+                int menuHeight = 300;
+                int menuWidth = 200;
+                double rectangleCenterX = rectangle.getWidth()/2 + pane.getLayoutX();
+                double menuY = rectangle.getY() - menuHeight + 1;
+                double menuX = rectangleCenterX - menuWidth/2;
+                Rectangle menu = new Rectangle(menuX, menuY, menuWidth, menuHeight);
+                menu.setFill(Color.SLATEGRAY);
+                mainPane.getChildren().add(menu);
+                //weekPane.getChildrenUnmodifiable().add(menu);
             }
         });
 
