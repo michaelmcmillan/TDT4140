@@ -8,16 +8,15 @@ import java.util.Date;
  */
 public class Appointment {
 
-    Date startTime;
-    Date endTime;
-    String title;
-    String description;
-    ArrayList<Person> participants;
-    Person createdBy;
+    private Date startTime;
+    private Date endTime;
+    private String title;
+    private String description;
+    private ArrayList<Person> participants;
+    private Person createdBy;
 
     //For testing
     public Appointment(){
-
     }
 
     public Appointment (Date startTime, Date endTime, String title, String description, Person createdBy) {
@@ -29,7 +28,6 @@ public class Appointment {
 
         participants = new ArrayList<Person>();
         participants.add(createdBy);
-
     }
 
     public Date getStartTime(){ return this.startTime;}
