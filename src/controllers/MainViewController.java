@@ -105,9 +105,8 @@ public class MainViewController {
     }
 
     private void calendarDayClicked(Pane pane, String paneID, Double mouseY){
-        //DAY_WIDTH = pane.getWidth();
         Double height = pane.getHeight();
-        double hour = (mouseY/(height/24));
+        double hour = (mouseY / (height / 24));
         BigDecimal hourBD = BigDecimal.valueOf(hour);
         hourBD.setScale(0, BigDecimal.ROUND_DOWN);
         int hourInt = hourBD.intValue();
@@ -119,6 +118,11 @@ public class MainViewController {
         int hour = (int)floor(yAxis / (height / 24));
         int minutes = (int)(yAxis / (height / 24) - hour);
         return new int[]{hour, minutes * 60};
+    }
+
+    private int convertYAxisToNearestHour(Pane pane, double yAxis) {
+        double hourPixels = pane.getHeight()/24;
+        return (int) (Math.round(yAxis/hourPixels)*hourPixels);
     }
 
     private Date[] getFirstAndLastDayOfCurrentWeek() {
@@ -134,7 +138,9 @@ public class MainViewController {
         return new Date[]{weekStart, weekEnd};
     }
 
+
     public void createRectangle(Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
+        // Get start and end times based on the rectangle positioning
         int startTime[] = convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.set(java.util.Calendar.HOUR_OF_DAY, startTime[0]);
@@ -149,6 +155,7 @@ public class MainViewController {
         cal2.set(java.util.Calendar.SECOND, 0);
         Date endDate = cal2.getTime();
 
+        // Add a new appointment to the calendar based on input times
         Person morten = new Person("Morten", "Møkkamann");
         Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
         calendar.addAppointment(appointment);
@@ -158,26 +165,36 @@ public class MainViewController {
             System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
         }
 
+        // Create the rectangle view
         final Rectangle rectangle = new Rectangle();
-        //rectangle.setX(min(startX, endX));
         rectangle.setX(1);
-        rectangle.setY(min(startY, endY));
-        //rectangle.setWidth(abs(endX - startX));
+
+        int minY = Math.min(convertYAxisToNearestHour(pane, startY), convertYAxisToNearestHour(pane, endY));
+        rectangle.setY(minY);
+        //rectangle.setY(min(startY, endY));
         rectangle.setWidth(DAY_WIDTH);
         rectangle.setHeight(abs(endY - startY));
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
-
         rectangle.setFill(Color.BISQUE);
         pane.getChildren().add(rectangle);
-
         rectangles.add(rectangle);
+
+        // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 rectangle.setFill(Color.RED);
             }
         });
+
+//        rectangle.setOnMouseExited(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent t) {
+//                rectangle.setFill(Color.BLUE);
+//            }
+//        });
+
         checkRectangleCollisions(rectangle);
     }
 
