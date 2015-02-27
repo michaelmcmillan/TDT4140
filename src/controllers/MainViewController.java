@@ -1,28 +1,25 @@
 package controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import models.Appointment;
+import models.*;
 import models.Calendar;
-import models.Person;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
+
+import org.w3c.dom.css.Rect;
+import views.AppointmentView;
 
 public class MainViewController {
 
@@ -83,7 +80,7 @@ public class MainViewController {
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
-                    createRectangle(clickedPane, startX, startY, endX, endY, 12);
+                    createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
                 }
             });
         }
@@ -138,8 +135,7 @@ public class MainViewController {
         return new Date[]{weekStart, weekEnd};
     }
 
-
-    public void createRectangle(final Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
+    public void createAppointmentView(final Pane pane, double startX, double startY, double endX, double endY, final double cornerRadius) {
         // Get start and end times based on the rectangle positioning
         int startTime[] = convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
         java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -166,12 +162,10 @@ public class MainViewController {
         }
 
         // Create the rectangle view
-        final Rectangle rectangle = new Rectangle();
+        final AppointmentView rectangle = new AppointmentView();
         rectangle.setX(1);
-
         int minY = Math.min(convertYAxisToNearestHour(pane, startY), convertYAxisToNearestHour(pane, endY));
         rectangle.setY(minY);
-        //rectangle.setY(min(startY, endY));
         rectangle.setWidth(DAY_WIDTH);
         rectangle.setHeight(abs(endY - startY));
         rectangle.setArcHeight(cornerRadius);
@@ -184,26 +178,29 @@ public class MainViewController {
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                rectangle.setFill(Color.RED);
-                int menuHeight = 300;
-                int menuWidth = 200;
-                double rectangleCenterX = rectangle.getWidth()/2 + pane.getLayoutX();
-                double menuY = rectangle.getY() - menuHeight + 1;
-                double menuX = rectangleCenterX - menuWidth/2;
-                Rectangle menu = new Rectangle(menuX, menuY, menuWidth, menuHeight);
-                menu.setFill(Color.SLATEGRAY);
-                mainPane.getChildren().add(menu);
-                //weekPane.getChildrenUnmodifiable().add(menu);
+                Rectangle menu = null;
+                if (rectangle.isClicked()) {
+                    mainPane.getChildren().remove(mainPane.getChildren().size() - 1);
+                    rectangle.setClicked(false);
+                } else {
+                    rectangle.setOpacity(.8);
+                    int menuHeight = 200;
+                    int menuWidth = 300;
+                    double rectangleCenterX = rectangle.getWidth()/2 + pane.getLayoutX();
+                    double menuY = rectangle.getY() - menuHeight + 1;
+                    double menuX = rectangleCenterX - menuWidth/2;
+                    menu = new Rectangle(menuX, menuY, menuWidth, menuHeight);
+                    menu.setArcWidth(cornerRadius);
+                    menu.setArcHeight(cornerRadius);
+                    menu.setFill(Color.LIGHTGREY);
+                    mainPane.getChildren().add(menu);
+                    rectangle.setClicked(true);
+                    //weekPane.getChildrenUnmodifiable().add(menu);
+                }
             }
         });
 
-//        rectangle.setOnMouseExited(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent t) {
-//                rectangle.setFill(Color.BLUE);
-//            }
-//        });
-
+        // Check collisions between this and all other rectangles
         checkRectangleCollisions(rectangle);
     }
 
