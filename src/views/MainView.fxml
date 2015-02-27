@@ -16,7 +16,7 @@
             </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="500.0" prefHeight="600.0" prefWidth="700.0">
                      <children>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="740.0" prefWidth="814.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane fx:id="weekView" fitToHeight="true" fitToWidth="true" prefHeight="740.0" prefWidth="814.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <HBox maxHeight="1.7976931348623157E308" prefHeight="739.0" prefWidth="812.0">
                            <children>

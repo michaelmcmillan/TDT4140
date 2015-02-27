@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -36,18 +37,18 @@ public class MainViewController {
     double endY;
     AnchorPane fxmlPane;
     ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-    ArrayList<Appointment> appointments = new ArrayList<Appointment>();
     Calendar calendar = new Calendar();
 
     public MainViewController(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/"+MAINVIEW_PATH));
-        Parent main = (Parent) loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/" + MAINVIEW_PATH));
+        Parent main = loader.load();
         loader.setController(this);
         primaryStage.setTitle("Kalendersystem");
         primaryStage.setScene(new Scene(main));
 
         final ListView<String> calendarListView = (ListView) main.lookup("#calendarListView");
+        final ScrollPane weekPane = (ScrollPane) main.lookup("#weekView");
         final Pane mondayPane = (Pane) main.lookup("#dayMonday");
         final Pane tuesdayPane = (Pane) main.lookup("#dayTuesday");
         final Pane wednesdayPane = (Pane) main.lookup("#dayWednesday");
@@ -86,7 +87,6 @@ public class MainViewController {
                 }
             });
         }
-
 
         //Handle clicks in sidebar (Kalendervelger)
         ObservableList<String> list = FXCollections.observableArrayList("KAttt","Hund","hest");
@@ -199,8 +199,8 @@ public class MainViewController {
             int numCollisions = collidingRectangles.size();
             for(int i = 0; i < collidingRectangles.size(); i++) {
                 Rectangle currentRectangle = collidingRectangles.get(i);
-                currentRectangle.setWidth(DAY_WIDTH/numCollisions);
-                currentRectangle.setX((DAY_WIDTH/numCollisions)*i);
+                currentRectangle.setWidth(DAY_WIDTH/numCollisions - 1);
+                currentRectangle.setX((DAY_WIDTH/numCollisions)*i + 1);
             }
         } else {
             rectangle.setFill(Color.BISQUE);
