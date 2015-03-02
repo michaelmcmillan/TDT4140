@@ -17,8 +17,6 @@ import java.math.BigDecimal;
 import java.util.*;
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
-
-import org.w3c.dom.css.Rect;
 import views.AppointmentView;
 
 public class MainViewController {
