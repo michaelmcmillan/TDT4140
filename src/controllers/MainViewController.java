@@ -1,30 +1,23 @@
 package controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import models.Appointment;
+import models.*;
 import models.Calendar;
-import models.Person;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-
+import java.util.*;
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
-import static java.lang.Math.min;
+import views.AppointmentView;
 
 public class MainViewController {
 
@@ -36,18 +29,21 @@ public class MainViewController {
     double endY;
     AnchorPane fxmlPane;
     ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-    ArrayList<Appointment> appointments = new ArrayList<Appointment>();
     Calendar calendar = new Calendar();
+    Parent main;
+    final AnchorPane mainPane;
+    final ListView<String> calendarListView;
 
     public MainViewController(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/"+MAINVIEW_PATH));
-        Parent main = (Parent) loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/" + MAINVIEW_PATH));
+        main = loader.load();
         loader.setController(this);
         primaryStage.setTitle("Kalendersystem");
         primaryStage.setScene(new Scene(main));
 
-        final ListView<String> calendarListView = (ListView) main.lookup("#calendarListView");
+        calendarListView = (ListView) main.lookup("#calendarListView");
+        mainPane = (AnchorPane) main.lookup("#mainPane");
         final Pane mondayPane = (Pane) main.lookup("#dayMonday");
         final Pane tuesdayPane = (Pane) main.lookup("#dayTuesday");
         final Pane wednesdayPane = (Pane) main.lookup("#dayWednesday");
@@ -82,11 +78,10 @@ public class MainViewController {
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
-                    createRectangle(clickedPane, startX, startY, endX, endY, 12);
+                    createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
                 }
             });
         }
-
 
         //Handle clicks in sidebar (Kalendervelger)
         ObservableList<String> list = FXCollections.observableArrayList("KAttt","Hund","hest");
@@ -105,9 +100,8 @@ public class MainViewController {
     }
 
     private void calendarDayClicked(Pane pane, String paneID, Double mouseY){
-        //DAY_WIDTH = pane.getWidth();
         Double height = pane.getHeight();
-        double hour = (mouseY/(height/24));
+        double hour = (mouseY / (height / 24));
         BigDecimal hourBD = BigDecimal.valueOf(hour);
         hourBD.setScale(0, BigDecimal.ROUND_DOWN);
         int hourInt = hourBD.intValue();
@@ -119,6 +113,11 @@ public class MainViewController {
         int hour = (int)floor(yAxis / (height / 24));
         int minutes = (int)(yAxis / (height / 24) - hour);
         return new int[]{hour, minutes * 60};
+    }
+
+    private int convertYAxisToNearestHour(Pane pane, double yAxis) {
+        double hourPixels = pane.getHeight()/24;
+        return (int) (Math.round(yAxis/hourPixels)*hourPixels);
     }
 
     private Date[] getFirstAndLastDayOfCurrentWeek() {
@@ -134,7 +133,8 @@ public class MainViewController {
         return new Date[]{weekStart, weekEnd};
     }
 
-    public void createRectangle(Pane pane, double startX, double startY, double endX, double endY, double cornerRadius) {
+    public void createAppointmentView(final Pane pane, double startX, double startY, double endX, double endY, final double cornerRadius) {
+        // Get start and end times based on the rectangle positioning
         int startTime[] = convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.set(java.util.Calendar.HOUR_OF_DAY, startTime[0]);
@@ -149,6 +149,7 @@ public class MainViewController {
         cal2.set(java.util.Calendar.SECOND, 0);
         Date endDate = cal2.getTime();
 
+        // Add a new appointment to the calendar based on input times
         Person morten = new Person("Morten", "Møkkamann");
         Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
         calendar.addAppointment(appointment);
@@ -158,26 +159,46 @@ public class MainViewController {
             System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
         }
 
-        final Rectangle rectangle = new Rectangle();
-        //rectangle.setX(min(startX, endX));
+        // Create the rectangle view
+        final AppointmentView rectangle = new AppointmentView();
         rectangle.setX(1);
-        rectangle.setY(min(startY, endY));
-        //rectangle.setWidth(abs(endX - startX));
+        int minY = Math.min(convertYAxisToNearestHour(pane, startY), convertYAxisToNearestHour(pane, endY));
+        rectangle.setY(minY);
         rectangle.setWidth(DAY_WIDTH);
         rectangle.setHeight(abs(endY - startY));
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
-
         rectangle.setFill(Color.BISQUE);
         pane.getChildren().add(rectangle);
-
         rectangles.add(rectangle);
+
+        // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                rectangle.setFill(Color.RED);
+                Rectangle menu = null;
+                if (rectangle.isClicked()) {
+                    mainPane.getChildren().remove(mainPane.getChildren().size() - 1);
+                    rectangle.setClicked(false);
+                } else {
+                    rectangle.setOpacity(.8);
+                    int menuHeight = 200;
+                    int menuWidth = 300;
+                    double rectangleCenterX = rectangle.getWidth()/2 + pane.getLayoutX();
+                    double menuY = rectangle.getY() - menuHeight + 1;
+                    double menuX = rectangleCenterX - menuWidth/2;
+                    menu = new Rectangle(menuX, menuY, menuWidth, menuHeight);
+                    menu.setArcWidth(cornerRadius);
+                    menu.setArcHeight(cornerRadius);
+                    menu.setFill(Color.LIGHTGREY);
+                    mainPane.getChildren().add(menu);
+                    rectangle.setClicked(true);
+                    //weekPane.getChildrenUnmodifiable().add(menu);
+                }
             }
         });
+
+        // Check collisions between this and all other rectangles
         checkRectangleCollisions(rectangle);
     }
 
@@ -199,8 +220,8 @@ public class MainViewController {
             int numCollisions = collidingRectangles.size();
             for(int i = 0; i < collidingRectangles.size(); i++) {
                 Rectangle currentRectangle = collidingRectangles.get(i);
-                currentRectangle.setWidth(DAY_WIDTH/numCollisions);
-                currentRectangle.setX((DAY_WIDTH/numCollisions)*i);
+                currentRectangle.setWidth(DAY_WIDTH/numCollisions - 1);
+                currentRectangle.setX((DAY_WIDTH/numCollisions)*i + 1);
             }
         } else {
             rectangle.setFill(Color.BISQUE);
