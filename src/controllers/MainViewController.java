@@ -71,7 +71,6 @@ public class MainViewController {
                     startX = event.getX();
                     startY = event.getY();
                     System.out.println("Clicked at " + startX + ", " + startY);
-                    calendarDayClicked(clickedPane, id, startY);
                     appointmentView.closeAppointmentPopup();
                 }
             });
@@ -104,16 +103,5 @@ public class MainViewController {
         return calendar;
     }
 
-    public void init(){
 
-    }
-
-    private void calendarDayClicked(Pane pane, String paneID, Double mouseY){
-        Double height = pane.getHeight();
-        double hour = (mouseY / (height / 24));
-        BigDecimal hourBD = BigDecimal.valueOf(hour);
-        hourBD.setScale(0, BigDecimal.ROUND_DOWN);
-        int hourInt = hourBD.intValue();
-        System.out.print(paneID + "  :  " + Double.toString(height) + " : " + Double.toString(mouseY) + " Hour: " + Integer.toString(hourInt) +System.lineSeparator());
-    }
 }
