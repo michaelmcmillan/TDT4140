@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private final String MAINVIEW_PATH = "MainView.fxml";
     private final String LOGINVIEW_PATH = "LoginView.fxml";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/" + LOGINVIEW_PATH));
