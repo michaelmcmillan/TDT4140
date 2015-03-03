@@ -147,14 +147,6 @@ public class CalendarViewController implements Initializable {
                         calendarPane.getChildren().add(appointmentPopup);
                         openAppointmentPopups.add(appointmentPopup);
 
-                        // Set popup to center position FIX!
-                        double appointmentPopupWidth = appointmentPopup.getWidth();
-                        double appointmentPopupHeight = appointmentPopup.getHeight();
-                        double mainPaneWidth = calendarPane.getLayoutX();
-                        double mainPaneHeight = calendarPane.getLayoutY();
-                        appointmentPopup.setLayoutX(mainPaneWidth/2 - appointmentPopupWidth/2);
-                        appointmentPopup.setLayoutY(mainPaneHeight/2 - appointmentPopupHeight/2);
-
                         appointmentPopup.setLayoutX(80);
                         appointmentPopup.setLayoutY(100);
                     } catch (IOException e) {

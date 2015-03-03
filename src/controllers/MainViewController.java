@@ -18,6 +18,7 @@ import static java.lang.Math.abs;
 public class MainViewController {
 
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
+
     private CalendarViewController appointmentView;
     private SidebarViewController sidebarView;
 
@@ -34,5 +35,6 @@ public class MainViewController {
 
         appointmentView = new CalendarViewController(this, primaryStage);
         sidebarView = new SidebarViewController(this, primaryStage);
+
     }
 }
