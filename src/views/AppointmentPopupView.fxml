@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentPopupViewController">
+   <children>
+       <Pane>
+           <children>
+               <Rectangle arcHeight="0.0" arcWidth="0.0" fill="GAINSBORO" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="540.0" />
+               <TextField fx:id="repetitionFrequencyTextField" layoutX="110.0" layoutY="361.0" prefHeight="26.0" prefWidth="60.0" promptText="7" />
+               <Label fx:id="repetitionFrequencyLabel" layoutX="14.0" layoutY="361.0" prefHeight="25.0" prefWidth="87.0" text="Frekvens:">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <TextArea fx:id="purposeTextArea" layoutX="109.0" layoutY="124.0" prefHeight="91.0" prefWidth="414.0" promptText="Angi formålet med møtet" />
+               <DatePicker fx:id="endDatePicker" layoutX="109.0" layoutY="398.0" />
+               <TextField fx:id="toTimeTextField" layoutX="463.0" layoutY="280.0" prefHeight="26.0" prefWidth="60.0" promptText="10.00" />
+               <TextField fx:id="fromTimeTextField" layoutX="351.0" layoutY="279.0" prefHeight="26.0" prefWidth="60.0" promptText="08.15" />
+               <TextField fx:id="roomTextField" layoutX="109.0" layoutY="235.0" prefHeight="26.0" prefWidth="190.0" promptText="Hvilket rom?" />
+               <Button fx:id="addAppointmentButton" layoutX="223.0" layoutY="446.0" mnemonicParsing="false" onAction="#addAppointmentButtonPressed" prefHeight="26.0" prefWidth="95.0" text="Legg til" />
+               <CheckBox fx:id="repetitionCheckbox" layoutX="109.0" layoutY="323.0" mnemonicParsing="false" onAction="#repetitionCheckboxStateChanged" text="Repetisjon" />
+               <Label fx:id="endDateLabel" layoutX="14.0" layoutY="398.0" prefHeight="25.0" prefWidth="95.0" text="Sluttdato:">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <Label layoutX="433.0" layoutY="280.0" prefHeight="25.0" prefWidth="30.0" text="Til">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <Label layoutX="321.0" layoutY="280.0" prefHeight="25.0" prefWidth="30.0" text="Fra">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <Label fx:id="dateLabel" layoutX="14.0" layoutY="279.0" prefHeight="25.0" prefWidth="95.0" text="Dato:">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <Label layoutX="14.0" layoutY="236.0" prefHeight="25.0" prefWidth="95.0" text="Rom:">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <DatePicker fx:id="fromDatePicker" layoutX="109.0" layoutY="279.0" />
+               <Label layoutX="14.0" layoutY="124.0" prefHeight="25.0" prefWidth="95.0" text="Formål:">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="14.0" />
+                   </font>
+               </Label>
+               <Label layoutX="22.0" layoutY="13.0" prefHeight="55.0" prefWidth="247.0" text="Avtale">
+                   <font>
+                       <Font name="Helvetica Neue Light" size="30.0" />
+                   </font>
+               </Label>
+           </children>
+       </Pane>
+
+   </children>
+</AnchorPane>

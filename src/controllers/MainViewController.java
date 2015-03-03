@@ -1,46 +1,51 @@
 package controllers;
 
-import javafx.collections.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import models.*;
+import models.Appointment;
 import models.Calendar;
+import models.Person;
+import views.AppointmentView;
+
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
-import views.AppointmentView;
 
 public class MainViewController {
 
-    private final String MAINVIEW_PATH = "MainView.fxml";
     private double DAY_WIDTH;
-    double startX;
-    double startY;
-    double endX;
-    double endY;
-    AnchorPane fxmlPane;
-    ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-    Calendar calendar = new Calendar();
-    Parent main;
-    final AnchorPane mainPane;
-    final ListView<String> calendarListView;
+    private double startX, startY, endX, endY;
+    private Calendar calendar = new Calendar();
+    private final AnchorPane mainPane;
+    private final ListView<String> calendarListView;
+    private final String MAINVIEW_PATH = "../views/MainView.fxml";
+    private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+    private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
 
     public MainViewController(Stage primaryStage) throws Exception {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/" + MAINVIEW_PATH));
-        main = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(MAINVIEW_PATH));
+        Parent main = loader.load();
         loader.setController(this);
         primaryStage.setTitle("Kalendersystem");
-        primaryStage.setScene(new Scene(main));
+        Scene scene = new Scene(main);
+        scene.getStylesheets().add(this.getClass().getResource("/views/style.css").toExternalForm());
+        primaryStage.setScene(scene);
 
         calendarListView = (ListView) main.lookup("#calendarListView");
         mainPane = (AnchorPane) main.lookup("#mainPane");
@@ -54,7 +59,7 @@ public class MainViewController {
 
         Pane[] dayPanes = {mondayPane, tuesdayPane, wednesdayPane, thursdayPane, fridayPane, saturdayPane, sundayPane};
 
-        //Handle clicks in calendar
+        // Handle clicks in calendar
         for (Pane pane:dayPanes) {
             pane.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
@@ -62,11 +67,11 @@ public class MainViewController {
                     Pane clickedPane = (Pane) event.getSource();
                     DAY_WIDTH = clickedPane.getWidth() - 2;
                     String id = clickedPane.getId();
-
                     startX = event.getX();
                     startY = event.getY();
                     System.out.println("Clicked at " + startX + ", " + startY);
                     calendarDayClicked(clickedPane, id, startY);
+                    closeAppointmentPopup();
                 }
             });
 
@@ -83,7 +88,7 @@ public class MainViewController {
             });
         }
 
-        //Handle clicks in sidebar (Kalendervelger)
+        // Handle clicks in sidebar (Kalendervelger)
         ObservableList<String> list = FXCollections.observableArrayList("KAttt","Hund","hest");
         calendarListView.setItems(list);
 
@@ -93,6 +98,7 @@ public class MainViewController {
                 System.out.print(calendarListView.getSelectionModel().getSelectedItem());
             }
         });
+
     }
 
     public void init(){
@@ -151,7 +157,7 @@ public class MainViewController {
 
         // Add a new appointment to the calendar based on input times
         Person morten = new Person("Morten", "Møkkamann");
-        Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
+        final Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
         calendar.addAppointment(appointment);
 
         Date[] firstAndLastDayOfWeek = getFirstAndLastDayOfCurrentWeek();
@@ -176,30 +182,46 @@ public class MainViewController {
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                Rectangle menu = null;
                 if (rectangle.isClicked()) {
-                    mainPane.getChildren().remove(mainPane.getChildren().size() - 1);
+                    closeAppointmentPopup();
                     rectangle.setClicked(false);
                 } else {
-                    rectangle.setOpacity(.8);
-                    int menuHeight = 200;
-                    int menuWidth = 300;
-                    double rectangleCenterX = rectangle.getWidth()/2 + pane.getLayoutX();
-                    double menuY = rectangle.getY() - menuHeight + 1;
-                    double menuX = rectangleCenterX - menuWidth/2;
-                    menu = new Rectangle(menuX, menuY, menuWidth, menuHeight);
-                    menu.setArcWidth(cornerRadius);
-                    menu.setArcHeight(cornerRadius);
-                    menu.setFill(Color.LIGHTGREY);
-                    mainPane.getChildren().add(menu);
+                    try {
+                        // Init Popupview from FXML
+                        FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/AppointmentPopupView.fxml"));
+                        Pane appointmentPopup = testLoader.load();
+                        appointmentPopup.setId("appointmentPopup");
+
+                        // Get controller class, add view to main view
+                        AppointmentPopupViewController appointmentPopupViewController = testLoader.getController();
+                        mainPane.getChildren().add(appointmentPopup);
+                        openAppointmentPopups.add(appointmentPopup);
+
+                        // Set popup to center position
+                        double appointmentPopupWidth = appointmentPopup.getWidth();
+                        double appointmentPopupHeight = appointmentPopup.getHeight();
+                        double mainPaneWidth = mainPane.getLayoutX();
+                        double mainPaneHeight = mainPane.getLayoutY();
+                        appointmentPopup.setLayoutX(mainPaneWidth/2 - appointmentPopupWidth/2);
+                        appointmentPopup.setLayoutY(mainPaneHeight/2 - appointmentPopupHeight/2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     rectangle.setClicked(true);
-                    //weekPane.getChildrenUnmodifiable().add(menu);
                 }
             }
         });
 
-        // Check collisions between this and all other rectangles
+        // Check collisions between this and all other rectangles (appointments)
         checkRectangleCollisions(rectangle);
+    }
+
+    private void closeAppointmentPopup() {
+        for (int i = 0; i < mainPane.getChildren().size(); i++) {
+            if (openAppointmentPopups.contains(mainPane.getChildren().get(i))) {
+                mainPane.getChildren().remove(mainPane.getChildren().get(i));
+            }
+        }
     }
 
     private void checkRectangleCollisions(Rectangle rectangle) {
