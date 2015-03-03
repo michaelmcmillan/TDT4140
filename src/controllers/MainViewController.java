@@ -17,9 +17,10 @@ import static java.lang.Math.abs;
 
 public class MainViewController {
 
-    private final ListView<String> calendarListView;
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
     private CalendarViewController appointmentView;
+    private SidebarViewController sidebarView;
+
 
     public MainViewController(Stage primaryStage) throws Exception {
 
@@ -31,18 +32,7 @@ public class MainViewController {
         scene.getStylesheets().add(this.getClass().getResource("/views/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
-        calendarListView = (ListView) main.lookup("#calendarListView");
-
-        // Handle clicks in sidebar (Kalendervelger)
-        ObservableList<String> list = FXCollections.observableArrayList("KAttt","Hund","hest");
-        calendarListView.setItems(list);
-
-        calendarListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.print(calendarListView.getSelectionModel().getSelectedItem());
-            }
-        });
+        appointmentView = new CalendarViewController(this, primaryStage);
+        sidebarView = new SidebarViewController(this, primaryStage);
     }
-
 }

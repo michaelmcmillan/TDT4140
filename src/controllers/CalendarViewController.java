@@ -38,6 +38,7 @@ public class CalendarViewController implements Initializable {
     private double startX, startY, endX, endY;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
+
         this.mainViewController = mainViewController;
         this.primaryStage = primarystage;
         this.mainScene = primarystage.getScene();
