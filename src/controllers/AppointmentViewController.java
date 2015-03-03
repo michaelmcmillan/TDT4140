@@ -1,12 +1,9 @@
 package controllers;
 
 import helpers.CalendarHelper;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -33,12 +30,12 @@ public class AppointmentViewController implements Initializable {
     private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
     private MainViewController mainViewController;
     private Stage primaryStage;
-    private AnchorPane mainPane;
+    private AnchorPane calendarPane;
 
     public AppointmentViewController(MainViewController mainViewController, Stage primarystage) {
         this.mainViewController = mainViewController;
         this.primaryStage = primarystage;
-        this.mainPane = (AnchorPane) primarystage.getScene().lookup("#mainPane");
+        this.calendarPane = (AnchorPane) primarystage.getScene().lookup("#calendarPane");
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -103,14 +100,14 @@ public class AppointmentViewController implements Initializable {
 
                         // Get controller, add view to main view
                         AppointmentPopupViewController appointmentPopupViewController = testLoader.getController();
-                        mainPane.getChildren().add(appointmentPopup);
+                        calendarPane.getChildren().add(appointmentPopup);
                         openAppointmentPopups.add(appointmentPopup);
 
                         // Set popup to center position FIX!
                         double appointmentPopupWidth = appointmentPopup.getWidth();
                         double appointmentPopupHeight = appointmentPopup.getHeight();
-                        double mainPaneWidth = mainPane.getLayoutX();
-                        double mainPaneHeight = mainPane.getLayoutY();
+                        double mainPaneWidth = calendarPane.getLayoutX();
+                        double mainPaneHeight = calendarPane.getLayoutY();
                         appointmentPopup.setLayoutX(mainPaneWidth/2 - appointmentPopupWidth/2);
                         appointmentPopup.setLayoutY(mainPaneHeight/2 - appointmentPopupHeight/2);
 
@@ -130,9 +127,9 @@ public class AppointmentViewController implements Initializable {
 
 
     public void closeAppointmentPopup() {
-        for (int i = 0; i < mainPane.getChildren().size(); i++) {
-            if (openAppointmentPopups.contains(mainPane.getChildren().get(i))) {
-                mainPane.getChildren().remove(mainPane.getChildren().get(i));
+        for (int i = 0; i < calendarPane.getChildren().size(); i++) {
+            if (openAppointmentPopups.contains(calendarPane.getChildren().get(i))) {
+                calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
     }

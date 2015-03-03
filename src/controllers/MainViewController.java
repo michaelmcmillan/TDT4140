@@ -31,7 +31,7 @@ public class MainViewController {
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
     private Calendar calendar = new Calendar();
-    private final AnchorPane mainPane;
+    private final AnchorPane calendarPane;
     private final ListView<String> calendarListView;
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
     private AppointmentViewController appointmentView;
@@ -47,7 +47,7 @@ public class MainViewController {
         primaryStage.setScene(scene);
 
         calendarListView = (ListView) main.lookup("#calendarListView");
-        mainPane = (AnchorPane) main.lookup("#mainPane");
+        calendarPane = (AnchorPane) main.lookup("#calendarPane");
         final Pane mondayPane = (Pane) main.lookup("#dayMonday");
         final Pane tuesdayPane = (Pane) main.lookup("#dayTuesday");
         final Pane wednesdayPane = (Pane) main.lookup("#dayWednesday");
