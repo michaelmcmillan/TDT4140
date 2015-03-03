@@ -1,0 +1,7 @@
+
+#appointmentPopup {
+    -fx-background-color: WHITE;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12 12 12 12;
+    -fx-border-color: BLACK;
+}
