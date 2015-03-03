@@ -4,6 +4,7 @@ import helpers.CalendarHelper;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -24,18 +25,62 @@ import java.util.ResourceBundle;
 import static java.lang.Math.abs;
 
 
-public class AppointmentViewController implements Initializable {
+public class CalendarViewController implements Initializable {
 
+    private Calendar calendar = new Calendar();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
     private MainViewController mainViewController;
     private Stage primaryStage;
     private AnchorPane calendarPane;
+    private Scene mainScene;
+    private double DAY_WIDTH;
+    private double startX, startY, endX, endY;
 
-    public AppointmentViewController(MainViewController mainViewController, Stage primarystage) {
+    public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
         this.mainViewController = mainViewController;
         this.primaryStage = primarystage;
-        this.calendarPane = (AnchorPane) primarystage.getScene().lookup("#calendarPane");
+        this.mainScene = primarystage.getScene();
+        this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
+
+        calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
+        final Pane mondayPane = (Pane) mainScene.lookup("#dayMonday");
+        final Pane tuesdayPane = (Pane) mainScene.lookup("#dayTuesday");
+        final Pane wednesdayPane = (Pane) mainScene.lookup("#dayWednesday");
+        final Pane thursdayPane = (Pane) mainScene.lookup("#dayThursday");
+        final Pane fridayPane = (Pane) mainScene.lookup("#dayFriday");
+        final Pane saturdayPane = (Pane) mainScene.lookup("#daySaturday");
+        final Pane sundayPane = (Pane) mainScene.lookup("#daySunday");
+
+        Pane[] dayPanes = {mondayPane, tuesdayPane, wednesdayPane, thursdayPane, fridayPane, saturdayPane, sundayPane};
+
+        // Handle clicks in calendar
+        for (Pane pane:dayPanes) {
+            pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Pane clickedPane = (Pane) event.getSource();
+                    DAY_WIDTH = clickedPane.getWidth() - 2;
+                    String id = clickedPane.getId();
+                    startX = event.getX();
+                    startY = event.getY();
+                    System.out.println("Clicked at " + startX + ", " + startY);
+                    closeAppointmentPopup();
+                }
+            });
+
+            pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    final Pane clickedPane = (Pane) event.getSource();
+                    endX = event.getX();
+                    endY = event.getY();
+                    System.out.println("Released at " + endX + ", " + endY);
+                    createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
+                }
+            });
+        }
+
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,8 +88,6 @@ public class AppointmentViewController implements Initializable {
     }
 
     public void createAppointmentView(final Pane pane, double startX, double startY, double endX, double endY, final double cornerRadius) {
-
-        Calendar calendar = mainViewController.getCalendar();
 
         // Get start and end times based on the rectangle positioning
         int startTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
@@ -76,7 +119,7 @@ public class AppointmentViewController implements Initializable {
         rectangle.setX(1);
         int minY = Math.min(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
         rectangle.setY(minY);
-        rectangle.setWidth(pane.getWidth());
+        rectangle.setWidth(DAY_WIDTH);
         rectangle.setHeight(abs(endY - startY));
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
@@ -133,6 +176,4 @@ public class AppointmentViewController implements Initializable {
             }
         }
     }
-
-
 }
