@@ -10,13 +10,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import models.Appointment;
 import models.Person;
 import views.AppointmentView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.IntSummaryStatistics;
 import java.util.ResourceBundle;
 
 import static java.lang.Math.abs;
@@ -24,7 +29,7 @@ import static java.lang.Math.abs;
 /**
  * Created by Morten on 02.03.15.
  */
-public class AppointmentPopupViewController extends AnchorPane implements Initializable {
+public class AppointmentPopupViewController  implements Initializable {
 
     @FXML private TextArea purposeTextArea;
     @FXML private TextField roomTextField;
@@ -36,7 +41,12 @@ public class AppointmentPopupViewController extends AnchorPane implements Initia
     @FXML private TextField repetitionFrequencyTextField;
     @FXML private Label endDateLabel;
     @FXML private DatePicker endDatePicker;
+
+
+    private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
+    private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
+    private Pane calendarPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,6 +67,14 @@ public class AppointmentPopupViewController extends AnchorPane implements Initia
         }
     }
 
+    public AppointmentPopupViewController(Pane calendarPane){
+        this.calendarPane = calendarPane;
+
+
+    }
+
+
+
     private void showEndDayForm() {
         repetitionFrequencyLabel.setVisible(true);
         repetitionFrequencyTextField.setVisible(true);
@@ -70,5 +88,69 @@ public class AppointmentPopupViewController extends AnchorPane implements Initia
         endDateLabel.setVisible(false);
         endDatePicker.setVisible(false);
     }
+
+    public void show(Date startDate,Date endDate){
+
+        try {
+            // Init popupview from FXML
+            FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/AppointmentPopupView.fxml"));
+            Pane appointmentPopup = testLoader.load();
+            appointmentPopup.setId("appointmentPopup");
+
+            // Get controller, add view to main view
+            //AppointmentPopupViewController appointmentPopupViewController = testLoader.getController();
+            calendarPane.getChildren().add(appointmentPopup);
+            openAppointmentPopups.add(appointmentPopup);
+
+            // Set popup to center position FIX!
+            double appointmentPopupWidth = appointmentPopup.getWidth();
+            double appointmentPopupHeight = appointmentPopup.getHeight();
+            double mainPaneWidth = calendarPane.getLayoutX();
+            double mainPaneHeight = calendarPane.getLayoutY();
+            appointmentPopup.setLayoutX(mainPaneWidth/2 - appointmentPopupWidth/2);
+            appointmentPopup.setLayoutY(mainPaneHeight/2 - appointmentPopupHeight/2);
+
+            appointmentPopup.setLayoutX(80);
+            appointmentPopup.setLayoutY(100);
+
+
+            //Set methods
+            Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
+            TextField startTime = (TextField) appointmentPopup.lookup("#startTime");
+            TextField endTime = (TextField) appointmentPopup.lookup("#endTime");
+            DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
+
+            String startHour = Integer.toString(startDate.getHours()) + ":00";
+            String endHour = Integer.toString(endDate.getHours()) + ":00";
+            startTime.setText(startHour);
+            endTime.setText(endHour);
+
+            LocalDate date = LocalDate.of(startDate.getYear() + 1900, startDate.getMonth() + 1, startDate.getDate());
+
+            appointmentDate.setValue(date);
+
+
+            closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    close();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        for (int i = 0; i < calendarPane.getChildren().size(); i++) {
+            if (openAppointmentPopups.contains(calendarPane.getChildren().get(i))) {
+                calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
+            }
+        }
+    }
+
+
+
 
 }

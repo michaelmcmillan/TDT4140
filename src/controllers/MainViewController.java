@@ -21,6 +21,7 @@ public class MainViewController {
 
     private CalendarViewController appointmentView;
     private SidebarViewController sidebarView;
+    private AppointmentPopupViewController popupView;
 
 
     public MainViewController(Stage primaryStage) throws Exception {
