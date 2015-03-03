@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -37,12 +38,18 @@ public class CalendarViewController implements Initializable {
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
 
+    private AppointmentPopupViewController popupView;
+
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
 
         this.mainViewController = mainViewController;
         this.primaryStage = primarystage;
         this.mainScene = primarystage.getScene();
         this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
+
+        popupView = new AppointmentPopupViewController(calendarPane);
+
+
 
         calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
         final Pane mondayPane = (Pane) mainScene.lookup("#dayMonday");
@@ -66,7 +73,7 @@ public class CalendarViewController implements Initializable {
                     startX = event.getX();
                     startY = event.getY();
                     System.out.println("Clicked at " + startX + ", " + startY);
-                    closeAppointmentPopup();
+                    popupView.close();
                 }
             });
 
@@ -77,6 +84,8 @@ public class CalendarViewController implements Initializable {
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
+
+
                     createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
                 }
             });
@@ -125,43 +134,19 @@ public class CalendarViewController implements Initializable {
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
         rectangle.setFill(Color.BISQUE);
+
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
+
+        popupView.show();
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                if (rectangle.isClicked()) {
-                    closeAppointmentPopup();
-                    rectangle.setClicked(false);
-                } else {
-                    try {
-                        // Init popupview from FXML
-                        FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/AppointmentPopupView.fxml"));
-                        Pane appointmentPopup = testLoader.load();
-                        appointmentPopup.setId("appointmentPopup");
+                popupView.show();
+                rectangle.setClicked(true);
 
-                        // Get controller, add view to main view
-                        AppointmentPopupViewController appointmentPopupViewController = testLoader.getController();
-                        calendarPane.getChildren().add(appointmentPopup);
-                        openAppointmentPopups.add(appointmentPopup);
-
-                        // Set popup to center position FIX!
-                        double appointmentPopupWidth = appointmentPopup.getWidth();
-                        double appointmentPopupHeight = appointmentPopup.getHeight();
-                        double mainPaneWidth = calendarPane.getLayoutX();
-                        double mainPaneHeight = calendarPane.getLayoutY();
-                        appointmentPopup.setLayoutX(mainPaneWidth/2 - appointmentPopupWidth/2);
-                        appointmentPopup.setLayoutY(mainPaneHeight/2 - appointmentPopupHeight/2);
-
-                        appointmentPopup.setLayoutX(80);
-                        appointmentPopup.setLayoutY(100);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    rectangle.setClicked(true);
-                }
             }
         });
 
@@ -170,11 +155,7 @@ public class CalendarViewController implements Initializable {
     }
 
 
-    public void closeAppointmentPopup() {
-        for (int i = 0; i < calendarPane.getChildren().size(); i++) {
-            if (openAppointmentPopups.contains(calendarPane.getChildren().get(i))) {
-                calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
-            }
-        }
-    }
+
+
+
 }
