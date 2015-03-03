@@ -18,12 +18,10 @@ import models.Appointment;
 import models.Calendar;
 import models.Person;
 import views.AppointmentView;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 
@@ -79,7 +77,6 @@ public class MainViewController {
                 @Override
                 public void handle(MouseEvent event) {
                     final Pane clickedPane = (Pane) event.getSource();
-
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
@@ -187,23 +184,26 @@ public class MainViewController {
                     rectangle.setClicked(false);
                 } else {
                     try {
-                        // Init Popupview from FXML
+                        // Init popupview from FXML
                         FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/AppointmentPopupView.fxml"));
                         Pane appointmentPopup = testLoader.load();
                         appointmentPopup.setId("appointmentPopup");
 
-                        // Get controller class, add view to main view
+                        // Get controller, add view to main view
                         AppointmentPopupViewController appointmentPopupViewController = testLoader.getController();
                         mainPane.getChildren().add(appointmentPopup);
                         openAppointmentPopups.add(appointmentPopup);
 
-                        // Set popup to center position
+                        // Set popup to center position FIX!
                         double appointmentPopupWidth = appointmentPopup.getWidth();
                         double appointmentPopupHeight = appointmentPopup.getHeight();
                         double mainPaneWidth = mainPane.getLayoutX();
                         double mainPaneHeight = mainPane.getLayoutY();
                         appointmentPopup.setLayoutX(mainPaneWidth/2 - appointmentPopupWidth/2);
                         appointmentPopup.setLayoutY(mainPaneHeight/2 - appointmentPopupHeight/2);
+
+                        appointmentPopup.setLayoutX(80);
+                        appointmentPopup.setLayoutY(100);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
