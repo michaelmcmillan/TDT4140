@@ -1,14 +1,25 @@
 package controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import models.Appointment;
+import models.Person;
+import views.AppointmentView;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by Morten on 02.03.15.
@@ -59,4 +70,5 @@ public class AppointmentPopupViewController extends AnchorPane implements Initia
         endDateLabel.setVisible(false);
         endDatePicker.setVisible(false);
     }
+
 }
