@@ -105,14 +105,14 @@ public class CalendarViewController implements Initializable {
         cal.set(java.util.Calendar.HOUR_OF_DAY, startTime[0]);
         cal.set(java.util.Calendar.MINUTE, startTime[1]);
         cal.set(java.util.Calendar.SECOND, 0);
-        Date startDate = cal.getTime();
+        final Date startDate = cal.getTime();
 
         int endTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.max(startY, endY));
         java.util.Calendar cal2 = java.util.Calendar.getInstance();
         cal2.set(java.util.Calendar.HOUR_OF_DAY, endTime[0]);
         cal2.set(java.util.Calendar.MINUTE, endTime[1]);
         cal2.set(java.util.Calendar.SECOND, 0);
-        Date endDate = cal2.getTime();
+        final Date endDate = cal2.getTime();
 
         // Add a new appointment to the calendar based on input times
         Person morten = new Person("Morten", "Møkkamann");
@@ -138,13 +138,13 @@ public class CalendarViewController implements Initializable {
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
 
-        popupView.show();
+        popupView.show(startDate,endDate);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                popupView.show();
+                popupView.show(startDate,endDate);
                 rectangle.setClicked(true);
 
             }

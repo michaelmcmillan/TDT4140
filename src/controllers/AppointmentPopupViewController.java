@@ -17,8 +17,11 @@ import views.AppointmentView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.IntSummaryStatistics;
 import java.util.ResourceBundle;
 
 import static java.lang.Math.abs;
@@ -86,7 +89,7 @@ public class AppointmentPopupViewController  implements Initializable {
         endDatePicker.setVisible(false);
     }
 
-    public void show(){
+    public void show(Date startDate,Date endDate){
 
         try {
             // Init popupview from FXML
@@ -113,6 +116,19 @@ public class AppointmentPopupViewController  implements Initializable {
 
             //Set methods
             Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
+            TextField startTime = (TextField) appointmentPopup.lookup("#startTime");
+            TextField endTime = (TextField) appointmentPopup.lookup("#endTime");
+            DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
+
+            String startHour = Integer.toString(startDate.getHours()) + ":00";
+            String endHour = Integer.toString(endDate.getHours()) + ":00";
+            startTime.setText(startHour);
+            endTime.setText(endHour);
+
+            LocalDate date = LocalDate.of(startDate.getYear() + 1900, startDate.getMonth() + 1, startDate.getDate());
+
+            appointmentDate.setValue(date);
+
 
             closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
