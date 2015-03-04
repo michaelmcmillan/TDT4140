@@ -16,6 +16,7 @@ public class Main extends Application {
         primaryStage.setTitle("Login - Kalendersystem");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        primaryStage.setResizable(false);
     }
 
     public static void main(String[] args) {
