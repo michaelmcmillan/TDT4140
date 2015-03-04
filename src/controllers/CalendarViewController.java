@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.effect.*;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
@@ -39,6 +40,7 @@ public class CalendarViewController implements Initializable {
     private double startX, startY, endX, endY;
     private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
     private Rectangle rect;
+    DropShadow dropShadow = new DropShadow(0,4.0,4.0,Color.BLACK);
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
 
@@ -82,6 +84,8 @@ public class CalendarViewController implements Initializable {
                     popupView.close();
                     rect = new Rectangle(1,startY,0,0);
                     clickedPane.getChildren().add(rect);
+                    rect.setFill(Color.DEEPSKYBLUE);
+                    rect.setOpacity(0.5);
                 }
             });
 
@@ -105,7 +109,7 @@ public class CalendarViewController implements Initializable {
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
                     clickedPane.getChildren().remove(rect);
-                    createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
+                    createAppointmentView(clickedPane, startX, startY, endX, endY, 4);
                 }
             });
         }
@@ -192,7 +196,10 @@ public class CalendarViewController implements Initializable {
         rectangle.setHeight(height);
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
-        rectangle.setFill(Color.BISQUE);
+        rectangle.setFill(Color.DEEPSKYBLUE);
+        rectangle.setOpacity(0.9);
+        rectangle.setEffect(dropShadow);
+
 
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
