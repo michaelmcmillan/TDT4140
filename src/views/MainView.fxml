@@ -22,7 +22,7 @@
                      <content>
                         <HBox prefHeight="1206.0" prefWidth="848.0">
                            <children>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="140.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1194.0" prefWidth="68.0">
                                  <children>
                                     <VBox prefHeight="1200.0" prefWidth="50.0">
                                        <children>
@@ -152,7 +152,7 @@
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="718.0">
                                  <children>
-                                    <HBox maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="728.0">
+                                    <HBox maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="780.0">
                                        <children>
                                           <Pane id="dayMonday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
                                           <Pane id="dayTuesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
@@ -168,39 +168,39 @@
                            </children>
                         </HBox>
                      </content></ScrollPane>
-                  <Pane layoutX="74.0" layoutY="27.0" prefHeight="29.0" prefWidth="792.0">
+                  <Pane layoutY="27.0" prefHeight="29.0" prefWidth="866.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="63.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Mandag">
+                        <Label alignment="CENTER" layoutX="73.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Mandag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="167.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Tirsdag">
+                        <Label alignment="CENTER" layoutX="184.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Tirsdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="272.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Onsdag">
+                        <Label alignment="CENTER" layoutX="293.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Onsdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="375.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Torsdag">
+                        <Label alignment="CENTER" layoutX="404.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Torsdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="479.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Fredag">
+                        <Label alignment="CENTER" layoutX="518.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Fredag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="583.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Lørdag">
+                        <Label alignment="CENTER" layoutX="630.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Lørdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="687.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Søndag">
+                        <Label alignment="CENTER" layoutX="740.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Søndag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
