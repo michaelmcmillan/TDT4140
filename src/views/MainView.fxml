@@ -18,7 +18,7 @@
             </AnchorPane>
                 <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="500.0" prefHeight="613.0" prefWidth="807.0">
                      <children>
-                        <ScrollPane fx:id="weekView" fitToWidth="true" layoutY="29.0" prefHeight="741.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-59.0" AnchorPane.topAnchor="29.0">
+                        <ScrollPane fx:id="weekView" fitToWidth="true" layoutY="57.0" prefHeight="713.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-59.0" AnchorPane.topAnchor="57.0">
                      <content>
                         <HBox prefHeight="1206.0" prefWidth="848.0">
                            <children>
@@ -168,7 +168,7 @@
                            </children>
                         </HBox>
                      </content></ScrollPane>
-                  <Pane prefHeight="29.0" prefWidth="807.0">
+                  <Pane layoutX="74.0" layoutY="27.0" prefHeight="29.0" prefWidth="792.0">
                      <children>
                         <Label alignment="CENTER" layoutX="63.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Mandag">
                            <font>
