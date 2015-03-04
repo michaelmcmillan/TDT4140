@@ -9,8 +9,8 @@
 
 <AnchorPane prefHeight="770.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
          <children>
-            <SplitPane dividerPositions="0.2" prefHeight="742.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" SplitPane.resizableWithParent="false">
-              <items>
+      <HBox prefHeight="770.0" prefWidth="1016.0">
+         <children>
                 <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
                <children>
                   <ListView fx:id="calendarListView" maxWidth="200.0" minWidth="100.0" prefHeight="740.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -18,10 +18,10 @@
             </AnchorPane>
                 <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="500.0" prefHeight="613.0" prefWidth="807.0">
                      <children>
-                        <ScrollPane fx:id="weekView" fitToWidth="true" layoutY="29.0" prefHeight="709.0" prefWidth="807.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+                        <ScrollPane fx:id="weekView" fitToWidth="true" layoutY="29.0" prefHeight="741.0" prefWidth="866.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-59.0" AnchorPane.topAnchor="29.0">
                      <content>
-                        <SplitPane dividerPositions="0.07115628970775095" prefHeight="1209.0" prefWidth="489.0">
-                          <items>
+                        <HBox prefHeight="1206.0" prefWidth="848.0">
+                           <children>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="140.0">
                                  <children>
                                     <VBox prefHeight="1200.0" prefWidth="50.0">
@@ -146,8 +146,10 @@
                                                    <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="23:00" />
                                                </children>
                                            </Pane>
-                                       </children></VBox>
-                                 </children></AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="718.0">
                                  <children>
                                     <HBox maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="728.0">
@@ -163,8 +165,8 @@
                                     </HBox>
                                  </children>
                               </AnchorPane>
-                          </items>
-                        </SplitPane>
+                           </children>
+                        </HBox>
                      </content></ScrollPane>
                   <Pane prefHeight="29.0" prefWidth="807.0">
                      <children>
@@ -207,8 +209,8 @@
                   </Pane>
                      </children>
                   </AnchorPane>
-              </items>
-            </SplitPane>
+         </children>
+      </HBox>
       <MenuBar prefHeight="29.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Account">
