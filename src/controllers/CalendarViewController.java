@@ -55,8 +55,6 @@ public class CalendarViewController implements Initializable {
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
 
-
-
         calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
         final Pane mondayPane = (Pane) mainScene.lookup("#dayMonday");
         final Pane tuesdayPane = (Pane) mainScene.lookup("#dayTuesday");
@@ -83,7 +81,7 @@ public class CalendarViewController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     Pane clickedPane = (Pane) event.getSource();
-                    DAY_WIDTH = clickedPane.getWidth() - 3;
+                    DAY_WIDTH = clickedPane.getWidth() - 2;
                     String id = clickedPane.getId();
                     startX = event.getX();
                     startY = event.getY();
@@ -91,7 +89,6 @@ public class CalendarViewController implements Initializable {
                     popupView.close();
                     rect = new Rectangle(1,startY,0,0);
                     clickedPane.getChildren().add(rect);
-
                 }
             });
 
@@ -166,9 +163,9 @@ public class CalendarViewController implements Initializable {
         int maxY = Math.max(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
 
         maxY = maxY == minY ? maxY += pane.getHeight()/24 : maxY;
-        rectangle.setY(minY);
+        rectangle.setY(minY + 1);
         rectangle.setWidth(DAY_WIDTH);
-        double height = abs(maxY - minY);
+        double height = abs(maxY - minY) - 2;
         rectangle.setHeight(height);
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
