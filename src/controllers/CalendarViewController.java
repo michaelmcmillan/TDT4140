@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -38,9 +39,7 @@ public class CalendarViewController implements Initializable {
     private double startX, startY, endX, endY;
     private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
     private Rectangle rect;
-
     private java.util.Calendar startOfWeek;
-
     private AppointmentPopupViewController popupView;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
@@ -49,31 +48,24 @@ public class CalendarViewController implements Initializable {
         this.primaryStage = primarystage;
         this.mainScene = primarystage.getScene();
         this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
+        calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
 
         popupView = new AppointmentPopupViewController(calendarPane);
 
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
+        
+        dayPanes.addAll(Arrays.asList(new Pane[]{(Pane) mainScene.lookup("#dayMonday"),
+            (Pane) mainScene.lookup("#dayTuesday"),
+            (Pane) mainScene.lookup("#dayWednesday"),
+            (Pane) mainScene.lookup("#dayThursday"),
+            (Pane) mainScene.lookup("#dayFriday"),
+            (Pane) mainScene.lookup("#daySaturday"),
+            (Pane) mainScene.lookup("#daySunday")
+        }));
 
-        calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
-        final Pane mondayPane = (Pane) mainScene.lookup("#dayMonday");
-        final Pane tuesdayPane = (Pane) mainScene.lookup("#dayTuesday");
-        final Pane wednesdayPane = (Pane) mainScene.lookup("#dayWednesday");
-        final Pane thursdayPane = (Pane) mainScene.lookup("#dayThursday");
-        final Pane fridayPane = (Pane) mainScene.lookup("#dayFriday");
-        final Pane saturdayPane = (Pane) mainScene.lookup("#daySaturday");
-        final Pane sundayPane = (Pane) mainScene.lookup("#daySunday");
-
-        for (int i = 0; i < 24; i++) {
-            Line hourBreaker = new Line();
-            hourBreaker.setLayoutX(30);
-            hourBreaker.setLayoutY(50 + (i * 50));
-            hourBreaker.setStartX(-100);
-            hourBreaker.setEndX(750);
-            mondayPane.getChildren().add(hourBreaker);
-        }
-
-        dayPanes.addAll(Arrays.asList(new Pane[]{mondayPane, tuesdayPane, wednesdayPane, thursdayPane, fridayPane, saturdayPane, sundayPane}));
+        this.highlightCurrentDay();
+        this.addHourBreakers();
 
         // Handle clicks in calendar
         for (Pane pane:dayPanes) {
@@ -99,7 +91,7 @@ public class CalendarViewController implements Initializable {
                     endX = event.getX();
                     endY = event.getY();
                     rect.setWidth(DAY_WIDTH);
-                    rect.setHeight(endY-rect.getY());
+                    rect.setHeight(endY - rect.getY());
 
                 }
             });
@@ -121,6 +113,27 @@ public class CalendarViewController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void highlightCurrentDay () {
+
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        int day = now.get(now.DAY_OF_WEEK); // Sun: 1, Sat: 7
+
+        Pane currentDayPane = (Pane) dayPanes.get((day % dayPanes.size()) - 2);
+        currentDayPane.setStyle("-fx-background-color: #3e3d3d;");
+        currentDayPane.setOpacity(0.15);
+    }
+
+    public void addHourBreakers () {
+        for (int i = 0; i < 24; i++) {
+            Line hourBreaker = new Line();
+            hourBreaker.setLayoutX(30);
+            hourBreaker.setLayoutY(50 + (i * 50));
+            hourBreaker.setStartX(-100);
+            hourBreaker.setEndX(750);
+            dayPanes.get(0).getChildren().add(hourBreaker);
+        }
     }
 
     public void createAppointmentView(final Pane pane, double startX, double startY, double endX, double endY, final double cornerRadius) {
@@ -187,9 +200,4 @@ public class CalendarViewController implements Initializable {
         // Check collisions between this and all other rectangles (appointments)
         CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
     }
-
-
-
-
-
 }
