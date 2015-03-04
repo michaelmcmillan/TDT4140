@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.Appointment;
@@ -64,7 +65,16 @@ public class CalendarViewController implements Initializable {
         final Pane saturdayPane = (Pane) mainScene.lookup("#daySaturday");
         final Pane sundayPane = (Pane) mainScene.lookup("#daySunday");
 
-       dayPanes.addAll(Arrays.asList(new Pane[]{mondayPane, tuesdayPane, wednesdayPane, thursdayPane, fridayPane, saturdayPane, sundayPane}));
+        for (int i = 0; i < 24; i++) {
+            Line hourBreaker = new Line();
+            hourBreaker.setLayoutX(30);
+            hourBreaker.setLayoutY(50 + (i * 50));
+            hourBreaker.setStartX(-100);
+            hourBreaker.setEndX(750);
+            mondayPane.getChildren().add(hourBreaker);
+        }
+
+        dayPanes.addAll(Arrays.asList(new Pane[]{mondayPane, tuesdayPane, wednesdayPane, thursdayPane, fridayPane, saturdayPane, sundayPane}));
 
         // Handle clicks in calendar
         for (Pane pane:dayPanes) {
