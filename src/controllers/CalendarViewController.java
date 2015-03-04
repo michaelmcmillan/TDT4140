@@ -2,10 +2,8 @@ package controllers;
 
 import helpers.CalendarHelper;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -17,9 +15,11 @@ import models.Calendar;
 import models.Person;
 import views.AppointmentView;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 import static java.lang.Math.abs;
 
@@ -89,7 +89,6 @@ public class CalendarViewController implements Initializable {
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
 
-
                     createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
                 }
             });
@@ -107,7 +106,6 @@ public class CalendarViewController implements Initializable {
         int startDay = startOfWeek.get(java.util.Calendar.DAY_OF_MONTH);
 
         startDay += dayPanes.indexOf(pane);
-
 
         // Get start and end times based on the rectangle positioning
         int startTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
@@ -139,25 +137,27 @@ public class CalendarViewController implements Initializable {
         final AppointmentView rectangle = new AppointmentView();
         rectangle.setX(1);
         int minY = Math.min(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
+        int maxY = Math.max(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
+
+        maxY = maxY == minY ? maxY += pane.getHeight()/24 : maxY;
         rectangle.setY(minY);
         rectangle.setWidth(DAY_WIDTH);
-        rectangle.setHeight(abs(endY - startY));
+        double height = abs(maxY - minY);
+        rectangle.setHeight(height);
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
         rectangle.setFill(Color.BISQUE);
 
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
-
-        popupView.show(startDate,endDate);
+        popupView.show(startDate, endDate);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                popupView.show(startDate,endDate);
+                popupView.show(startDate, endDate);
                 rectangle.setClicked(true);
-
             }
         });
 
