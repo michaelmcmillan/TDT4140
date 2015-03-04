@@ -12,9 +12,9 @@
          <children>
       <HBox prefHeight="770.0" prefWidth="1016.0">
          <children>
-                <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="150.0" prefWidth="150.0">
+                <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="150.0" prefHeight="736.0" prefWidth="150.0">
                <children>
-                  <ListView fx:id="calendarListView" maxWidth="200.0" minWidth="100.0" prefHeight="740.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ListView fx:id="calendarListView" layoutY="27.0" maxWidth="200.0" minWidth="100.0" prefHeight="743.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0" />
                </children>
             </AnchorPane>
                 <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="500.0" prefHeight="613.0" prefWidth="807.0">
