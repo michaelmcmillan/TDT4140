@@ -157,21 +157,6 @@
                                        <children>
                                           <Pane id="dayMonday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;">
                                              <children>
-                                                <Line endX="750.0" layoutX="30.0" layoutY="45.0" startX="-100.0" />
-                                                <Line endX="750.0" layoutX="30.0" layoutY="95.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="40.0" layoutY="145.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="50.0" layoutY="195.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="60.0" layoutY="245.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="70.0" layoutY="295.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="80.0" layoutY="345.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="90.0" layoutY="395.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="100.0" layoutY="445.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="110.0" layoutY="495.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="120.0" layoutY="545.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="130.0" layoutY="595.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="140.0" layoutY="645.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="140.0" layoutY="695.0" startX="-210.0" />
-                                                <Line endX="750.0" layoutX="140.0" layoutY="745.0" startX="-210.0" />
                                              </children></Pane>
                                           <Pane id="dayTuesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
                                           <Pane id="dayWednesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
