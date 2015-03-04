@@ -63,8 +63,6 @@ public class CalendarHelper {
                 currentRectangle.setWidth(pane.getWidth()/numCollisions - 1);
                 currentRectangle.setX((pane.getWidth()/numCollisions)*i + 1);
             }
-        } else {
-            rectangle.setFill(Color.BISQUE);
         }
     }
 
