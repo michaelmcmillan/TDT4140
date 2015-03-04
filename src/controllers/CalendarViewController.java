@@ -36,6 +36,7 @@ public class CalendarViewController implements Initializable {
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
     private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
+    private Rectangle rect;
 
     private java.util.Calendar startOfWeek;
 
@@ -72,12 +73,27 @@ public class CalendarViewController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     Pane clickedPane = (Pane) event.getSource();
-                    DAY_WIDTH = clickedPane.getWidth() - 2;
+                    DAY_WIDTH = clickedPane.getWidth() - 3;
                     String id = clickedPane.getId();
                     startX = event.getX();
                     startY = event.getY();
                     System.out.println("Clicked at " + startX + ", " + startY);
                     popupView.close();
+                    rect = new Rectangle(1,startY,0,0);
+                    clickedPane.getChildren().add(rect);
+
+                }
+            });
+
+            pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    final Pane clickedPane = (Pane) event.getSource();
+                    endX = event.getX();
+                    endY = event.getY();
+                    rect.setWidth(DAY_WIDTH);
+                    rect.setHeight(endY-rect.getY());
+
                 }
             });
 
@@ -88,7 +104,7 @@ public class CalendarViewController implements Initializable {
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
-
+                    clickedPane.getChildren().remove(rect);
 
                     createAppointmentView(clickedPane, startX, startY, endX, endY, 12);
                 }
