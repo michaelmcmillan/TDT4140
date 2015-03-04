@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -14,141 +16,141 @@
                   <ListView fx:id="calendarListView" maxWidth="200.0" minWidth="100.0" prefHeight="740.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-                <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="500.0" prefHeight="600.0" prefWidth="700.0">
+                <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="500.0" prefHeight="613.0" prefWidth="807.0">
                      <children>
-                        <ScrollPane fx:id="weekView" fitToWidth="true" prefWidth="814.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane fx:id="weekView" fitToWidth="true" layoutY="29.0" prefHeight="709.0" prefWidth="807.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
                      <content>
-                        <SplitPane dividerPositions="0.1" prefHeight="1209.0" prefWidth="200.0">
+                        <SplitPane dividerPositions="0.07115628970775095" prefHeight="1209.0" prefWidth="489.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="140.0">
                                  <children>
-                                    <VBox prefHeight="1200.0" prefWidth="75.0">
+                                    <VBox prefHeight="1200.0" prefWidth="50.0">
                                        <children>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="00:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="00:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="01:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="01:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="02:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="02:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="03:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="03:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="04:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="04:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="05:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="05:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="06:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="06:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="07:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="07:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="08:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="08:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="09:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="09:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="10:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="10:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="11:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="11:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="12:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="12:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="13:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="13:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="14:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="14:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="15:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="15:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="16:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="16:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="17:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="17:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="18:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="18:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="19:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="19:00" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="200.0" prefWidth="200.0">
                                              <children>
-                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="20:00" />
+                                                <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="20:00" />
                                              </children>
                                           </Pane>
                                            <Pane prefHeight="200.0" prefWidth="200.0">
                                                <children>
-                                                   <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="21:00" />
+                                                   <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="21:00" />
                                                </children>
                                            </Pane>
                                            <Pane prefHeight="200.0" prefWidth="200.0">
                                                <children>
-                                                   <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="22:00" />
+                                                   <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="22:00" />
                                                </children>
                                            </Pane>
                                            <Pane prefHeight="200.0" prefWidth="200.0">
                                                <children>
-                                                   <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="74.0" text="23:00" />
+                                                   <Label alignment="TOP_RIGHT" prefHeight="16.0" prefWidth="50.0" text="23:00" />
                                                </children>
                                            </Pane>
                                        </children></VBox>
                                  </children></AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="596.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="718.0">
                                  <children>
-                                    <HBox maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="812.0">
+                                    <HBox maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="728.0">
                                        <children>
                                           <Pane id="dayMonday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
                                           <Pane id="dayTuesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
@@ -164,6 +166,45 @@
                           </items>
                         </SplitPane>
                      </content></ScrollPane>
+                  <Pane prefHeight="29.0" prefWidth="807.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="63.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Mandag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="167.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Tirsdag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="272.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Onsdag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="375.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Torsdag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="479.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Fredag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="583.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Lørdag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="687.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Søndag">
+                           <font>
+                              <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                      </children>
                   </AnchorPane>
               </items>
