@@ -64,6 +64,7 @@ public class CalendarViewController implements Initializable {
             (Pane) mainScene.lookup("#daySunday")
         }));
 
+        this.highlightCurrentHour();
         this.highlightCurrentDay();
         this.addHourBreakers();
 
@@ -115,14 +116,23 @@ public class CalendarViewController implements Initializable {
 
     }
 
-    public void highlightCurrentDay () {
-
+    public Pane getCurrentDayPane () {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int day = now.get(now.DAY_OF_WEEK); // Sun: 1, Sat: 7
+        return (Pane) dayPanes.get((day % dayPanes.size()) - 2);
+    }
 
-        Pane currentDayPane = (Pane) dayPanes.get((day % dayPanes.size()) - 2);
-        currentDayPane.setStyle("-fx-background-color: #3e3d3d;");
-        currentDayPane.setOpacity(0.15);
+    public void highlightCurrentDay () {
+        this.getCurrentDayPane().setStyle("-fx-background-color: #3e3d3d;");
+        this.getCurrentDayPane().setOpacity(0.15);
+    }
+
+    public void highlightCurrentHour () {
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        int hoursPassedToday = now.get(now.HOUR_OF_DAY);
+        int minutesPassedThisHour = now.get(now.MINUTE);
+        int totalMinutesPassedToday = hoursPassedToday * 60 + minutesPassedThisHour;
+
     }
 
     public void addHourBreakers () {
