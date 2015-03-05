@@ -135,8 +135,12 @@ public class CalendarViewController implements Initializable {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
-        int totalMinutesPassedToday = hoursPassedToday * 60 + minutesPassedThisHour;
-
+        double dayHeight = dayPanes.get(0).getHeight();
+        double yPos = CalendarHelper.convertHourAndMinutesToPixels(dayHeight, hoursPassedToday, minutesPassedThisHour);
+        Line line = new Line(0, yPos, dayPanes.get(0).getWidth(), yPos);
+        line.setStroke(Color.RED);
+        line.setStrokeWidth(3);
+        this.getCurrentDayPane().getChildren().add(line);
     }
 
     public void addHourBreakers () {
