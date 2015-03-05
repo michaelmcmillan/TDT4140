@@ -75,7 +75,7 @@ public class Person {
     }
 
     public ArrayList<String> getCalendarNames() {
-        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<String>();
         for (Calendar cal : calendars) {
             names.add(cal.toString());
         }
