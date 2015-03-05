@@ -210,17 +210,17 @@
                   </AnchorPane>
          </children>
       </HBox>
-      <MenuBar prefHeight="29.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar fx:id="menu" prefHeight="29.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Account">
+          <Menu id="menu-account" mnemonicParsing="false" text="Account">
             <items>
-              <MenuItem id="menu-logout" mnemonicParsing="false" text="Logout" />
+              <MenuItem id="menu-account-logout" mnemonicParsing="false" text="Logout" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu id="menu-edit" mnemonicParsing="false" text="Edit">
             <items>
-                <MenuItem id="menu-new-calendar" mnemonicParsing="false" text="New calendar" />
-                <MenuItem id="menu-new-group" mnemonicParsing="false" text="New group" />
+                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="New calendar" />
+                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New group" />
             </items>
           </Menu>
         </menus>

@@ -7,24 +7,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.Appointment;
-import models.Person;
-import views.AppointmentView;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.IntSummaryStatistics;
 import java.util.ResourceBundle;
-
-import static java.lang.Math.abs;
 
 /**
  * Created by Morten on 02.03.15.
@@ -41,8 +33,6 @@ public class AppointmentPopupViewController  implements Initializable {
     @FXML private TextField repetitionFrequencyTextField;
     @FXML private Label endDateLabel;
     @FXML private DatePicker endDatePicker;
-
-
     private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
@@ -69,11 +59,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
     public AppointmentPopupViewController(Pane calendarPane){
         this.calendarPane = calendarPane;
-
-
     }
-
-
 
     private void showEndDayForm() {
         repetitionFrequencyLabel.setVisible(true);
@@ -89,7 +75,7 @@ public class AppointmentPopupViewController  implements Initializable {
         endDatePicker.setVisible(false);
     }
 
-    public void show(Date startDate,Date endDate){
+    public void show(Date startDate, Date endDate){
 
         try {
             // Init popupview from FXML
@@ -113,7 +99,6 @@ public class AppointmentPopupViewController  implements Initializable {
             appointmentPopup.setLayoutX(80);
             appointmentPopup.setLayoutY(100);
 
-
             //Set methods
             Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
             TextField startTime = (TextField) appointmentPopup.lookup("#startTime");
@@ -128,7 +113,6 @@ public class AppointmentPopupViewController  implements Initializable {
             LocalDate date = LocalDate.of(startDate.getYear() + 1900, startDate.getMonth() + 1, startDate.getDate());
 
             appointmentDate.setValue(date);
-
 
             closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -149,8 +133,4 @@ public class AppointmentPopupViewController  implements Initializable {
             }
         }
     }
-
-
-
-
 }
