@@ -4,14 +4,13 @@ import helpers.CalendarHelper;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.effect.*;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
@@ -189,6 +188,7 @@ public class CalendarViewController implements Initializable {
         int minY = Math.min(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
         int maxY = Math.max(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
 
+        maxY += pane.getHeight()/24;
         maxY = maxY == minY ? maxY += pane.getHeight()/24 : maxY;
         rectangle.setY(minY + 1);
         rectangle.setWidth(DAY_WIDTH);

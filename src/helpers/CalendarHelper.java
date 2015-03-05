@@ -1,7 +1,6 @@
 package helpers;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -24,7 +23,7 @@ public class CalendarHelper {
 
     public static int convertYAxisToNearestHour(Pane pane, double yAxis) {
         double hourPixels = pane.getHeight()/24;
-        return (int) (Math.round(yAxis/hourPixels)*hourPixels);
+        return (int) (Math.floor(yAxis/hourPixels)*hourPixels);
     }
 
     public static Date[] getFirstAndLastDayOfCurrentWeek() {
