@@ -22,6 +22,7 @@ public class MainViewController implements Initializable {
     private CalendarViewController appointmentViewController;
     private SidebarViewController sidebarViewController;
     private GroupPopupViewController groupPopupViewController;
+    private CalendarPopupViewController calendarPopupViewController;
     private MenuBar menuBar;
 
 
@@ -39,6 +40,7 @@ public class MainViewController implements Initializable {
         sidebarViewController = new SidebarViewController(this, primaryStage);
         Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
         groupPopupViewController = new GroupPopupViewController(calendarPane);
+        calendarPopupViewController = new CalendarPopupViewController(calendarPane);
 
         // Listeners
         menuBar = (MenuBar) main.getChildrenUnmodifiable().get(1); // TODO: Find a better way to do this
@@ -63,12 +65,11 @@ public class MainViewController implements Initializable {
     }
 
     void fireAddGroup(ActionEvent event) {
-        System.out.println("Add group");
         groupPopupViewController.show();
     }
 
     void fireAddCalendar(ActionEvent event) {
-        System.out.println("Add calendar");
+        calendarPopupViewController.show();
     }
 
     void fireLogout(ActionEvent event) {
