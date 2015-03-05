@@ -45,6 +45,10 @@ public class SidebarViewController implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList(p.getCalendarNames());
         calendarListView.setItems(list);
 
+        // Select the first calendar in the list as default
+        calendarListView.getSelectionModel().select(0);
+        calendarListView.getFocusModel().focus(0);
+
         calendarListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
