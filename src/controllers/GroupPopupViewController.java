@@ -21,56 +21,23 @@ import java.util.ResourceBundle;
  */
 public class GroupPopupViewController implements Initializable {
 
-    @FXML private TextArea purposeTextArea;
-    @FXML private TextField roomTextField;
-    @FXML private DatePicker fromDatePicker;
-    @FXML private TextField fromTimeTextField;
-    @FXML private TextField toTimeTextField;
-    @FXML private CheckBox repetitionCheckbox;
-    @FXML private Label repetitionFrequencyLabel;
-    @FXML private TextField repetitionFrequencyTextField;
-    @FXML private Label endDateLabel;
-    @FXML private DatePicker endDatePicker;
-    private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
+    @FXML private TextField titleTextField;
+    private ArrayList<Pane> openGroupPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
     private Pane calendarPane;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        model = new Appointment();
-        removeEndDayForm(); // Don't show calendar repetition events at startup
-        //initListeners();
-    }
-
-    @FXML void addAppointmentButtonPressed(ActionEvent event) {
-
-    }
-
-    @FXML private void repetitionCheckboxStateChanged(ActionEvent event) {
-        if(repetitionCheckbox.isSelected()) {
-            showEndDayForm();
-        } else {
-            removeEndDayForm();
-        }
-    }
 
     public GroupPopupViewController(Pane calendarPane){
         this.calendarPane = calendarPane;
     }
 
-    private void showEndDayForm() {
-        repetitionFrequencyLabel.setVisible(true);
-        repetitionFrequencyTextField.setVisible(true);
-        endDateLabel.setVisible(true);
-        endDatePicker.setVisible(true);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        model = new Appointment();
     }
 
-    private void removeEndDayForm() {
-        repetitionFrequencyLabel.setVisible(false);
-        repetitionFrequencyTextField.setVisible(false);
-        endDateLabel.setVisible(false);
-        endDatePicker.setVisible(false);
+    @FXML void addGroupButtonPressed(ActionEvent event) {
+
     }
 
     public void show(){
@@ -84,7 +51,7 @@ public class GroupPopupViewController implements Initializable {
             // Get controller, add view to main view
             //AppointmentPopupViewController appointmentPopupViewController = testLoader.getController();
             calendarPane.getChildren().add(groupPopup);
-            //openAppointmentPopups.add(groupPopup);
+            openGroupPopups.add(groupPopup);
 
             // Set popup to center position FIX!
             double appointmentPopupWidth = groupPopup.getWidth();
@@ -117,7 +84,7 @@ public class GroupPopupViewController implements Initializable {
 
     public void close() {
         for (int i = 0; i < calendarPane.getChildren().size(); i++) {
-            if (openAppointmentPopups.contains(calendarPane.getChildren().get(i))) {
+            if (openGroupPopups.contains(calendarPane.getChildren().get(i))) {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
