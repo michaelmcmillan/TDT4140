@@ -41,6 +41,7 @@ public class CalendarViewController implements Initializable {
     DropShadow dropShadow = new DropShadow(0,4.0,4.0,Color.BLACK);
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
+    private boolean isDragging;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
 
@@ -87,6 +88,7 @@ public class CalendarViewController implements Initializable {
                     clickedPane.getChildren().add(rect);
                     rect.setFill(Color.DEEPSKYBLUE);
                     rect.setOpacity(0.5);
+                    isDragging = false;
                 }
             });
 
@@ -97,7 +99,7 @@ public class CalendarViewController implements Initializable {
                     endY = event.getY();
                     rect.setWidth(DAY_WIDTH);
                     rect.setHeight(endY - rect.getY());
-
+                    isDragging = true;
                 }
             });
 
@@ -109,7 +111,9 @@ public class CalendarViewController implements Initializable {
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
                     clickedPane.getChildren().remove(rect);
-                    createAppointmentView(clickedPane, startX, startY, endX, endY, 4);
+                    if(isDragging){
+                        createAppointmentView(clickedPane, startX, startY, endX, endY, 4);
+                    }
                 }
             });
         }
@@ -205,8 +209,10 @@ public class CalendarViewController implements Initializable {
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
-                popupView.show(startDate, endDate);
-                rectangle.setClicked(true);
+                if(!isDragging){
+                    popupView.show(startDate, endDate);
+                    rectangle.setClicked(true);
+                }
             }
         });
 
