@@ -14,7 +14,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
-import models.Person;
 import views.AppointmentView;
 
 import java.net.URL;
@@ -28,7 +27,7 @@ import static java.lang.Math.abs;
 
 public class CalendarViewController implements Initializable {
 
-    private Calendar calendar = new Calendar();
+    private Calendar calendar;
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
     private MainViewController mainViewController;
@@ -50,6 +49,9 @@ public class CalendarViewController implements Initializable {
         this.mainScene = primarystage.getScene();
         this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
         calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
+
+        // Set default calendar
+        calendar = mainViewController.getPerson().getCalendars().get(0);
 
         popupView = new AppointmentPopupViewController(calendarPane);
 
@@ -171,11 +173,6 @@ public class CalendarViewController implements Initializable {
         cal2.set(java.util.Calendar.MINUTE, endTime[1]);
         cal2.set(java.util.Calendar.SECOND, 0);
         final Date endDate = cal2.getTime();
-
-        // Add a new appointment to the calendar based on input times
-        Person morten = new Person("Morten", "Møkkamann");
-        final Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
-        calendar.addAppointment(appointment);
 
         Date[] firstAndLastDayOfWeek = CalendarHelper.getFirstAndLastDayOfCurrentWeek();
         for(Appointment a : calendar.getAppointmentsBetween(firstAndLastDayOfWeek[0], firstAndLastDayOfWeek[1])) {

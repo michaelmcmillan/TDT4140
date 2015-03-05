@@ -12,9 +12,9 @@ public class GroupTest {
 
     @Test
     public void testGroupArray() {
-        Person person1 = new Person("Barack", "Obama");
-        Person person2 = new Person("Bill", "Clinton");
-        Person person3 = new Person("George", "Bush");
+        Person person1 = new Person("Barack");
+        Person person2 = new Person("Bill");
+        Person person3 = new Person("George");
         Group group = new Group("haxk");
 
         group.addMember(person1);

@@ -6,11 +6,13 @@ public class Person {
 
     private String firstName;
     private String surname;
+    private String username;
     private ArrayList<Group> groups;
+    private ArrayList<Calendar> calendars;
 
-    public Person(String firstName, String surname) {
-        this.setFirstName(firstName);
-        this.setSurname(surname);
+    public Person(String username) {
+        this.calendars = new ArrayList<Calendar>();
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -37,5 +39,27 @@ public class Person {
         if (groups.contains(group)) {
             groups.remove(group);
         }
+    }
+
+    public void addCalendar(Calendar calendar) {
+        calendars.add(calendar);
+    }
+
+    public void removeCalendar(Calendar calendar) {
+        if (calendars.contains(calendar)) {
+            calendars.remove(calendar);
+        }
+    }
+
+    public ArrayList<Calendar> getCalendars() {
+        return this.calendars;
+    }
+
+    public ArrayList<String> getCalendarNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Calendar cal : calendars) {
+            names.add(cal.toString());
+        }
+        return names;
     }
 }

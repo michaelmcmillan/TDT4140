@@ -12,6 +12,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Person;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,15 +20,16 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
-    private CalendarViewController appointmentViewController;
+    private CalendarViewController calendarViewController;
     private SidebarViewController sidebarViewController;
     private GroupPopupViewController groupPopupViewController;
     private CalendarPopupViewController calendarPopupViewController;
     private MenuBar menuBar;
+    private Person person;
 
+    public MainViewController(Stage primaryStage, Person person) throws Exception {
 
-    public MainViewController(Stage primaryStage) throws Exception {
-
+        this.person = person;
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAINVIEW_PATH));
         Parent main = loader.load();
         loader.setController(this);
@@ -36,8 +38,8 @@ public class MainViewController implements Initializable {
         scene.getStylesheets().add(this.getClass().getResource("/views/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
-        appointmentViewController = new CalendarViewController(this, primaryStage);
         sidebarViewController = new SidebarViewController(this, primaryStage);
+        calendarViewController = new CalendarViewController(this, primaryStage);
         Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
         groupPopupViewController = new GroupPopupViewController(calendarPane);
         calendarPopupViewController = new CalendarPopupViewController(calendarPane);
@@ -74,6 +76,10 @@ public class MainViewController implements Initializable {
 
     void fireLogout(ActionEvent event) {
         System.out.println("Log out");
+    }
+
+    protected Person getPerson() {
+        return this.person;
     }
 
     @Override

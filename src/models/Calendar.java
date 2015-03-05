@@ -8,10 +8,15 @@ import java.util.Date;
  */
 public class Calendar {
 
+    private String calendarTitle;
     ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 
-    public void Calendar() {
+    public Calendar(String title) {
+        calendarTitle = title;
+    }
 
+    public void setTitle(String title) {
+        calendarTitle = title;
     }
 
     public void addAppointment(Appointment appointment){
@@ -50,5 +55,13 @@ public class Calendar {
             }
         }
         return appointmentsBetween;
+    }
+
+    public ArrayList<Appointment> getAppointments() {
+        return this.appointments;
+    }
+
+    public String toString() {
+        return this.calendarTitle;
     }
 }
