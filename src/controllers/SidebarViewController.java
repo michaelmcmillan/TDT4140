@@ -1,6 +1,5 @@
 package controllers;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -39,10 +38,11 @@ public class SidebarViewController implements Initializable {
         p.addCalendar(new Calendar("Flygefisk"));
         p.addCalendar(new Calendar("Elefant"));
         p.addCalendar(new Calendar("Personal stuff"));
-        ArrayList<Calendar> calendars = p.getCalendars();
+        ArrayList<String> calendarNames = p.getCalendarNames();
 
         // Handle clicks in sidebar (Kalendervelger)
-        ObservableList<String> list = FXCollections.observableArrayList(p.getCalendarNames());
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.setAll(calendarNames);
         calendarListView.setItems(list);
 
         // Select the first calendar in the list as default
@@ -55,7 +55,6 @@ public class SidebarViewController implements Initializable {
                 System.out.print(calendarListView.getSelectionModel().getSelectedItem());
             }
         });
-
     }
 
     public void initialize(URL location, ResourceBundle resources) {
