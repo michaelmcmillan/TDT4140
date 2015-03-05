@@ -142,7 +142,7 @@ public class CalendarViewController implements Initializable {
         int minutesPassedThisHour = now.get(now.MINUTE);
         double dayHeight = dayPanes.get(0).getHeight();
         double yPos = CalendarHelper.convertHourAndMinutesToPixels(dayHeight, hoursPassedToday, minutesPassedThisHour);
-        Line line = new Line(0, yPos, dayPanes.get(0).getWidth(), yPos);
+        Line line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
         this.getCurrentDayPane().getChildren().add(line);
