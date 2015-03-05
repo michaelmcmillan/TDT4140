@@ -8,11 +8,9 @@ import javafx.stage.Stage;
 public class MainViewController {
 
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
-
     private CalendarViewController appointmentView;
     private SidebarViewController sidebarView;
     private AppointmentPopupViewController popupView;
-
 
     public MainViewController(Stage primaryStage) throws Exception {
 
@@ -26,6 +24,5 @@ public class MainViewController {
 
         appointmentView = new CalendarViewController(this, primaryStage);
         sidebarView = new SidebarViewController(this, primaryStage);
-
     }
 }

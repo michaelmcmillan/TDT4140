@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.media.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -218,12 +214,13 @@
         <menus>
           <Menu mnemonicParsing="false" text="Account">
             <items>
-              <MenuItem mnemonicParsing="false" text="Logout" />
+              <MenuItem id="menu-logout" mnemonicParsing="false" text="Logout" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="New calendar" />
+                <MenuItem id="menu-new-calendar" mnemonicParsing="false" text="New calendar" />
+                <MenuItem id="menu-new-group" mnemonicParsing="false" text="New group" />
             </items>
           </Menu>
         </menus>
