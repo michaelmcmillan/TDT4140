@@ -1,5 +1,5 @@
 
-#appointmentPopup {
+#appointmentPopup, #groupPopup, #calendarPopup {
     -fx-background-color: WHITE;
     -fx-border-radius: 12;
     -fx-background-radius: 12 12 12 12;
