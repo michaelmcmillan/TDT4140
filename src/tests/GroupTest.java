@@ -15,6 +15,7 @@ public class GroupTest {
         Person person1 = new Person("Barack", "Obama","brackintha@whitehouse.com", "freshprince");
         Person person2 = new Person("Bill", "Clinton", "billy@whitehouse.com", "bjs4lyfe");
         Person person3 = new Person("George", "Bush", "bushjr@whitehouse.com", "murica");
+        
         Group group = new Group("haxk");
 
         group.addMember(person1);

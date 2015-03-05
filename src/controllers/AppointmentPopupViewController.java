@@ -42,7 +42,6 @@ public class AppointmentPopupViewController  implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         model = new Appointment();
         removeEndDayForm(); // Don't show calendar repetition events at startup
-        //initListeners();
     }
 
     @FXML void addAppointmentButtonPressed(ActionEvent event) {

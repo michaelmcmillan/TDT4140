@@ -1,13 +1,11 @@
 package controllers;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import models.Person;
 
 
 public class LoginViewController{
@@ -23,17 +21,17 @@ public class LoginViewController{
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Add a new appointment to the calendar based on input times
+        Person user = new Person(username);
+//        final Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
+//        calendar.addAppointment(appointment);
+
         if (true){ //TODO implement check against database
-
-            new MainViewController(primaryStage);
-
+            new MainViewController(primaryStage, user);
         }
-
     }
+
     public void fireRegisterButton(ActionEvent event){
 
     };
-
-
-
 }
