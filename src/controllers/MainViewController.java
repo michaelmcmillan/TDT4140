@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -19,7 +21,7 @@ public class MainViewController implements Initializable {
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
     private CalendarViewController appointmentViewController;
     private SidebarViewController sidebarViewController;
-    private AppointmentPopupViewController popupView;
+    private GroupPopupViewController groupPopupViewController;
     private MenuBar menuBar;
 
 
@@ -35,6 +37,8 @@ public class MainViewController implements Initializable {
 
         appointmentViewController = new CalendarViewController(this, primaryStage);
         sidebarViewController = new SidebarViewController(this, primaryStage);
+        Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
+        groupPopupViewController = new GroupPopupViewController(calendarPane);
 
         // Listeners
         menuBar = (MenuBar) main.getChildrenUnmodifiable().get(1); // TODO: Find a better way to do this
@@ -60,6 +64,7 @@ public class MainViewController implements Initializable {
 
     void fireAddGroup(ActionEvent event) {
         System.out.println("Add group");
+        groupPopupViewController.show();
     }
 
     void fireAddCalendar(ActionEvent event) {
