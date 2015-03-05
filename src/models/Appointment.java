@@ -19,6 +19,9 @@ public class Appointment {
     public Appointment(){
     }
 
+
+
+
     public Appointment (Date startTime, Date endTime, String title, String description, Person createdBy) {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -31,16 +34,20 @@ public class Appointment {
     }
 
     public Date getStartTime(){ return this.startTime;}
+    public void setStartTime(Date startTime) {this.startTime = startTime;}
+
     public Date getEndTime(){ return this.endTime;}
+    public void setEndTime(Date endTime) {this.endTime = endTime;}
 
+    public String getTitle() {return title;}
+    public void setTitle(String title) {this.title = title;}
 
-    public void addParticipant(Person person){
-        participants.add(person);
-    }
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
 
-    public void removeParticipant(Person person){
-        participants.remove(person);
-    }
+    public ArrayList<Person> getParticipants() {return participants;}
+    public void addParticipant(Person person){participants.add(person);}
+    public void removeParticipant(Person person){participants.remove(person);}
 
     public void changeTime(Date startTime, Date endTime){
         this.startTime = startTime;

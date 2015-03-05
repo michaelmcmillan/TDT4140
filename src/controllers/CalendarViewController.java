@@ -91,7 +91,6 @@ public class CalendarViewController implements Initializable {
             pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    final Pane clickedPane = (Pane) event.getSource();
                     endX = event.getX();
                     endY = event.getY();
                     rect.setWidth(DAY_WIDTH);
@@ -126,8 +125,8 @@ public class CalendarViewController implements Initializable {
     }
 
     public void highlightCurrentDay () {
-        this.getCurrentDayPane().setStyle("-fx-background-color: #3e3d3d;");
-        this.getCurrentDayPane().setOpacity(0.15);
+        this.getCurrentDayPane().setStyle("-fx-background-color: #DBDBDB;");
+        this.getCurrentDayPane().setOpacity(0.85);
     }
 
     public void highlightCurrentHour () {
@@ -173,7 +172,7 @@ public class CalendarViewController implements Initializable {
         final Date endDate = cal2.getTime();
 
         // Add a new appointment to the calendar based on input times
-        Person morten = new Person("Morten", "Møkkamann");
+        Person morten = new Person("Morten", "Møkkamann", "møkkamorten@gmail.com", "mortenrkewl");
         final Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
         calendar.addAppointment(appointment);
 
@@ -197,7 +196,7 @@ public class CalendarViewController implements Initializable {
         rectangle.setArcHeight(cornerRadius);
         rectangle.setArcWidth(cornerRadius);
         rectangle.setFill(Color.DEEPSKYBLUE);
-        rectangle.setOpacity(0.9);
+        rectangle.setOpacity(0.7);
         rectangle.setEffect(dropShadow);
 
 
