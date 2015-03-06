@@ -26,6 +26,13 @@ public class CalendarHelper {
         return (int) (Math.floor(yAxis/hourPixels)*hourPixels);
     }
 
+    public static double convertHourAndMinutesToPixels(double paneHeight, int hours, int minutes) {
+        double hourHeightInPixels = paneHeight/24;
+        double minutePixels = (hourHeightInPixels/60) * minutes;
+        double hourPixels = hourHeightInPixels * hours;
+        return hourPixels + minutePixels;
+    }
+
     public static Date[] getFirstAndLastDayOfCurrentWeek() {
         Date date = new Date();
         java.util.Calendar c = java.util.Calendar.getInstance();

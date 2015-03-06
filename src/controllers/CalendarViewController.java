@@ -4,6 +4,7 @@ import helpers.CalendarHelper;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +35,7 @@ public class CalendarViewController implements Initializable {
     private Stage primaryStage;
     private AnchorPane calendarPane;
     private Scene mainScene;
+    private ScrollPane scrollPane;
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
     private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
@@ -49,16 +51,15 @@ public class CalendarViewController implements Initializable {
         this.primaryStage = primarystage;
         this.mainScene = primarystage.getScene();
         this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
+        this.scrollPane = (ScrollPane) this.mainScene.lookup("#weekView");
         calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
 
         // Set default calendar
         calendar = mainViewController.getPerson().getCalendars().get(0);
 
         popupView = new AppointmentPopupViewController(calendarPane);
-
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
-        
         dayPanes.addAll(Arrays.asList(new Pane[]{(Pane) mainScene.lookup("#dayMonday"),
             (Pane) mainScene.lookup("#dayTuesday"),
             (Pane) mainScene.lookup("#dayWednesday"),
@@ -139,8 +140,21 @@ public class CalendarViewController implements Initializable {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
-        int totalMinutesPassedToday = hoursPassedToday * 60 + minutesPassedThisHour;
+        double dayHeight = dayPanes.get(0).getHeight();
+        double yPos = CalendarHelper.convertHourAndMinutesToPixels(dayHeight, hoursPassedToday, minutesPassedThisHour);
+        Line line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
+        line.setStroke(Color.RED);
+        line.setStrokeWidth(3);
+        this.getCurrentDayPane().getChildren().add(line);
 
+        this.setScrollPanePosition(yPos);
+    }
+
+    public void setScrollPanePosition(double yPos) {
+        double dayHeight = dayPanes.get(0).getHeight();
+        double viewHeight = scrollPane.getHeight();
+        double middlePosition = viewHeight/2;
+        this.scrollPane.setVvalue((yPos + middlePosition)/dayHeight);
     }
 
     public void addHourBreakers () {
