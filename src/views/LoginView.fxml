@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <Pane prefHeight="768.0" prefWidth="1024.0">
          <children>
@@ -14,8 +14,8 @@
                   <Label layoutX="53.0" layoutY="83.0" text="Passord" />
                   <TextField fx:id="usernameTextfield" layoutX="143.0" layoutY="40.0" />
                   <PasswordField fx:id="passwordTextfield" layoutX="143.0" layoutY="78.0" />
-                  <Button fx:id="loginButton" layoutX="95.0" layoutY="135.0" mnemonicParsing="false" onAction="#fireLoginButton" text="Logg inn" />
-                  <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false" onAction="#fireRegisterButton" text="Registrer" />
+                  <Button fx:id="loginButton" layoutX="95.0" layoutY="135.0" mnemonicParsing="false"  text="Logg inn" />
+                  <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false"  text="Registrer" />
                </children>
             </Pane>
          </children>
