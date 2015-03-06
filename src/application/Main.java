@@ -12,7 +12,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        new LoginViewController(primaryStage);
+        new LoginViewController(primaryStage); 
         /*
         Parent root = FXMLLoader.load(getClass().getResource("../views/" + LOGINVIEW_PATH));
         primaryStage.setTitle("Login - Kalendersystem");
