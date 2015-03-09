@@ -25,7 +25,7 @@ public class MainViewController implements Initializable {
     private CalendarViewController calendarViewController;
     private SidebarViewController sidebarViewController;
     private GroupPopupViewController groupPopupViewController;
-    private CalendarPopupViewController calendarPopupViewController;
+    private EditGroupPopupViewController editGroupPopupViewController;
     private MenuBar menuBar;
     private Person person;
     private int weekNumber;
@@ -46,7 +46,7 @@ public class MainViewController implements Initializable {
         calendarViewController = new CalendarViewController(this, primaryStage);
         Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
         groupPopupViewController = new GroupPopupViewController(calendarPane);
-        calendarPopupViewController = new CalendarPopupViewController(calendarPane);
+        editGroupPopupViewController = new EditGroupPopupViewController(calendarPane);
         Button nextWeek = (Button) scene.lookup("#nextWeek");
         Button pastWeek = (Button) scene.lookup("#pastWeek");
         ukenr = (Label) scene.lookup("#ukenr");
@@ -71,13 +71,12 @@ public class MainViewController implements Initializable {
         pastWeek.setOnAction(e -> fireLastWeek(e));
         ukenr.setText("UKE "+weekNumber);
 
-
         // Item menu
         Menu itemMenu = menus.get(1);
         ObservableList<MenuItem> itemMenuItems = itemMenu.getItems();
 
-        MenuItem addCalendarMenuItem = itemMenuItems.get(0);
-        addCalendarMenuItem.setOnAction(e -> fireAddCalendar(e));
+        MenuItem editGroupMenuItem = itemMenuItems.get(0);
+        editGroupMenuItem.setOnAction(e -> fireEditGroup(e));
 
         MenuItem addGroupMenuItem = itemMenuItems.get(1);
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
@@ -87,8 +86,8 @@ public class MainViewController implements Initializable {
         groupPopupViewController.show();
     }
 
-    void fireAddCalendar(ActionEvent event) {
-        calendarPopupViewController.show();
+    void fireEditGroup(ActionEvent event) {
+        editGroupPopupViewController.show();
     }
 
     void fireLogout(ActionEvent event) {System.out.println("Log out");}

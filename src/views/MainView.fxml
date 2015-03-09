@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.cell.CheckBoxListCell?>
 <AnchorPane prefHeight="770.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
          <children>
       <HBox prefHeight="770.0" prefWidth="1016.0">
@@ -19,6 +22,11 @@
                         <Font name="Arial" size="15.0" />
                      </font>
                   </Label>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="26.0" layoutY="57.0" mouseTransparent="true" stroke="#1f8fff" strokeType="INSIDE" strokeWidth="3.0" width="150.0">
+                     <effect>
+                        <Bloom threshold="0.47" />
+                     </effect>
+                  </Rectangle>
                </children>
             </AnchorPane>
                 <AnchorPane fx:id="calendarPane" minHeight="0.0" minWidth="500.0" prefHeight="613.0" prefWidth="807.0">
@@ -227,7 +235,7 @@
           </Menu>
           <Menu id="menu-edit" mnemonicParsing="false" text="Edit">
             <items>
-                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="New calendar" />
+                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Edit group" />
                 <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New group" />
             </items>
           </Menu>

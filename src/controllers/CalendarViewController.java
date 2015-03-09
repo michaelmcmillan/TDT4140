@@ -44,6 +44,7 @@ public class CalendarViewController implements Initializable {
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
     private boolean isDragging;
+    private Line line;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
 
@@ -142,7 +143,7 @@ public class CalendarViewController implements Initializable {
         int minutesPassedThisHour = now.get(now.MINUTE);
         double dayHeight = dayPanes.get(0).getHeight();
         double yPos = CalendarHelper.convertHourAndMinutesToPixels(dayHeight, hoursPassedToday, minutesPassedThisHour);
-        Line line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
+        line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
         this.getCurrentDayPane().getChildren().add(line);
@@ -214,10 +215,10 @@ public class CalendarViewController implements Initializable {
         rectangle.setOpacity(0.7);
         rectangle.setEffect(dropShadow);
 
-
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
         popupView.show(startDate, endDate);
+        line.toFront();
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
