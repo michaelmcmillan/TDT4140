@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class GroupTest {
 
     @Test
-    public void testGroupArray() {
+    public void GroupTest() {
         Person person1 = new Person("Barack", "Obama","brackintha@whitehouse.com", "freshprince");
         Person person2 = new Person("Bill", "Clinton", "billy@whitehouse.com", "bjs4lyfe");
         Person person3 = new Person("George", "Bush", "bushjr@whitehouse.com", "murica");

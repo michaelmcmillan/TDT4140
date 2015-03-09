@@ -15,7 +15,8 @@ public class TestRunner {
 
         //Add test cases
         testCases.add(PersonTest.class);
-        testCases.add(PersonTest.class);
+        testCases.add(GroupTest.class);
+        testCases.add(HTMLConnectionTest.class);
 
         for (Object testCase : testCases)
         {
