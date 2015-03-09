@@ -29,10 +29,8 @@ public class HTTPConnection {
             connection.setRequestProperty ("Authorization", basicAuth);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            String yolo = "Halla, balla!";
-            connection.setRequestProperty("Content-Length", "" + Integer.toString(yolo.getBytes().length));
-            connection.setRequestProperty("Content-Language", "en-US");
+            //connection.setRequestProperty("Content-Length", "" + Integer.toString(yolo.getBytes().length));
+            connection.setRequestProperty("Content-Language", "no-NO");
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
