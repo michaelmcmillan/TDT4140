@@ -7,11 +7,15 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class HTMLConnection {
+
     public HTMLConnection() {
-        System.out.println("ufds");
+        this("http://www.vg.no/");
+    }
+
+    public HTMLConnection(String urlString) {
         URL url = null;
         try {
-            url = new URL("http://www.vg.no/");
+            url = new URL(urlString);
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 

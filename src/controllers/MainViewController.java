@@ -66,7 +66,7 @@ public class MainViewController implements Initializable {
         MenuItem addGroupMenuItem = itemMenuItems.get(1);
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
 
-        HTMLConnection connection = new HTMLConnection();
+        HTMLConnection connection = new HTMLConnection("https://www.github.com");
     }
 
     void fireAddGroup(ActionEvent event) {
