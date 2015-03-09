@@ -105,7 +105,7 @@ public class AppointmentPopupViewController  implements Initializable {
             DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
 
             String startHour = Integer.toString(startDate.getHours()) + ":00";
-            String endHour = Integer.toString(endDate.getHours()) + ":00";
+            String endHour = Integer.toString(endDate.getHours()+1) + ":00";
             startTime.setText(startHour);
             endTime.setText(endHour);
 
