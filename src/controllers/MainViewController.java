@@ -1,6 +1,6 @@
 package controllers;
 
-import helpers.HTMLConnection;
+import helpers.HTTPConnection;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -83,7 +83,7 @@ public class MainViewController implements Initializable {
         MenuItem addGroupMenuItem = itemMenuItems.get(1);
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
 
-        HTMLConnection connection = new HTMLConnection("https://www.github.com");
+        HTTPConnection connection = new HTTPConnection("https://www.github.com");
     }
 
     void fireAddGroup(ActionEvent event) {
@@ -98,7 +98,7 @@ public class MainViewController implements Initializable {
 
     void fireNextWeek(ActionEvent event) {if(weekNumber<52){weekNumber++;} ukenr.setText("UKE "+weekNumber);}
 
-    void fireLastWeek(ActionEvent event) {if(weekNumber>1){weekNumber--;} ukenr.setText("UKE "+weekNumber);}
+    void fireLastWeek(ActionEvent event) {if(weekNumber>1){weekNumber--;} ukenr.setText("UKE " + weekNumber);}
 
     public int getWeekNumber(){return weekNumber;}
 

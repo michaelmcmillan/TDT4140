@@ -6,13 +6,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class HTMLConnection {
+public class HTTPConnection {
 
-    public HTMLConnection() {
+    public HTTPConnection() {
         this("http://www.vg.no/");
     }
 
-    public HTMLConnection(String urlString) {
+    public HTTPConnection(String urlString) {
         URL url = null;
         try {
             url = new URL(urlString);
