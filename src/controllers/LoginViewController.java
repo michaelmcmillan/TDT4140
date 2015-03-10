@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Person;
+import server.Server;
 
 
 public class LoginViewController{
@@ -72,38 +73,18 @@ public class LoginViewController{
 
             String username = usernameField.getText();
             String password = passwordField.getText();
-            if (true){
-                // Add a new appointment to the calendar based on input times
-                Person user = new Person(username);
-//         final Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);
-//        calendar.addAppointment(appointment);
 
-                if (true){ //TODO implement check against database
-                    new MainViewController(primaryStage, user);
-                }
-            } else {
+            // Add a new appointment to the calendar based on input times
+            Person user = new Person(username);
 
-                if (username.equals("")){
-                    usernameField.setStyle("-fx-background-color: red");
-                } else {
-                    usernameField.setStyle("-fx-background-color: white");
-                }
-
-                if (password.equals("")){
-                    passwordField.setStyle("-fx-background-color: red");
-                } else {
-                    usernameField.setStyle("-fx-background-color: white");
-                }
-
+            Server.getInstance().logInAs(username, password);
+            if (Server.getInstance().isAuthenticated()) {
+                new MainViewController(primaryStage, user);
             }
-
-
 
         } catch (Exception e){
 
         }
-
-
 
     }
 

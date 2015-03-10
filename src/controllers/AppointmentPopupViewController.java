@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.Appointment;
+import server.Server;
 
 import java.io.IOException;
 import java.net.URL;

@@ -15,11 +15,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        Server.getInstance().logInAs("mcmillan@live.com", "heisann");
 
-        if (Server.getInstance().isAuthenticated()) {
-            System.out.println("Du er innlogget!");
-        }
 
         launch(args);
     }
