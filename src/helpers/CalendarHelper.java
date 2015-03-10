@@ -78,6 +78,10 @@ public class CalendarHelper {
                 currentRectangle.setWidth(pane.getWidth()/numCollisions - 1);
                 currentRectangle.setX((pane.getWidth()/numCollisions)*i + 1);
             }
+            //kollisjon fikset(ish):
+            for (Rectangle rect : collidingRectangles){
+                checkRectangleCollisions(pane, rect, rectangles);
+            }
         }
     }
 
