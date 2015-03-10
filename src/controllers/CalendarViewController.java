@@ -17,9 +17,9 @@ import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
 import views.AppointmentView;
+import views.DayView;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class CalendarViewController implements Initializable {
     private HBox weekHBox;
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
-    private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
+    private ArrayList<DayView> dayPanes = new ArrayList<DayView>();
     private Rectangle rect;
     private final double appointmentRectangleCornerRadius = 4;
     DropShadow dropShadow = new DropShadow(0,4.0,4.0,Color.BLACK);
@@ -66,9 +66,9 @@ public class CalendarViewController implements Initializable {
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
 
-        // Add days to HBox manually.
+        // Add days to HBox programmatically.
         for (int i = 0; i < 7; i++) {
-            Pane tempPane = new Pane();
+            DayView tempPane = new DayView();
             tempPane.setPrefSize(111, 1200);
             tempPane.setLayoutY(0);
             tempPane.setLayoutX(111 * i);
@@ -82,11 +82,11 @@ public class CalendarViewController implements Initializable {
         this.addHourBreakers();
 
         // Handle clicks in calendar
-        for (Pane pane:dayPanes) {
+        for (DayView pane:dayPanes) {
             pane.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    Pane clickedPane = (Pane) event.getSource();
+                    DayView clickedPane = (DayView) event.getSource();
                     DAY_WIDTH = clickedPane.getWidth() - 2;
                     String id = clickedPane.getId();
                     startX = event.getX();
@@ -115,7 +115,7 @@ public class CalendarViewController implements Initializable {
             pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    final Pane clickedPane = (Pane) event.getSource();
+                    final DayView clickedPane = (DayView) event.getSource();
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
@@ -153,8 +153,11 @@ public class CalendarViewController implements Initializable {
         line = new Line(1, yPos, dayPanes.get(0).getPrefWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
+
+        // Place the red line
         this.getCurrentDayPane().getChildren().add(line);
 
+        // Center scroll position to current time
         this.setScrollPanePosition(yPos);
     }
 
@@ -176,7 +179,7 @@ public class CalendarViewController implements Initializable {
         }
     }
 
-    public void createAppointmentViewOnMouseDrag(final Pane pane, double startY, double endY) {
+    public void createAppointmentViewOnMouseDrag(final DayView pane, double startY, double endY) {
 
         //Get date from weekstart
         int startDay = startOfWeek.get(java.util.Calendar.DAY_OF_MONTH);
@@ -191,11 +194,10 @@ public class CalendarViewController implements Initializable {
             System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
         }
 
-        LocalDate date = LocalDate.now(); // TODO: Change the date to pane date
-        createAppointmentView(pane, LocalDateTime.of(date, LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(date, LocalTime.of(endTime[0], endTime[1])));
+        createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])));
     }
 
-    public void createAppointmentView(final Pane pane, LocalDateTime startTime, LocalDateTime endTime) {
+    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime) {
 
         LocalTime dayStartTime = startTime.toLocalTime();
         LocalTime dayEndTime = endTime.toLocalTime();
@@ -236,5 +238,9 @@ public class CalendarViewController implements Initializable {
 
         // Check collisions between this and all other rectangles (appointments)
         CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
+    }
+
+    private void setAllVisibleDayViewsToWeek(int weekNumber) {
+
     }
 }

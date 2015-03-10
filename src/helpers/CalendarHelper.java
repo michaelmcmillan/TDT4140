@@ -55,6 +55,19 @@ public class CalendarHelper {
         return new Date[]{weekStart, weekEnd};
     }
 
+//    public static LocalDate[] getFirstAndLastDayOfWeek(int year, int weekNumber) {
+//
+//        Calendar cal = new GregorianCalendar();
+//        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        cal.setWeekDate(year, weekNumber, 2);
+//
+//        int firstDay = cal.MONDAY;
+//        int lastDay = cal.SUNDAY;
+//
+//        LocalDate date = LocalDate.ofYearDay();
+//        return new Date[]{weekStart, weekEnd};
+//    }
+
     public static void checkRectangleCollisions(Pane pane, Rectangle rectangle, ArrayList<Rectangle> rectangles) {
         boolean collisionDetected = false;
 
