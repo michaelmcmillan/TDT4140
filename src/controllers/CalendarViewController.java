@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -39,6 +40,7 @@ public class CalendarViewController implements Initializable {
     private AnchorPane calendarPane;
     private Scene mainScene;
     private ScrollPane scrollPane;
+    private HBox weekHBox;
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
     private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
@@ -57,7 +59,15 @@ public class CalendarViewController implements Initializable {
         this.mainScene = primarystage.getScene();
         this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
         this.scrollPane = (ScrollPane) this.mainScene.lookup("#weekView");
-        calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
+        this.weekHBox = (HBox) this.mainScene.lookup("#weekHBox");
+
+        // Add days to HBox manually.
+        Pane tempPane = new Pane();
+        tempPane.setPrefSize(100, 100);
+        tempPane.setLayoutY(100);
+        tempPane.setLayoutX(100);
+        tempPane.setStyle("-fx-background-color: BLACK;");
+        this.weekHBox.getChildren().add(tempPane);
 
         // Set default calendar
         calendar = mainViewController.getPerson().getCalendars().get(0);
