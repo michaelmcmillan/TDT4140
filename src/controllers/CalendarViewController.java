@@ -114,7 +114,7 @@ public class CalendarViewController implements Initializable {
                     System.out.println("Released at " + endX + ", " + endY);
                     clickedPane.getChildren().remove(rect);
                     if(isDragging){
-                        createAppointmentView(clickedPane, startX, startY, endX, endY, 4);
+                        createAppointmentViewOnMouseDrag(clickedPane, startY, endY, 4);
                     }
                 }
             });
@@ -169,7 +169,7 @@ public class CalendarViewController implements Initializable {
         }
     }
 
-    public void createAppointmentView(final Pane pane, double startX, double startY, double endX, double endY, final double cornerRadius) {
+    public void createAppointmentViewOnMouseDrag(final Pane pane, double startY, double endY, final double cornerRadius) {
 
         //Get date from weekstart
         int startDay = startOfWeek.get(java.util.Calendar.DAY_OF_MONTH);
@@ -233,5 +233,9 @@ public class CalendarViewController implements Initializable {
 
         // Check collisions between this and all other rectangles (appointments)
         CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
+    }
+
+    public void createAppointmentView() {
+
     }
 }

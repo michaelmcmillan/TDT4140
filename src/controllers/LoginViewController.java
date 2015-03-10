@@ -72,7 +72,7 @@ public class LoginViewController{
 
             String username = usernameField.getText();
             String password = passwordField.getText();
-            if (!username.equals("") && !password.equals("")){
+            if (true){
                 // Add a new appointment to the calendar based on input times
                 Person user = new Person(username);
 //         final Appointment appointment = new Appointment(startDate, endDate, "Yolo", "Some awesome stuff is happening here", morten);

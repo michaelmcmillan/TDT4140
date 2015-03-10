@@ -4,14 +4,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static java.lang.Math.floor;
 
-/**
- * Created by michaelmcmillan on 03.03.15.
- */
 public class CalendarHelper {
 
     public static int[] convertYAxisToHourAndMinutes(Pane pane, double yAxis) {
@@ -72,4 +73,9 @@ public class CalendarHelper {
         }
     }
 
+    public static int getCurrentWeekNumber() {
+        LocalDate date = LocalDate.now();
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        return date.get(woy);
+    }
 }

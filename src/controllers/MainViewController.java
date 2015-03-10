@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.CalendarHelper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +14,6 @@ import javafx.stage.Stage;
 import models.Person;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
@@ -29,7 +26,7 @@ public class MainViewController implements Initializable {
     private MenuBar menuBar;
     private Person person;
     private int weekNumber;
-    private Label ukenr;
+    private Label weekNumberLabel;
 
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 
@@ -49,11 +46,8 @@ public class MainViewController implements Initializable {
         editGroupPopupViewController = new EditGroupPopupViewController(calendarPane);
         Button nextWeek = (Button) scene.lookup("#nextWeek");
         Button pastWeek = (Button) scene.lookup("#pastWeek");
-        ukenr = (Label) scene.lookup("#ukenr");
-
-        LocalDate date = LocalDate.now();
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-        weekNumber = date.get(woy);
+        weekNumberLabel = (Label) scene.lookup("#ukenr");
+        weekNumber = CalendarHelper.getCurrentWeekNumber();
 
         // Listeners
         menuBar = (MenuBar) main.getChildrenUnmodifiable().get(1); // TODO: Find a better way to do this
@@ -69,7 +63,7 @@ public class MainViewController implements Initializable {
         //Change week
         nextWeek.setOnAction(e -> fireNextWeek(e));
         pastWeek.setOnAction(e -> fireLastWeek(e));
-        ukenr.setText("UKE "+weekNumber);
+        weekNumberLabel.setText("UKE "+ getSelectedWeekNumber());
 
         // Item menu
         Menu itemMenu = menus.get(1);
@@ -94,13 +88,27 @@ public class MainViewController implements Initializable {
 
     void fireLogout(ActionEvent event) {System.out.println("Log out");}
 
-    void fireNextWeek(ActionEvent event) {if(weekNumber<52){weekNumber++;} ukenr.setText("UKE "+weekNumber);}
+    void fireNextWeek(ActionEvent event) {
+        if(weekNumber < 52) {
+            setSelectedWeekNumber(++weekNumber);
+        }
+        weekNumberLabel.setText("UKE " + weekNumber);
+    }
 
-    void fireLastWeek(ActionEvent event) {if(weekNumber>1){weekNumber--;} ukenr.setText("UKE " + weekNumber);}
+    void fireLastWeek(ActionEvent event) {
+        if(weekNumber > 1) {
+            setSelectedWeekNumber(--weekNumber);
+        }
+        weekNumberLabel.setText("UKE " + weekNumber);
+    }
 
-    public int getWeekNumber(){return weekNumber;}
+    public int getSelectedWeekNumber() {
+        return weekNumber;
+    }
 
-    public void setWeekNumber(int weekNumber){this.weekNumber = weekNumber;}
+    public void setSelectedWeekNumber(int weekNumber) {
+        this.weekNumber = weekNumber;
+    }
 
     protected Person getPerson() {
         return this.person;
