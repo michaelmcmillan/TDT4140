@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class HTTPConnectionTest {
 
     @Test
-    public void testHTMLConnectionWithDefaultConstructor() {
+    public void testHTTPConnectionWithDefaultConstructor() {
         HTTPConnection connection = null;
         assertNull(connection);
 
@@ -17,7 +17,7 @@ public class HTTPConnectionTest {
     }
 
 //    @Test
-//    public void testHTMLConnectionWithAlternativeConstructor() {
+//    public void testHTTPConnectionWithAlternativeConstructor() {
 //        HTTPConnection connection = null;
 //        assertNull(connection);
 //
@@ -26,8 +26,17 @@ public class HTTPConnectionTest {
 //    }
 //
 //    @Test
+//    public void testHTTPConnectionWithUsernamePasswordConstructor() {
+//        HTTPConnection connection = null;
+//        assertNull(connection);
+//
+//        connection = new HTTPConnection("https://www.github.com", "morten", "katt");
+//        assertNotNull(connection);
+//    }
+//
+//    @Test
 //    public void testTwoDifferentHTMLConnections() {
-//        HTTPConnection connection = new HTTPConnection("https://www.github.com");
+//        HTTPConnection connection = new HTTPConnection("https://www.github.com", "morten", "katt");
 //        HTTPConnection connection2 = new HTTPConnection("https://www.github.com");
 //        assertNotSame(connection, connection2);
 //    }
