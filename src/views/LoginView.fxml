@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.canvas.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <ImageView fitHeight="795.0" fitWidth="1049.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/loginbg.jpg" />
+         </image>
+      </ImageView>
       <Pane prefHeight="768.0" prefWidth="1024.0">
          <children>
             <Pane layoutX="333.0" layoutY="264.0" prefHeight="200.0" prefWidth="358.0">
@@ -14,8 +21,8 @@
                   <Label layoutX="53.0" layoutY="83.0" text="Passord" />
                   <TextField fx:id="usernameTextfield" layoutX="143.0" layoutY="40.0" />
                   <PasswordField fx:id="passwordTextfield" layoutX="143.0" layoutY="78.0" />
-                  <Button fx:id="loginButton" layoutX="95.0" layoutY="135.0" mnemonicParsing="false"  text="Logg inn" />
-                  <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false"  text="Registrer" />
+                  <Button fx:id="loginButton" layoutX="95.0" layoutY="135.0" mnemonicParsing="false" text="Logg inn" />
+                  <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false" text="Registrer" />
                </children>
             </Pane>
          </children>

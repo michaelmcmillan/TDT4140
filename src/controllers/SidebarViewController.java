@@ -1,11 +1,14 @@
 package controllers;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Calendar;
@@ -45,6 +48,9 @@ public class SidebarViewController implements Initializable {
         list.setAll(calendarNames);
         calendarListView.setItems(list);
 
+        //Add checkboxes to list:
+        //calendarListView.setCellFactory(CheckBoxListCell.forListView(callback,converter));
+
         // Select the first calendar in the list as default
         calendarListView.getSelectionModel().select(0);
         calendarListView.getFocusModel().focus(0);
@@ -56,6 +62,7 @@ public class SidebarViewController implements Initializable {
             }
         });
     }
+
 
     public void initialize(URL location, ResourceBundle resources) {
 
