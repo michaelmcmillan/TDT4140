@@ -13,9 +13,8 @@ import models.Appointment;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -74,7 +73,7 @@ public class AppointmentPopupViewController  implements Initializable {
         endDatePicker.setVisible(false);
     }
 
-    public void show(Date startDate, Date endDate){
+    public void show(LocalDateTime startDate, LocalDateTime endDate){
 
         try {
             // Init popupview from FXML
@@ -104,14 +103,14 @@ public class AppointmentPopupViewController  implements Initializable {
             TextField endTime = (TextField) appointmentPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
 
-            String startHour = Integer.toString(startDate.getHours()) + ":00";
-            String endHour = Integer.toString(endDate.getHours()+1) + ":00";
+            String startHour = Integer.toString(startDate.getHour()) + ":00";
+            String endHour = Integer.toString(endDate.getHour() + 1) + ":00";
             startTime.setText(startHour);
             endTime.setText(endHour);
 
-            LocalDate date = LocalDate.of(startDate.getYear() + 1900, startDate.getMonth() + 1, startDate.getDate());
+            //LocalDate date = LocalDate.of(startDate.getYear() + 1900, startDate.getMonth().plus(1), startDate.getDate());
 
-            appointmentDate.setValue(date);
+            //appointmentDate.setValue(date);
 
             closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
