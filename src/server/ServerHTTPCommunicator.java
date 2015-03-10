@@ -16,16 +16,20 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 
-public class ServerCore {
+public class ServerHTTPCommunicator {
 
     private String protocol   = "http";
-    private String port       = "1337";
+    private String port       = "1338";
     private String ip         = "127.0.0.1";
     private String hostname   = this.protocol + "://" + this.ip + ":" + this.port;
 
-    private String username = "mcmillan@live.com";
-    private String password = "heisann";
+    private String username;
+    private String password;
 
+    public void setCredentials (String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     private String base64EncodeString (String string) {
         return Base64.getEncoder().encodeToString(string.getBytes());
@@ -37,7 +41,7 @@ public class ServerCore {
 
     private HashMap<String, String> getHeaders () {
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Authorization", this.base64EncodeString(this.getCredentials()));
+        headers.put("Authorization", "Basic " + this.base64EncodeString(this.getCredentials()));
         headers.put("Content-Type", "application/json");
         headers.put("Content-Language", "no-NO");
         headers.put("User-Agent", "Kalenderklient 1.0");
@@ -103,11 +107,11 @@ public class ServerCore {
                 }
             }
 
-            System.out.println(connection.getResponseCode());
-
-            /* Change default settings of a connection */
-            //connection.setUseCaches(false);
-            //connection.setDoInput(true);
+            /* Check response codes */
+            switch (connection.getResponseCode()) {
+                case 404: throw new ServerException("Fant ikke URL på serveren.");
+                case 501: throw new ServerException("Feil brukernavn eller passord");
+            }
 
             /* Retrieve the response from the request */
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -118,7 +122,6 @@ public class ServerCore {
 
         } catch (ProtocolException protocolError) {
             System.out.println("protocol err" + protocolError.getMessage());
-
         } catch (IOException ioError) {
             System.out.println("io error" + ioError.getMessage());
         }

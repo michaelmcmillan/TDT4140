@@ -15,12 +15,10 @@ public class Appointment {
     private ArrayList<Person> participants;
     private Person createdBy;
 
-    //For testing
+
     public Appointment(){
+
     }
-
-
-
 
     public Appointment (Date startTime, Date endTime, String title, String description, Person createdBy) {
         this.startTime = startTime;

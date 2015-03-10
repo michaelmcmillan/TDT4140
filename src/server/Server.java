@@ -9,9 +9,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ServerMethods {
+public class Server {
 
-    ServerCore server = new ServerCore();
+    private static Server instance = null;
+    ServerHTTPCommunicator server = new ServerHTTPCommunicator();
+
+    public void logInAs (String username, String password) {
+        server.setCredentials(username, password);
+    }
+
+    public boolean isAuthenticated () {
+        JSONObject json = server.getObject("user/me");
+
+        try {
+            return (json.getBoolean("success"));
+        } catch (JSONException error) {
+            return false;
+        }
+    }
 
     public Person getPerson (int userId) {
 
@@ -66,4 +81,14 @@ public class ServerMethods {
         return groups;
     }
 
+    protected Server() {
+        // Exists only to defeat instantiation.
+    }
+
+    public static Server getInstance() {
+        if(instance == null) {
+            instance = new Server();
+        }
+        return instance;
+    }
 }
