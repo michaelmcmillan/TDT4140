@@ -1,6 +1,5 @@
 package controllers;
 
-import helpers.HTTPConnection;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -82,7 +81,7 @@ public class MainViewController implements Initializable {
         MenuItem addGroupMenuItem = itemMenuItems.get(1);
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
 
-        HTTPConnection connection = new HTTPConnection("https://www.github.com");
+        //HTTPConnection connection = new HTTPConnection("https://www.github.com");
     }
 
     void fireAddGroup(ActionEvent event) {
