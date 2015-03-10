@@ -4,14 +4,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static java.lang.Math.floor;
 
-/**
- * Created by michaelmcmillan on 03.03.15.
- */
 public class CalendarHelper {
 
     public static int[] convertYAxisToHourAndMinutes(Pane pane, double yAxis) {
@@ -26,11 +28,18 @@ public class CalendarHelper {
         return (int) (Math.floor(yAxis/hourPixels)*hourPixels);
     }
 
-    public static double convertHourAndMinutesToPixels(double paneHeight, int hours, int minutes) {
-        double hourHeightInPixels = paneHeight/24;
+    public static double convertHourAndMinutesToYAxis(double height, int hours, int minutes) {
+        double hourHeightInPixels = height/24;
         double minutePixels = (hourHeightInPixels/60) * minutes;
         double hourPixels = hourHeightInPixels * hours;
         return hourPixels + minutePixels;
+    }
+
+    public static double convertLocalTimeToYAxis(double height, LocalTime time) {
+        long timeInNanos = time.toNanoOfDay();
+        LocalTime day = LocalTime.of(23, 59, 59);
+        long dayInNanos = day.toNanoOfDay();
+        return (double)timeInNanos/dayInNanos * height;
     }
 
     public static Date[] getFirstAndLastDayOfCurrentWeek() {
@@ -76,4 +85,9 @@ public class CalendarHelper {
         }
     }
 
+    public static int getCurrentWeekNumber() {
+        LocalDate date = LocalDate.now();
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        return date.get(woy);
+    }
 }

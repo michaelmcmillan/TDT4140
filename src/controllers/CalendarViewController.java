@@ -18,6 +18,9 @@ import models.Calendar;
 import views.AppointmentView;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,6 +43,7 @@ public class CalendarViewController implements Initializable {
     private double startX, startY, endX, endY;
     private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
     private Rectangle rect;
+    private final double appointmentRectangleCornerRadius = 4;
     DropShadow dropShadow = new DropShadow(0,4.0,4.0,Color.BLACK);
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
@@ -114,7 +118,7 @@ public class CalendarViewController implements Initializable {
                     System.out.println("Released at " + endX + ", " + endY);
                     clickedPane.getChildren().remove(rect);
                     if(isDragging){
-                        createAppointmentView(clickedPane, startX, startY, endX, endY, 4);
+                        createAppointmentViewOnMouseDrag(clickedPane, startY, endY);
                     }
                 }
             });
@@ -142,7 +146,7 @@ public class CalendarViewController implements Initializable {
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
         double dayHeight = dayPanes.get(0).getHeight();
-        double yPos = CalendarHelper.convertHourAndMinutesToPixels(dayHeight, hoursPassedToday, minutesPassedThisHour);
+        double yPos = CalendarHelper.convertHourAndMinutesToYAxis(dayHeight, hoursPassedToday, minutesPassedThisHour);
         line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
@@ -169,39 +173,35 @@ public class CalendarViewController implements Initializable {
         }
     }
 
-    public void createAppointmentView(final Pane pane, double startX, double startY, double endX, double endY, final double cornerRadius) {
+    public void createAppointmentViewOnMouseDrag(final Pane pane, double startY, double endY) {
 
         //Get date from weekstart
         int startDay = startOfWeek.get(java.util.Calendar.DAY_OF_MONTH);
-
         startDay += dayPanes.indexOf(pane);
 
         // Get start and end times based on the rectangle positioning
         int startTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.set(java.util.Calendar.DAY_OF_MONTH,startDay);
-        cal.set(java.util.Calendar.HOUR_OF_DAY, startTime[0]);
-        cal.set(java.util.Calendar.MINUTE, startTime[1]);
-        cal.set(java.util.Calendar.SECOND, 0);
-        final Date startDate = cal.getTime();
-
         int endTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.max(startY, endY));
-        java.util.Calendar cal2 = java.util.Calendar.getInstance();
-        cal2.set(java.util.Calendar.HOUR_OF_DAY, endTime[0]);
-        cal2.set(java.util.Calendar.MINUTE, endTime[1]);
-        cal2.set(java.util.Calendar.SECOND, 0);
-        final Date endDate = cal2.getTime();
 
         Date[] firstAndLastDayOfWeek = CalendarHelper.getFirstAndLastDayOfCurrentWeek();
         for(Appointment a : calendar.getAppointmentsBetween(firstAndLastDayOfWeek[0], firstAndLastDayOfWeek[1])) {
             System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
         }
 
+        LocalDate date = LocalDate.now(); // TODO: Change the date to pane date
+        createAppointmentView(pane, LocalDateTime.of(date, LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(date, LocalTime.of(endTime[0], endTime[1])));
+    }
+
+    public void createAppointmentView(final Pane pane, LocalDateTime startTime, LocalDateTime endTime) {
+
+        LocalTime dayStartTime = startTime.toLocalTime();
+        LocalTime dayEndTime = endTime.toLocalTime();
+
         // Create the rectangle view
         final AppointmentView rectangle = new AppointmentView();
         rectangle.setX(1);
-        int minY = Math.min(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
-        int maxY = Math.max(CalendarHelper.convertYAxisToNearestHour(pane, startY), CalendarHelper.convertYAxisToNearestHour(pane, endY));
+        int minY = (int) Math.min(CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayEndTime));
+        int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayEndTime));
 
         maxY += pane.getHeight()/24;
         maxY = maxY == minY ? maxY += pane.getHeight()/24 : maxY;
@@ -209,15 +209,15 @@ public class CalendarViewController implements Initializable {
         rectangle.setWidth(DAY_WIDTH);
         double height = abs(maxY - minY) - 2;
         rectangle.setHeight(height);
-        rectangle.setArcHeight(cornerRadius);
-        rectangle.setArcWidth(cornerRadius);
+        rectangle.setArcHeight(appointmentRectangleCornerRadius);
+        rectangle.setArcWidth(appointmentRectangleCornerRadius);
         rectangle.setFill(Color.DEEPSKYBLUE);
         rectangle.setOpacity(0.7);
         rectangle.setEffect(dropShadow);
 
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
-        popupView.show(startDate, endDate);
+        popupView.show(startTime, endTime);
         line.toFront();
 
         // Listeners
@@ -225,7 +225,7 @@ public class CalendarViewController implements Initializable {
             @Override
             public void handle(MouseEvent t) {
                 if(!isDragging){
-                    popupView.show(startDate, endDate);
+                    popupView.show(startTime, endTime);
                     rectangle.setClicked(true);
                 }
             }
