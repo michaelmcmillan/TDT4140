@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -61,28 +60,22 @@ public class CalendarViewController implements Initializable {
         this.scrollPane = (ScrollPane) this.mainScene.lookup("#weekView");
         this.weekHBox = (HBox) this.mainScene.lookup("#weekHBox");
 
-        // Add days to HBox manually.
-        Pane tempPane = new Pane();
-        tempPane.setPrefSize(100, 100);
-        tempPane.setLayoutY(100);
-        tempPane.setLayoutX(100);
-        tempPane.setStyle("-fx-background-color: BLACK;");
-        this.weekHBox.getChildren().add(tempPane);
-
         // Set default calendar
         calendar = mainViewController.getPerson().getCalendars().get(0);
-
         popupView = new AppointmentPopupViewController(calendarPane);
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
-        dayPanes.addAll(Arrays.asList(new Pane[]{(Pane) mainScene.lookup("#dayMonday"),
-            (Pane) mainScene.lookup("#dayTuesday"),
-            (Pane) mainScene.lookup("#dayWednesday"),
-            (Pane) mainScene.lookup("#dayThursday"),
-            (Pane) mainScene.lookup("#dayFriday"),
-            (Pane) mainScene.lookup("#daySaturday"),
-            (Pane) mainScene.lookup("#daySunday")
-        }));
+
+        // Add days to HBox manually.
+        for (int i = 0; i < 7; i++) {
+            Pane tempPane = new Pane();
+            tempPane.setPrefSize(111, 1200);
+            tempPane.setLayoutY(0);
+            tempPane.setLayoutX(111 * i);
+            tempPane.setStyle("-fx-border-color: #000000; -fx-border-width: 0.5px;");
+            this.weekHBox.getChildren().add(tempPane);
+            dayPanes.add(tempPane);
+        }
 
         this.highlightCurrentHour();
         this.highlightCurrentDay();
@@ -143,7 +136,7 @@ public class CalendarViewController implements Initializable {
     public Pane getCurrentDayPane () {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int day = now.get(now.DAY_OF_WEEK); // Sun: 1, Sat: 7
-        return (Pane) dayPanes.get((day % dayPanes.size()) - 2);
+        return dayPanes.get((day % dayPanes.size()) - 2);
     }
 
     public void highlightCurrentDay () {
@@ -155,9 +148,9 @@ public class CalendarViewController implements Initializable {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
-        double dayHeight = dayPanes.get(0).getHeight();
+        double dayHeight = dayPanes.get(0).getPrefHeight();
         double yPos = CalendarHelper.convertHourAndMinutesToYAxis(dayHeight, hoursPassedToday, minutesPassedThisHour);
-        line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
+        line = new Line(1, yPos, dayPanes.get(0).getPrefWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
         this.getCurrentDayPane().getChildren().add(line);
