@@ -165,17 +165,17 @@
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1207.0" prefWidth="718.0">
                                  <children>
-                                    <HBox maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="780.0">
+                                    <HBox id="weekHBox" maxHeight="1.7976931348623157E308" prefHeight="1200.0" prefWidth="780.0">
                                        <children>
-                                          <Pane id="dayMonday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;">
-                                             <children>
-                                             </children></Pane>
-                                          <Pane id="dayTuesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
-                                          <Pane id="dayWednesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
-                                          <Pane id="dayThursday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
-                                          <Pane id="dayFriday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
-                                          <Pane id="daySaturday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
-                                          <Pane id="daySunday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />
+                                          <!--<Pane id="dayMonday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;">-->
+                                             <!--<children>-->
+                                             <!--</children></Pane>-->
+                                          <!--<Pane id="dayTuesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />-->
+                                          <!--<Pane id="dayWednesday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />-->
+                                          <!--<Pane id="dayThursday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />-->
+                                          <!--<Pane id="dayFriday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />-->
+                                          <!--<Pane id="daySaturday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />-->
+                                          <!--<Pane id="daySunday" prefWidth="200.0" style="-fx-border-color: #000000; -fx-border-width: 0.5px;" />-->
                                        </children>
                                     </HBox>
                                  </children>

@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -16,13 +17,12 @@ import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
 import views.AppointmentView;
+import views.DayView;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -39,9 +39,10 @@ public class CalendarViewController implements Initializable {
     private AnchorPane calendarPane;
     private Scene mainScene;
     private ScrollPane scrollPane;
+    private HBox weekHBox;
     private double DAY_WIDTH;
     private double startX, startY, endX, endY;
-    private ArrayList<Pane> dayPanes = new ArrayList<Pane>();
+    private ArrayList<DayView> dayPanes = new ArrayList<DayView>();
     private Rectangle rect;
     private final double appointmentRectangleCornerRadius = 4;
     DropShadow dropShadow = new DropShadow(0,4.0,4.0,Color.BLACK);
@@ -57,33 +58,35 @@ public class CalendarViewController implements Initializable {
         this.mainScene = primarystage.getScene();
         this.calendarPane = (AnchorPane) this.mainScene.lookup("#calendarPane");
         this.scrollPane = (ScrollPane) this.mainScene.lookup("#weekView");
-        calendarPane = (AnchorPane) mainScene.lookup("#calendarPane");
+        this.weekHBox = (HBox) this.mainScene.lookup("#weekHBox");
 
         // Set default calendar
         calendar = mainViewController.getPerson().getCalendars().get(0);
-
         popupView = new AppointmentPopupViewController(calendarPane);
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
-        dayPanes.addAll(Arrays.asList(new Pane[]{(Pane) mainScene.lookup("#dayMonday"),
-            (Pane) mainScene.lookup("#dayTuesday"),
-            (Pane) mainScene.lookup("#dayWednesday"),
-            (Pane) mainScene.lookup("#dayThursday"),
-            (Pane) mainScene.lookup("#dayFriday"),
-            (Pane) mainScene.lookup("#daySaturday"),
-            (Pane) mainScene.lookup("#daySunday")
-        }));
+
+        // Add days to HBox programmatically.
+        for (int i = 0; i < 7; i++) {
+            DayView tempPane = new DayView();
+            tempPane.setPrefSize(111, 1200);
+            tempPane.setLayoutY(0);
+            tempPane.setLayoutX(111 * i);
+            tempPane.setStyle("-fx-border-color: #000000; -fx-border-width: 0.5px;");
+            this.weekHBox.getChildren().add(tempPane);
+            dayPanes.add(tempPane);
+        }
 
         this.highlightCurrentHour();
         this.highlightCurrentDay();
         this.addHourBreakers();
 
         // Handle clicks in calendar
-        for (Pane pane:dayPanes) {
+        for (DayView pane:dayPanes) {
             pane.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    Pane clickedPane = (Pane) event.getSource();
+                    DayView clickedPane = (DayView) event.getSource();
                     DAY_WIDTH = clickedPane.getWidth() - 2;
                     String id = clickedPane.getId();
                     startX = event.getX();
@@ -112,7 +115,7 @@ public class CalendarViewController implements Initializable {
             pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    final Pane clickedPane = (Pane) event.getSource();
+                    final DayView clickedPane = (DayView) event.getSource();
                     endX = event.getX();
                     endY = event.getY();
                     System.out.println("Released at " + endX + ", " + endY);
@@ -133,7 +136,7 @@ public class CalendarViewController implements Initializable {
     public Pane getCurrentDayPane () {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int day = now.get(now.DAY_OF_WEEK); // Sun: 1, Sat: 7
-        return (Pane) dayPanes.get((day % dayPanes.size()) - 2);
+        return dayPanes.get((day % dayPanes.size()) - 2);
     }
 
     public void highlightCurrentDay () {
@@ -145,13 +148,16 @@ public class CalendarViewController implements Initializable {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
-        double dayHeight = dayPanes.get(0).getHeight();
+        double dayHeight = dayPanes.get(0).getPrefHeight();
         double yPos = CalendarHelper.convertHourAndMinutesToYAxis(dayHeight, hoursPassedToday, minutesPassedThisHour);
-        line = new Line(1, yPos, dayPanes.get(0).getWidth() - 1, yPos);
+        line = new Line(1, yPos, dayPanes.get(0).getPrefWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
+
+        // Place the red line
         this.getCurrentDayPane().getChildren().add(line);
 
+        // Center scroll position to current time
         this.setScrollPanePosition(yPos);
     }
 
@@ -173,7 +179,7 @@ public class CalendarViewController implements Initializable {
         }
     }
 
-    public void createAppointmentViewOnMouseDrag(final Pane pane, double startY, double endY) {
+    public void createAppointmentViewOnMouseDrag(final DayView pane, double startY, double endY) {
 
         //Get date from weekstart
         int startDay = startOfWeek.get(java.util.Calendar.DAY_OF_MONTH);
@@ -188,11 +194,10 @@ public class CalendarViewController implements Initializable {
             System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
         }
 
-        LocalDate date = LocalDate.now(); // TODO: Change the date to pane date
-        createAppointmentView(pane, LocalDateTime.of(date, LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(date, LocalTime.of(endTime[0], endTime[1])));
+        createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])));
     }
 
-    public void createAppointmentView(final Pane pane, LocalDateTime startTime, LocalDateTime endTime) {
+    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime) {
 
         LocalTime dayStartTime = startTime.toLocalTime();
         LocalTime dayEndTime = endTime.toLocalTime();
@@ -233,5 +238,9 @@ public class CalendarViewController implements Initializable {
 
         // Check collisions between this and all other rectangles (appointments)
         CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
+    }
+
+    private void setAllVisibleDayViewsToWeek(int weekNumber) {
+
     }
 }
