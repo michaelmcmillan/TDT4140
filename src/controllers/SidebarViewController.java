@@ -12,7 +12,9 @@ import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Calendar;
+import models.Group;
 import models.Person;
+import server.Server;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,20 +34,12 @@ public class SidebarViewController implements Initializable {
         this.mainScene = primarystage.getScene();
         calendarListView = (ListView) mainScene.lookup("#calendarListView");
 
-        Person p = mainViewController.getPerson();
-        Calendar fiskekalender = new Calendar("Fisken min");
-        p.addCalendar(fiskekalender);
-        p.addCalendar(new Calendar("Fisk"));
-        p.addCalendar(new Calendar("Apekatt"));
-        p.addCalendar(new Calendar("Annen katt"));
-        p.addCalendar(new Calendar("Flygefisk"));
-        p.addCalendar(new Calendar("Elefant"));
-        p.addCalendar(new Calendar("Personal stuff"));
-        ArrayList<String> calendarNames = p.getCalendarNames();
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Min kalender");
+        for (Group group : Server.getInstance().getGroups())
+            list.add(group.getName());
 
         // Handle clicks in sidebar (Kalendervelger)
-        ObservableList<String> list = FXCollections.observableArrayList();
-        list.setAll(calendarNames);
         calendarListView.setItems(list);
 
         //Add checkboxes to list:
