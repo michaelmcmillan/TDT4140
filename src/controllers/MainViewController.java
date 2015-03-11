@@ -97,12 +97,14 @@ public class MainViewController implements Initializable {
         firstDayOfWeek = firstDayOfWeek.plusWeeks(1);
         weekNumberLabel.setText("UKE " + CalendarHelper.getWeekNumber(firstDayOfWeek));
         calendarViewController.generateDayPanes(firstDayOfWeek);
+        calendarViewController.populateWeekWithAppointments(firstDayOfWeek);
     }
 
     void fireLastWeek(ActionEvent event) {
         firstDayOfWeek = firstDayOfWeek.minusWeeks(1);
         weekNumberLabel.setText("UKE " + CalendarHelper.getWeekNumber(firstDayOfWeek));
         calendarViewController.generateDayPanes(firstDayOfWeek);
+        calendarViewController.populateWeekWithAppointments(firstDayOfWeek);
     }
 
     public int getSelectedWeekNumber() {

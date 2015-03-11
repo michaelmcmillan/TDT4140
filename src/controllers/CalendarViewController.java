@@ -258,4 +258,8 @@ public class CalendarViewController implements Initializable {
         // Hour grid must be drawn on top of day panes
         this.addHourBreakers();
     }
+
+    public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
+        LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
+    }
 }
