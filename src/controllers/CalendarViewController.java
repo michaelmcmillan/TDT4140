@@ -81,12 +81,12 @@ public class CalendarViewController implements Initializable {
         return dayPanes.get((day % dayPanes.size()) - 2);
     }
 
-    public void highlightCurrentDay (DayView pane) {
-        pane.setStyle("-fx-background-color: #DBDBDB;");
-        pane.setOpacity(0.85);
+    public void highlightCurrentDay (DayView dayView) {
+        dayView.setStyle("-fx-background-color: #DBDBDB;");
+        dayView.setOpacity(0.85);
     }
 
-    public void highlightCurrentHour () {
+    public void highlightCurrentHour (DayView dayView) {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
@@ -97,7 +97,7 @@ public class CalendarViewController implements Initializable {
         line.setStrokeWidth(3);
 
         // Place the red line
-        this.getCurrentDayPane().getChildren().add(line);
+        dayView.getChildren().add(line);
 
         // Center scroll position to current time
         this.setScrollPanePosition(yPos);
@@ -198,9 +198,9 @@ public class CalendarViewController implements Initializable {
 
             // If the pane is current day, highlight it
             if (dayView.getDate().equals(LocalDate.now())) {
-                //this.highlightCurrentHour();
+                this.highlightCurrentHour(dayView);
                 this.highlightCurrentDay(dayView);
-//                line.toFront();
+                line.toFront();
             }
             date = date.plusDays(1);
         }

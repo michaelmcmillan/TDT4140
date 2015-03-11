@@ -13,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Calendar;
 import models.Person;
-import server.Server;
 
 
 public class LoginViewController{
@@ -84,7 +83,7 @@ public class LoginViewController{
             Person user = new Person(username);
             user.addCalendar(new Calendar("Hello"));
 
-            Server.getInstance().logInAs(username, password);
+            //Server.getInstance().logInAs(username, password);
             if (true/*Server.getInstance().isAuthenticated()*/) {
                 new MainViewController(primaryStage, user);
             }
