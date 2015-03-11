@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.deploy.config.Config;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Calendar;
 import models.Person;
+import server.Server;
 
 
 public class LoginViewController{
@@ -83,9 +85,16 @@ public class LoginViewController{
             Person user = new Person(username);
             user.addCalendar(new Calendar("Hello"));
 
-            //Server.getInstance().logInAs(username, password);
-            if (true/*Server.getInstance().isAuthenticated()*/) {
+            // Don't use the server to login if debug is enabled
+            if (application.Config.getInstance().DEBUG == true) {
                 new MainViewController(primaryStage, user);
+
+            // Authenticate with the server if debug is disabled
+            } else {
+                Server.getInstance().logInAs(username, password);
+                if (Server.getInstance().isAuthenticated()) {
+                    new MainViewController(primaryStage, user);
+                }
             }
 
         } catch (Exception e){

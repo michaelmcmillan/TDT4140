@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Group;
+import server.Server;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,8 +30,11 @@ public class SidebarViewController implements Initializable {
 
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Min kalender");
-//        for (Group group : Server.getInstance().getGroups())
-//            list.add(group.getName());
+
+        // If debug is disabled get groups from server
+        if (application.Config.getInstance().DEBUG == false)
+            for (Group group : Server.getInstance().getGroups())
+                list.add(group.getName());
 
         // Handle clicks in sidebar (Kalendervelger)
         calendarListView.setItems(list);
