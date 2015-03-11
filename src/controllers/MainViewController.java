@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import models.Person;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
@@ -26,7 +27,9 @@ public class MainViewController implements Initializable {
     private MenuBar menuBar;
     private Person person;
     private int weekNumber;
+    private LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
     private Label weekNumberLabel;
+    private Stage primaryStage;
 
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 
@@ -34,12 +37,14 @@ public class MainViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAINVIEW_PATH));
         Parent main = loader.load();
         loader.setController(this);
+        this.primaryStage = primaryStage;
         primaryStage.setTitle("Kalendersystem");
         Scene scene = new Scene(main);
         scene.getStylesheets().add(this.getClass().getResource("/views/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
         sidebarViewController = new SidebarViewController(this, primaryStage);
+        LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         calendarViewController = new CalendarViewController(this, primaryStage);
         Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
         groupPopupViewController = new GroupPopupViewController(calendarPane);
@@ -47,7 +52,7 @@ public class MainViewController implements Initializable {
         Button nextWeek = (Button) scene.lookup("#nextWeek");
         Button pastWeek = (Button) scene.lookup("#pastWeek");
         weekNumberLabel = (Label) scene.lookup("#ukenr");
-        weekNumber = CalendarHelper.getCurrentWeekNumber();
+        weekNumber = CalendarHelper.getCurrentWeek();
 
         // Listeners
         menuBar = (MenuBar) main.getChildrenUnmodifiable().get(1); // TODO: Find a better way to do this
@@ -93,6 +98,8 @@ public class MainViewController implements Initializable {
             setSelectedWeekNumber(++weekNumber);
         }
         weekNumberLabel.setText("UKE " + weekNumber);
+        firstDayOfWeek = firstDayOfWeek.plusWeeks(1);
+        calendarViewController.generateDayPanes(firstDayOfWeek);
     }
 
     void fireLastWeek(ActionEvent event) {
@@ -100,6 +107,8 @@ public class MainViewController implements Initializable {
             setSelectedWeekNumber(--weekNumber);
         }
         weekNumberLabel.setText("UKE " + weekNumber);
+        firstDayOfWeek = firstDayOfWeek.minusWeeks(1);
+        calendarViewController.generateDayPanes(firstDayOfWeek);
     }
 
     public int getSelectedWeekNumber() {
@@ -118,4 +127,5 @@ public class MainViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.print("yolo");
     }
+
 }

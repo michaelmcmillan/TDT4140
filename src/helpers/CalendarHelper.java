@@ -6,11 +6,9 @@ import javafx.scene.shape.Shape;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static java.lang.Math.floor;
 
@@ -98,13 +96,28 @@ public class CalendarHelper {
         }
     }
 
-    public static int getCurrentWeekNumber() {
-        LocalDate date = LocalDate.now();
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-        return date.get(woy);
-    }
-
     public static LocalDate getCurrentDay() {
         return LocalDate.now();
+    }
+
+    public static int getCurrentWeek () {
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        return now.get(now.WEEK_OF_YEAR);
+    }
+
+    public static int getWeek(LocalDate date) {
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        return now.get(now.WEEK_OF_YEAR);
+    }
+
+    public static LocalDate getFirstDateOfWeek () {
+        return getFirstDateOfWeek(getCurrentWeek());
+    }
+
+    public static LocalDate getFirstDateOfWeek (int weekNumber) {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.WEEK_OF_YEAR, getCurrentWeek());
+        cal.set(java.util.Calendar.DAY_OF_WEEK, cal.MONDAY);
+        return cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }
