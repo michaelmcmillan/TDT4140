@@ -28,26 +28,9 @@ public class Server {
         }
     }
 
-    public Person getPerson (int userId) {
+    public ArrayList<Appointment> getAppointments () {
 
-        JSONObject json = server.getObject("user/" + userId);
-        Person person = null;
-
-        try {
-            person = new Person(json.getString("email"));
-            person.setFirstName(json.getString("firstname"));
-            person.setSurname(json.getString("surname"));
-            person.setAlarmTime(json.getInt("alarm_time"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return person;
-    }
-
-    public ArrayList<Appointment> getAppointmentsByPerson (int userId) {
-
-        JSONArray json = server.getArray("user/" + userId + "/appointments");
+        JSONArray json = server.getArray("user/appointments");
         ArrayList<Appointment> appointments = new ArrayList<>();
 
         for (int i = 0; i < json.length(); i++) {
@@ -64,9 +47,9 @@ public class Server {
         return appointments;
     }
 
-    public ArrayList<Group> getGroupsByPerson (int userId) {
+    public ArrayList<Group> getGroups () {
 
-        JSONArray json = server.getArray("user/" + userId + "/groups");
+        JSONArray json = server.getArray("user/groups");
         ArrayList<Group> groups = new ArrayList<>();
 
         for (int i = 0; i < json.length(); i++) {
