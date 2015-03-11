@@ -52,7 +52,7 @@ public class MainViewController implements Initializable {
         Button nextWeek = (Button) scene.lookup("#nextWeek");
         Button pastWeek = (Button) scene.lookup("#pastWeek");
         weekNumberLabel = (Label) scene.lookup("#ukenr");
-        weekNumber = CalendarHelper.getCurrentWeek();
+        weekNumber = CalendarHelper.getCurrentWeekNumber();
 
         // Listeners
         menuBar = (MenuBar) main.getChildrenUnmodifiable().get(1); // TODO: Find a better way to do this
@@ -94,20 +94,14 @@ public class MainViewController implements Initializable {
     void fireLogout(ActionEvent event) {System.out.println("Log out");}
 
     void fireNextWeek(ActionEvent event) {
-        if(weekNumber < 52) {
-            setSelectedWeekNumber(++weekNumber);
-        }
-        weekNumberLabel.setText("UKE " + weekNumber);
         firstDayOfWeek = firstDayOfWeek.plusWeeks(1);
+        weekNumberLabel.setText("UKE " + CalendarHelper.getWeekNumber(firstDayOfWeek));
         calendarViewController.generateDayPanes(firstDayOfWeek);
     }
 
     void fireLastWeek(ActionEvent event) {
-        if(weekNumber > 1) {
-            setSelectedWeekNumber(--weekNumber);
-        }
-        weekNumberLabel.setText("UKE " + weekNumber);
         firstDayOfWeek = firstDayOfWeek.minusWeeks(1);
+        weekNumberLabel.setText("UKE " + CalendarHelper.getWeekNumber(firstDayOfWeek));
         calendarViewController.generateDayPanes(firstDayOfWeek);
     }
 
