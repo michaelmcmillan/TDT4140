@@ -39,6 +39,11 @@ public class LoginViewController{
 
         usernameField = (TextField) scene.lookup("#usernameTextfield");
         passwordField = (TextField) scene.lookup("#passwordTextfield");
+
+        /* Debugging */
+        usernameField.setText("jonaslaksen@live.com");
+        passwordField.setText("heisann");
+
         loginButton = (Button) scene.lookup("#loginButton");
         registerButton = (Button) scene.lookup("#registerButton");
 
