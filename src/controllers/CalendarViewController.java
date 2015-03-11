@@ -20,11 +20,9 @@ import views.AppointmentView;
 import views.DayView;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -69,8 +67,8 @@ public class CalendarViewController implements Initializable {
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
 
-        LocalDate today = LocalDate.now();
-        this.generateDayPanes(today);
+        LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
+        this.generateDayPanes(firstDayOfWeek);
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -83,28 +81,12 @@ public class CalendarViewController implements Initializable {
         return dayPanes.get((day % dayPanes.size()) - 2);
     }
 
-    public int getCurrentWeek () {
-        java.util.Calendar now = java.util.Calendar.getInstance();
-        return now.get(now.WEEK_OF_YEAR);
+    public void highlightCurrentDay (DayView dayView) {
+        dayView.setStyle("-fx-background-color: #DBDBDB;");
+        dayView.setOpacity(0.85);
     }
 
-    public LocalDate getFirstDateOfWeek () {
-        return this.getFirstDateOfWeek(this.getCurrentWeek());
-    }
-
-    public LocalDate getFirstDateOfWeek (int weekNumber) {
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.set(java.util.Calendar.WEEK_OF_YEAR, this.getCurrentWeek());
-        cal.set(java.util.Calendar.DAY_OF_WEEK, cal.MONDAY);
-        return cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
-
-    public void highlightCurrentDay (DayView pane) {
-        pane.setStyle("-fx-background-color: #DBDBDB;");
-        pane.setOpacity(0.85);
-    }
-
-    public void highlightCurrentHour () {
+    public void highlightCurrentHour (DayView dayView) {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int hoursPassedToday = now.get(now.HOUR_OF_DAY);
         int minutesPassedThisHour = now.get(now.MINUTE);
@@ -115,7 +97,7 @@ public class CalendarViewController implements Initializable {
         line.setStrokeWidth(3);
 
         // Place the red line
-        this.getCurrentDayPane().getChildren().add(line);
+        dayView.getChildren().add(line);
 
         // Center scroll position to current time
         this.setScrollPanePosition(yPos);
@@ -199,9 +181,11 @@ public class CalendarViewController implements Initializable {
         CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
     }
 
-    private void generateDayPanes(LocalDate firstDayOfWeek) {
+    public void generateDayPanes(LocalDate firstDayOfWeek) {
 
         LocalDate date = firstDayOfWeek;
+        this.weekHBox.getChildren().clear();
+        this.dayPanes.clear();
 
         // Add days to HBox programmatically.
         for (int i = 0; i < 7; i++) {
@@ -215,10 +199,12 @@ public class CalendarViewController implements Initializable {
             dayPanes.add(dayView);
 
             // If the pane is current day, highlight it
-            if (dayView.getDate().equals(LocalDate.now())) {
-                //this.highlightCurrentHour();
+            LocalDate d1 = dayView.getDate();
+            LocalDate d2 = LocalDate.now();
+            if (d1.equals(d2)) {
+                this.highlightCurrentHour(dayView);
                 this.highlightCurrentDay(dayView);
-//                line.toFront();
+                line.toFront();
             }
             date = date.plusDays(1);
         }
@@ -271,5 +257,9 @@ public class CalendarViewController implements Initializable {
 
         // Hour grid must be drawn on top of day panes
         this.addHourBreakers();
+    }
+
+    public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
+        LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
     }
 }

@@ -1,23 +1,15 @@
 package controllers;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.Calendar;
-import models.Group;
-import models.Person;
-import server.Server;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SidebarViewController implements Initializable {
@@ -36,8 +28,8 @@ public class SidebarViewController implements Initializable {
 
         ObservableList<String> list = FXCollections.observableArrayList();
         list.add("Min kalender");
-        for (Group group : Server.getInstance().getGroups())
-            list.add(group.getName());
+//        for (Group group : Server.getInstance().getGroups())
+//            list.add(group.getName());
 
         // Handle clicks in sidebar (Kalendervelger)
         calendarListView.setItems(list);
