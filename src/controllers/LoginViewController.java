@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Calendar;
 import models.Person;
 import server.Server;
 
@@ -76,6 +77,7 @@ public class LoginViewController{
 
             // Add a new appointment to the calendar based on input times
             Person user = new Person(username);
+            user.addCalendar(new Calendar("Hello"));
 
             Server.getInstance().logInAs(username, password);
             if (Server.getInstance().isAuthenticated()) {
