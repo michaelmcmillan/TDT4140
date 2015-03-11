@@ -20,6 +20,7 @@ import views.AppointmentView;
 import views.DayView;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -66,67 +67,8 @@ public class CalendarViewController implements Initializable {
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
 
-        // Add days to HBox programmatically.
-        for (int i = 0; i < 7; i++) {
-            DayView tempPane = new DayView();
-            tempPane.setPrefSize(111, 1200);
-            tempPane.setLayoutY(0);
-            tempPane.setLayoutX(111 * i);
-            tempPane.setStyle("-fx-border-color: #000000; -fx-border-width: 0.5px;");
-            this.weekHBox.getChildren().add(tempPane);
-            dayPanes.add(tempPane);
-        }
-
-        this.highlightCurrentHour();
-        this.highlightCurrentDay();
-        this.addHourBreakers();
-
-        // Handle clicks in calendar
-        for (DayView pane:dayPanes) {
-            pane.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    DayView clickedPane = (DayView) event.getSource();
-                    DAY_WIDTH = clickedPane.getWidth() - 2;
-                    String id = clickedPane.getId();
-                    startX = event.getX();
-                    startY = event.getY();
-                    System.out.println("Clicked at " + startX + ", " + startY);
-                    popupView.close();
-                    rect = new Rectangle(1,startY,0,0);
-                    clickedPane.getChildren().add(rect);
-                    rect.setFill(Color.DEEPSKYBLUE);
-                    rect.setOpacity(0.5);
-                    isDragging = false;
-                }
-            });
-
-            pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    endX = event.getX();
-                    endY = event.getY();
-                    rect.setWidth(DAY_WIDTH);
-                    rect.setHeight(endY - rect.getY());
-                    isDragging = true;
-                }
-            });
-
-            pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    final DayView clickedPane = (DayView) event.getSource();
-                    endX = event.getX();
-                    endY = event.getY();
-                    System.out.println("Released at " + endX + ", " + endY);
-                    clickedPane.getChildren().remove(rect);
-                    if(isDragging){
-                        createAppointmentViewOnMouseDrag(clickedPane, startY, endY);
-                    }
-                }
-            });
-        }
-
+        LocalDate today = LocalDate.now();
+        this.generateDayPanes(today);
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -139,9 +81,9 @@ public class CalendarViewController implements Initializable {
         return dayPanes.get((day % dayPanes.size()) - 2);
     }
 
-    public void highlightCurrentDay () {
-        this.getCurrentDayPane().setStyle("-fx-background-color: #DBDBDB;");
-        this.getCurrentDayPane().setOpacity(0.85);
+    public void highlightCurrentDay (DayView pane) {
+        pane.setStyle("-fx-background-color: #DBDBDB;");
+        pane.setOpacity(0.85);
     }
 
     public void highlightCurrentHour () {
@@ -165,7 +107,7 @@ public class CalendarViewController implements Initializable {
         double dayHeight = dayPanes.get(0).getHeight();
         double viewHeight = scrollPane.getHeight();
         double middlePosition = viewHeight/2;
-        this.scrollPane.setVvalue((yPos + middlePosition)/dayHeight);
+        this.scrollPane.setVvalue((yPos + middlePosition) / dayHeight);
     }
 
     public void addHourBreakers () {
@@ -223,7 +165,6 @@ public class CalendarViewController implements Initializable {
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
         popupView.show(startTime, endTime);
-        line.toFront();
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -240,7 +181,77 @@ public class CalendarViewController implements Initializable {
         CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
     }
 
-    private void setAllVisibleDayViewsToWeek(int weekNumber) {
+    private void generateDayPanes(LocalDate firstDayOfWeek) {
 
+        LocalDate date = firstDayOfWeek;
+
+        // Add days to HBox programmatically.
+        for (int i = 0; i < 7; i++) {
+            DayView dayView = new DayView();
+            dayView.setPrefSize(111, 1200);
+            dayView.setLayoutY(0);
+            dayView.setLayoutX(111 * i);
+            dayView.setStyle("-fx-border-color: #000000; -fx-border-width: 0.5px;");
+            dayView.setDate(date);
+            this.weekHBox.getChildren().add(dayView);
+            dayPanes.add(dayView);
+
+            // If the pane is current day, highlight it
+            if (dayView.getDate().equals(LocalDate.now())) {
+                //this.highlightCurrentHour();
+                this.highlightCurrentDay(dayView);
+//                line.toFront();
+            }
+            date = date.plusDays(1);
+        }
+
+        // Handle clicks in calendar
+        for (DayView pane:dayPanes) {
+            pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    DayView clickedPane = (DayView) event.getSource();
+                    DAY_WIDTH = clickedPane.getWidth() - 2;
+                    String id = clickedPane.getId();
+                    startX = event.getX();
+                    startY = event.getY();
+                    System.out.println("Clicked at " + startX + ", " + startY);
+                    popupView.close();
+                    rect = new Rectangle(1,startY,0,0);
+                    clickedPane.getChildren().add(rect);
+                    rect.setFill(Color.DEEPSKYBLUE);
+                    rect.setOpacity(0.5);
+                    isDragging = false;
+                }
+            });
+
+            pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    endX = event.getX();
+                    endY = event.getY();
+                    rect.setWidth(DAY_WIDTH);
+                    rect.setHeight(endY - rect.getY());
+                    isDragging = true;
+                }
+            });
+
+            pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    final DayView clickedPane = (DayView) event.getSource();
+                    endX = event.getX();
+                    endY = event.getY();
+                    System.out.println("Released at " + endX + ", " + endY);
+                    clickedPane.getChildren().remove(rect);
+                    if(isDragging){
+                        createAppointmentViewOnMouseDrag(clickedPane, startY, endY);
+                    }
+                }
+            });
+        }
+
+        // Hour grid must be drawn on top of day panes
+        this.addHourBreakers();
     }
 }

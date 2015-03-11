@@ -103,4 +103,8 @@ public class CalendarHelper {
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
         return date.get(woy);
     }
+
+    public static LocalDate getCurrentDay() {
+        return LocalDate.now();
+    }
 }
