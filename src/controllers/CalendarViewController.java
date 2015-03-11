@@ -20,9 +20,11 @@ import views.AppointmentView;
 import views.DayView;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -79,6 +81,22 @@ public class CalendarViewController implements Initializable {
         java.util.Calendar now = java.util.Calendar.getInstance();
         int day = now.get(now.DAY_OF_WEEK); // Sun: 1, Sat: 7
         return dayPanes.get((day % dayPanes.size()) - 2);
+    }
+
+    public int getCurrentWeek () {
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        return now.get(now.WEEK_OF_YEAR);
+    }
+
+    public LocalDate getFirstDateOfWeek () {
+        return this.getFirstDateOfWeek(this.getCurrentWeek());
+    }
+
+    public LocalDate getFirstDateOfWeek (int weekNumber) {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.WEEK_OF_YEAR, this.getCurrentWeek());
+        cal.set(java.util.Calendar.DAY_OF_WEEK, cal.MONDAY);
+        return cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public void highlightCurrentDay (DayView dayView) {
