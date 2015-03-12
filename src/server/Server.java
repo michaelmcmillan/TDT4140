@@ -27,12 +27,7 @@ public class Server {
 
     public boolean isAuthenticated () {
         JSONObject json = server.getObject("user/me");
-
-        try {
-            return (json.getBoolean("success"));
-        } catch (JSONException error) {
-            return false;
-        }
+        return !json.isNull("id");
     }
 
     public ArrayList<Appointment> getAppointments (LocalDate fromDate, LocalDate toDate) {
@@ -85,7 +80,18 @@ public class Server {
         return groups;
     }
 
+    public Person getCurrentlyLoggedInPerson () {
+        JSONObject json = server.getObject("user/me");
 
+
+        try {
+            return new Person(json.getInt("id"), json.getString("email"), json.getString("firstname"), json.getString("surname"));
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+
+        return null;
+    }
 
     protected Server() {
         // Exists only to defeat instantiation.
