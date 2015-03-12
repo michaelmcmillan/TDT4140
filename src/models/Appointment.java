@@ -42,6 +42,7 @@ public class Appointment {
     public void setStartTime(LocalDateTime startTime) {this.startTime = startTime;}
 
     public LocalDateTime getEndTime(){ return this.endTime;}
+
     public void setEndTime(LocalDateTime endTime) {this.endTime = endTime;}
 
     public String getTitle() {return title;}
