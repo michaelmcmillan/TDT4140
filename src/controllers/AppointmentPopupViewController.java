@@ -161,7 +161,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
         LocalDate date = ((DayView)dayPane).getDate();
 
-        int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
+  /*      int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
         int endHour = Integer.valueOf(this.endTime.getText().substring(0,2));
 
         Date startTime = new Date(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
@@ -182,13 +182,14 @@ public class AppointmentPopupViewController  implements Initializable {
         String  personId = "personId";
         String roomId = "roomId";
         ArrayList<Person> participants = new ArrayList<>();
-        Person createdBy = new Person("lasse@drevland.no");
+        Person createdBy = new Person(1, "", "", "lasse@drevland.no");
 
 
 
 
         Appointment newAppointment = new Appointment(startTime,endTime,title,description,createdBy,id,roomId,personId);
         Server.getInstance().createAppointment(newAppointment);
+        */
 
 
     }

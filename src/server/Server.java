@@ -27,12 +27,7 @@ public class Server {
 
     public boolean isAuthenticated () {
         JSONObject json = server.getObject("user/me");
-
-        try {
-            return (json.getBoolean("success"));
-        } catch (JSONException error) {
-            return false;
-        }
+        return !json.isNull("id");
     }
 
     public ArrayList<Appointment> getAppointments (LocalDate fromDate, LocalDate toDate) {
@@ -86,17 +81,27 @@ public class Server {
     }
 
 
-    public void createAppointment(Appointment appointment){
+    public void createAppointment(Appointment appointment) {
         JSONObject appointmentObject = new JSONObject();
-        try {
-            appointmentObject = JSONTranslator.toJSON(appointment);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-
         System.out.print(server.post("appointment", appointmentObject.toString()));
 
+        try {
+            appointmentObject = JSONTranslator.toJSON(appointment);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public Person getCurrentlyLoggedInPerson () {
+        JSONObject json = server.getObject("user/me");
+
+        try {
+            return new Person(json.getInt("id"), json.getString("email"), json.getString("firstname"), json.getString("surname"));
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+
+        return null;
     }
 
     protected Server() {

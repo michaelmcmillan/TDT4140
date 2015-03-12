@@ -85,25 +85,22 @@ public class LoginViewController{
         String password = passwordField.getText();
 
         if (!username.isEmpty() && !password.isEmpty()) {
+            
             try {
-
-
-                // Add a new appointment to the calendar based on input times
-                Person user = new Person(username);
-                user.addCalendar(new Calendar("Hello"));
-
                 // Don't use the server to login if debug is enabled
                 if (application.Config.getInstance().DEBUG == true) {
+                    Person user = new Person(0, "Debug", "Debug", "Debug");
                     new MainViewController(primaryStage, user);
 
-                    // Authenticate with the server if debug is disabled
+                // Authenticate with the server if debug is disabled
                 } else {
                     Server.getInstance().logInAs(username, password);
+
                     if (Server.getInstance().isAuthenticated()) {
+                        Person user = Server.getInstance().getCurrentlyLoggedInPerson();
                         new MainViewController(primaryStage, user);
                     }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
