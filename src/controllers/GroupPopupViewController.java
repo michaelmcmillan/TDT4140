@@ -8,14 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.scene.control.ListCell;
 import models.Appointment;
 import models.Person;
 
@@ -36,6 +35,7 @@ public class GroupPopupViewController implements Initializable {
     private Pane calendarPane;
     private Scene scene;
     private ListView allPersonsList;
+    private ListView groupMembersList;
 
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
         this.calendarPane = calendarPane;
@@ -77,37 +77,75 @@ public class GroupPopupViewController implements Initializable {
 
             //Set methods
             Button closeButton = (Button) groupPopup.lookup("#closeButton");
+            Button addButton = (Button) groupPopup.lookup("#addButton");
+            Button removeButton = (Button) groupPopup.lookup("#removeButton");
             TextField startTime = (TextField) groupPopup.lookup("#startTime");
             TextField endTime = (TextField) groupPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) groupPopup.lookup("#startDatePicker");
 
-            // Dummy data
 
+            // Fill lists
             allPersonsList = (ListView) groupPopup.lookup("#allPersonsList");
+            groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
 
             Person tempPerson = new Person("Morten", "Kleveland", "yolo@gmail.com", "passord");
             Person tempPerson2 = new Person("Marit", "Kleveland", "yolo@gmail.com", "passord");
             Person tempPerson3 = new Person("Svetlana", "Kleveland", "yolo@gmail.com", "passord");
             Person tempPerson4 = new Person("Kong", "Kleveland", "yolo@gmail.com", "passord");
 
-            ArrayList<Person> persons = new ArrayList<Person>();
+            ArrayList<Person> persons = new ArrayList<>();
             persons.add(tempPerson);
             persons.add(tempPerson2);
             persons.add(tempPerson3);
             persons.add(tempPerson4);
 
-            ObservableList<String> groupMembers = FXCollections.observableArrayList();
+            ObservableList<Person> personsObservableList = FXCollections.observableArrayList();
+            ObservableList<String> groupMembersObservableList = FXCollections.observableArrayList();
 
             // If debug is disabled, get group data from server
             for (Person person : persons) {
-                groupMembers.add(person.getFirstName() + " " + person.getSurname());
+                //personsObservableList.add(person.getFirstName() + " " + person.getSurname());
+                personsObservableList.add(person);
             }
 
-            System.out.println(persons);
-            System.out.println(groupMembers);
-            System.out.println(allPersonsList);
-            // Handle clicks in sidebar (Kalendervelger)
-            allPersonsList.setItems(groupMembers);
+            allPersonsList.setItems(personsObservableList);
+            groupMembersList.setItems(groupMembersObservableList);
+
+
+            allPersonsList.setCellFactory(new Callback<ListView<Person>, ListCell<Person>>() {
+                @Override
+                public ListCell<Person> call(ListView<Person> param) {
+                    ListCell<Person> cell = new ListCell<Person>() {
+                        @Override
+                        protected void updateItem(Person p, boolean bln) {
+                            super.updateItem(p, bln);
+                            if (p != null) {
+                                setText(p.getFirstName());
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            });
+
+
+
+            // Listeners
+            addButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("fsdoijufsdopiusdf");
+                    Person selectedPerson = (Person)allPersonsList.getSelectionModel().getSelectedItem();
+                    System.out.println(selectedPerson);
+                }
+            });
+
+            removeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+
+                }
+            });
 
             closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
