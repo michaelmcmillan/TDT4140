@@ -5,7 +5,7 @@ public class Config {
 
     private static Config instance = null;
 
-    public boolean DEBUG = false;
+    public boolean DEBUG = true;
 
     public static Config getInstance() {
         if(instance == null) {

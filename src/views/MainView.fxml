@@ -6,8 +6,8 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.control.cell.CheckBoxListCell?>
+
 <AnchorPane prefHeight="770.0" prefWidth="1016.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
          <children>
       <HBox prefHeight="770.0" prefWidth="1016.0">
@@ -185,39 +185,44 @@
                      </content></ScrollPane>
                   <Pane layoutY="27.0" prefHeight="29.0" prefWidth="866.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="73.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Mandag">
+                        <Label fx:id="manLabel" alignment="CENTER" layoutX="73.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Mandag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="184.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Tirsdag">
+                        <Label fx:id="tirLabel" alignment="CENTER" layoutX="184.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Tirsdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="293.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Onsdag">
+                        <Label fx:id="onsLabel" alignment="CENTER" layoutX="293.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Onsdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="404.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Torsdag">
+                        <Label fx:id="torLabel" alignment="CENTER" layoutX="404.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Torsdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="518.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Fredag">
+                        <Label fx:id="freLabel" alignment="CENTER" layoutX="518.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Fredag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="630.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Lørdag">
+                        <Label fx:id="lørLabel" alignment="CENTER" layoutX="630.0" layoutY="4.0" prefHeight="16.0" prefWidth="102.0" text="Lørdag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="740.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Søndag">
+                        <Label fx:id="sønLabel" alignment="CENTER" layoutX="740.0" layoutY="3.0" prefHeight="16.0" prefWidth="102.0" text="Søndag">
                            <font>
                               <Font name="Helvetica Neue Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="yearLabel" layoutX="8.0" prefHeight="29.0" prefWidth="72.0" text="20XX">
+                           <font>
+                              <Font name="Gill Sans MT" size="16.0" />
                            </font>
                         </Label>
                      </children>
