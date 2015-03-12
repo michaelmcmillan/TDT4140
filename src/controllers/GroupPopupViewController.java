@@ -136,7 +136,7 @@ public class GroupPopupViewController implements Initializable {
                         protected void updateItem(Person p, boolean bln) {
                             super.updateItem(p, bln);
                             if (p != null) {
-                                setText(p.getFirstName());
+                                setText(p.getEmail());
                             }
                         }
                     };
