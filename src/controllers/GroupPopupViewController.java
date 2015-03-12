@@ -145,22 +145,26 @@ public class GroupPopupViewController implements Initializable {
             });
 
 
-
             // Listeners
             addButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    System.out.println("fsdoijufsdopiusdf");
                     Person selectedPerson = (Person)allPersonsList.getSelectionModel().getSelectedItem();
-                    groupMembersObservableList.add(selectedPerson);
-                    groupMembersList.setItems(groupMembersObservableList);
+                    if (!groupMembersObservableList.contains(selectedPerson)) {
+                        groupMembersObservableList.add(selectedPerson);
+                        groupMembersList.setItems(groupMembersObservableList);
+                    }
                 }
             });
 
             removeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-
+                    Person selectedPerson = (Person)groupMembersList.getSelectionModel().getSelectedItem();
+                    if (groupMembersObservableList.contains(selectedPerson)) {
+                        groupMembersObservableList.remove(selectedPerson);
+                        groupMembersList.setItems(groupMembersObservableList);
+                    }
                 }
             });
 
