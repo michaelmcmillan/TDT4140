@@ -44,12 +44,12 @@ public class LoginViewController{
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        usernameField = (TextField) scene.lookup("#usernameTextfield");
-        passwordField = (TextField) scene.lookup("#passwordTextfield");
+        this. usernameField = (TextField) scene.lookup("#usernameTextfield");
+        this.passwordField = (TextField) scene.lookup("#passwordTextfield");
 
         /* Debugging */
-        usernameField.setText("jonaslaksen@live.com");
-        passwordField.setText("heisann");
+        this.usernameField.setText("jonaslaksen@live.com");
+        this.passwordField.setText("heisann");
 
         loginButton = (Button) scene.lookup("#loginButton");
         registerButton = (Button) scene.lookup("#registerButton");
