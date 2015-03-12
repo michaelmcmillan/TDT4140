@@ -166,14 +166,14 @@ public class CalendarViewController implements Initializable {
         rectangles.add(rectangle);
 
         if (showPopup)
-            popupView.show(startTime, endTime);
+            popupView.show(pane, startTime, endTime);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if(!isDragging){
-                    popupView.show(startTime, endTime);
+                    popupView.show(pane,startTime, endTime);
                     rectangle.setClicked(true);
                 }
             }

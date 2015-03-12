@@ -80,9 +80,20 @@ public class Server {
         return groups;
     }
 
+
+    public void createAppointment(Appointment appointment) {
+        JSONObject appointmentObject = new JSONObject();
+        System.out.print(server.post("appointment", appointmentObject.toString()));
+
+        try {
+            appointmentObject = JSONTranslator.toJSON(appointment);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Person getCurrentlyLoggedInPerson () {
         JSONObject json = server.getObject("user/me");
-
 
         try {
             return new Person(json.getInt("id"), json.getString("email"), json.getString("firstname"), json.getString("surname"));
