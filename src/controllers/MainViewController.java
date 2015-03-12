@@ -70,9 +70,12 @@ public class MainViewController implements Initializable {
 
         // Account menu
         Menu accountMenu = menus.get(0);
+
+        accountMenu.setText(person.getEmail());
         ObservableList<MenuItem> accountMenuItems = accountMenu.getItems();
 
         MenuItem logoutMenuItem = accountMenuItems.get(0);
+
         logoutMenuItem.setOnAction(e -> fireLogout(e));
 
         //Change week

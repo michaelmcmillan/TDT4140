@@ -12,9 +12,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Appointment;
 import models.Calendar;
 import models.Person;
 import server.Server;
+
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class LoginViewController{
@@ -38,12 +44,12 @@ public class LoginViewController{
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        usernameField = (TextField) scene.lookup("#usernameTextfield");
-        passwordField = (TextField) scene.lookup("#passwordTextfield");
+        this. usernameField = (TextField) scene.lookup("#usernameTextfield");
+        this.passwordField = (TextField) scene.lookup("#passwordTextfield");
 
         /* Debugging */
-        usernameField.setText("jonaslaksen@live.com");
-        passwordField.setText("heisann");
+        this.usernameField.setText("jonaslaksen@live.com");
+        this.passwordField.setText("heisann");
 
         loginButton = (Button) scene.lookup("#loginButton");
         registerButton = (Button) scene.lookup("#registerButton");
@@ -81,24 +87,24 @@ public class LoginViewController{
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            // Add a new appointment to the calendar based on input times
-            Person user = new Person(username);
-            user.addCalendar(new Calendar("Hello"));
 
             // Don't use the server to login if debug is enabled
             if (application.Config.getInstance().DEBUG == true) {
+                Person user = new Person(0, "Debug", "Debug", "Debug");
                 new MainViewController(primaryStage, user);
 
             // Authenticate with the server if debug is disabled
             } else {
                 Server.getInstance().logInAs(username, password);
+
                 if (Server.getInstance().isAuthenticated()) {
+                    Person user = Server.getInstance().getCurrentlyLoggedInPerson();
                     new MainViewController(primaryStage, user);
                 }
             }
 
         } catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }

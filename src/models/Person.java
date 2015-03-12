@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Person {
 
+    private int id;
     private String firstName;
     private String surname;
     private String email;
@@ -11,17 +12,13 @@ public class Person {
     private int alarmTime = 0;
     private ArrayList<Group> groups;
     private ArrayList<Calendar> calendars;
-    
-    public Person(String firstName, String surname, String email, String password) {
-        this.setFirstName(firstName);
-        this.setSurname(surname);
-        this.setEmail(email);
-        this.setPassword(password);
-    }
 
-    public Person(String email) {
+    public Person(int id, String email, String firstName, String surname) {
         this.calendars = new ArrayList<Calendar>();
+        this.id = id;
         this.email = email;
+        this.firstName = firstName;
+        this.surname = surname;
     }
 
     public String getFirstName() {

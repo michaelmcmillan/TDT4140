@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
+import server.Server;
 import views.AppointmentView;
 import views.DayView;
 
@@ -41,7 +42,7 @@ public class CalendarViewController implements Initializable {
     private Scene mainScene;
     private ScrollPane scrollPane;
     private HBox weekHBox;
-    private double DAY_WIDTH;
+    private double DAY_WIDTH = 111;
     private double startX, startY, endX, endY;
     private ArrayList<DayView> dayPanes = new ArrayList<DayView>();
     private Rectangle rect;
@@ -62,13 +63,15 @@ public class CalendarViewController implements Initializable {
         this.weekHBox = (HBox) this.mainScene.lookup("#weekHBox");
 
         // Set default calendar
-        calendar = mainViewController.getPerson().getCalendars().get(0);
         popupView = new AppointmentPopupViewController(calendarPane);
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
 
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         this.generateDayPanes(firstDayOfWeek);
+
+        this.populateWeekWithAppointments(firstDayOfWeek);
+
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -132,14 +135,11 @@ public class CalendarViewController implements Initializable {
         int endTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.max(startY, endY));
 
         Date[] firstAndLastDayOfWeek = CalendarHelper.getFirstAndLastDayOfCurrentWeek();
-        for(Appointment a : calendar.getAppointmentsBetween(firstAndLastDayOfWeek[0], firstAndLastDayOfWeek[1])) {
-            System.out.println("Starting: " + a.getStartTime() + "\nEnding: " + a.getEndTime() +"\n");
-        }
 
-        createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])));
+        createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])), true);
     }
 
-    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime) {
+    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime, boolean showPopup) {
 
         LocalTime dayStartTime = startTime.toLocalTime();
         LocalTime dayEndTime = endTime.toLocalTime();
@@ -147,11 +147,11 @@ public class CalendarViewController implements Initializable {
         // Create the rectangle view
         final AppointmentView rectangle = new AppointmentView();
         rectangle.setX(1);
-        int minY = (int) Math.min(CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayEndTime));
-        int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getHeight(), dayEndTime));
+        int minY = (int) Math.min(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
+        int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
 
-        maxY += pane.getHeight()/24;
-        maxY = maxY == minY ? maxY += pane.getHeight()/24 : maxY;
+        maxY += pane.getPrefHeight()/24;
+        maxY = maxY == minY ? maxY += pane.getPrefHeight()/24 : maxY;
         rectangle.setY(minY + 1);
         rectangle.setWidth(DAY_WIDTH);
         double height = abs(maxY - minY) - 2;
@@ -164,7 +164,9 @@ public class CalendarViewController implements Initializable {
 
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
-        popupView.show(startTime, endTime);
+
+        if (showPopup)
+            popupView.show(startTime, endTime);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -261,5 +263,19 @@ public class CalendarViewController implements Initializable {
 
     public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
         LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
+
+        ArrayList<Appointment> appointments = Server.getInstance().getAppointments(firstDayOfWeek, lastDayOfWeek);
+
+        for (Appointment appointment : appointments) {
+            for (DayView dayView : this.dayPanes) {
+
+                if (dayView.getDate().equals(appointment.getStartTime().toLocalDate())) {
+                    System.out.println("happend");
+                    this.createAppointmentView(dayView, appointment.getStartTime(), appointment.getEndTime(), false);
+                }
+            }
+        }
+
     }
+
 }
