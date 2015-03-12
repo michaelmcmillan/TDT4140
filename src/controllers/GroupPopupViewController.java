@@ -88,10 +88,10 @@ public class GroupPopupViewController implements Initializable {
             allPersonsList = (ListView) groupPopup.lookup("#allPersonsList");
             groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
 
-            Person tempPerson = new Person("Morten", "Kleveland", "yolo@gmail.com", "passord");
-            Person tempPerson2 = new Person("Marit", "Kleveland", "yolo@gmail.com", "passord");
-            Person tempPerson3 = new Person("Svetlana", "Kleveland", "yolo@gmail.com", "passord");
-            Person tempPerson4 = new Person("Kong", "Kleveland", "yolo@gmail.com", "passord");
+            Person tempPerson = new Person(1, "Morten", "Kleveland", "yolo@gmail.com");
+            Person tempPerson2 = new Person(2, "Marit", "Kleveland", "yolo@gmail.com");
+            Person tempPerson3 = new Person(3, "Svetlana", "Kleveland", "yolo@gmail.com");
+            Person tempPerson4 = new Person(4, "Kong", "Kleveland", "yolo@gmail.com");
 
             ArrayList<Person> persons = new ArrayList<>();
             persons.add(tempPerson);
@@ -120,7 +120,7 @@ public class GroupPopupViewController implements Initializable {
                         protected void updateItem(Person p, boolean bln) {
                             super.updateItem(p, bln);
                             if (p != null) {
-                                setText(p.getFirstName());
+                                setText(p.getEmail());
                             }
                         }
                     };
