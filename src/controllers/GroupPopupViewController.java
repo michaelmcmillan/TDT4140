@@ -141,7 +141,7 @@ public class GroupPopupViewController implements Initializable {
                             if (p != null) {
                                 setText(p.getEmail());
                             } else {
-
+                                setText(""); // TODO: Überhack. Fix.
                             }
                         }
                     };
@@ -166,12 +166,14 @@ public class GroupPopupViewController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     Person selectedPerson = (Person)groupMembersList.getSelectionModel().getSelectedItem();
-                    final int selectedIndex = groupMembersList.getSelectionModel().getSelectedIndex();
+                    int selectedIndex = groupMembersList.getSelectionModel().getSelectedIndex();
                     if (groupMembersObservableList.contains(selectedPerson)) {
                         groupMembersObservableList.remove(selectedPerson);
+                        groupMembersList.setItems(null);
+                        groupMembersList.setItems(groupMembersObservableList);
+                        selectedIndex = selectedIndex < 0 ? 0 : selectedIndex - 1;
+                        groupMembersList.getSelectionModel().select(selectedIndex);
                     }
-                    groupMembersList.setItems(null);
-                    groupMembersList.setItems(groupMembersObservableList);
                 }
             });
 
