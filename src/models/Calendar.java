@@ -28,7 +28,7 @@ public class Calendar {
             appointments.remove(appointment);
     }
 
-    public boolean overlaps(Appointment appointment1, Appointment appointment2){
+    /*public boolean overlaps(Appointment appointment1, Appointment appointment2){
         Date s1 = appointment1.getStartTime();
         Date s2 = appointment2.getStartTime();
         Date e1 = appointment1.getEndTime();
@@ -64,4 +64,5 @@ public class Calendar {
     public String toString() {
         return this.calendarTitle;
     }
+    */
 }
