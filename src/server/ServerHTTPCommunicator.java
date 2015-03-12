@@ -101,7 +101,7 @@ public class ServerHTTPCommunicator {
             /* Set request body if present */
             if (body.isEmpty() == false) {
                 connection.setDoOutput(true);
-                String query = "";
+                String query = body;
                 try (OutputStream output = connection.getOutputStream()) {
                     output.write(query.getBytes("UTF-8"));
                 }
