@@ -36,6 +36,9 @@ public class GroupPopupViewController implements Initializable {
     private Scene scene;
     private ListView allPersonsList;
     private ListView groupMembersList;
+    private ObservableList<Person> personsObservableList;
+    private ObservableList<Person> groupMembersObservableList;
+    ArrayList<Person> persons;
 
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
         this.calendarPane = calendarPane;
@@ -93,14 +96,14 @@ public class GroupPopupViewController implements Initializable {
             Person tempPerson3 = new Person(3, "Svetlana", "Kleveland", "yolo@gmail.com");
             Person tempPerson4 = new Person(4, "Kong", "Kleveland", "yolo@gmail.com");
 
-            ArrayList<Person> persons = new ArrayList<>();
+            persons = new ArrayList<>();
             persons.add(tempPerson);
             persons.add(tempPerson2);
             persons.add(tempPerson3);
             persons.add(tempPerson4);
 
-            ObservableList<Person> personsObservableList = FXCollections.observableArrayList();
-            ObservableList<Person> groupMembersObservableList = FXCollections.observableArrayList();
+            personsObservableList = FXCollections.observableArrayList();
+            groupMembersObservableList = FXCollections.observableArrayList();
 
             // If debug is disabled, get group data from server
             for (Person person : persons) {
@@ -137,6 +140,8 @@ public class GroupPopupViewController implements Initializable {
                             super.updateItem(p, bln);
                             if (p != null) {
                                 setText(p.getEmail());
+                            } else {
+
                             }
                         }
                     };
@@ -161,10 +166,12 @@ public class GroupPopupViewController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     Person selectedPerson = (Person)groupMembersList.getSelectionModel().getSelectedItem();
+                    final int selectedIndex = groupMembersList.getSelectionModel().getSelectedIndex();
                     if (groupMembersObservableList.contains(selectedPerson)) {
                         groupMembersObservableList.remove(selectedPerson);
-                        groupMembersList.setItems(groupMembersObservableList);
                     }
+                    groupMembersList.setItems(null);
+                    groupMembersList.setItems(groupMembersObservableList);
                 }
             });
 
