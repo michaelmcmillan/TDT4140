@@ -12,9 +12,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Appointment;
 import models.Calendar;
 import models.Person;
 import server.Server;
+
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class LoginViewController{
@@ -98,7 +104,7 @@ public class LoginViewController{
             }
 
         } catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }
