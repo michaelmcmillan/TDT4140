@@ -1,5 +1,6 @@
 package controllers;
 
+import application.Config;
 import helpers.CalendarHelper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +37,7 @@ public class MainViewController implements Initializable {
     private Label yearLabel;
     private ArrayList<Label> labelList = new ArrayList<>();
     private ArrayList<String> labelNames = new ArrayList<>();
-    private int currentlySelectedCalendarId = Server.getInstance().getCurrentlyLoggedInPerson().getCalendarId();
+    private int currentlySelectedCalendarId;
 
     public int getcurrentlySelectedCalendarId () {
         return currentlySelectedCalendarId;
@@ -103,6 +104,9 @@ public class MainViewController implements Initializable {
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
 
         //HTTPConnection connection = new HTTPConnection("https://www.github.com");
+        if (!Config.getInstance().DEBUG) {
+            currentlySelectedCalendarId = Server.getInstance().getCurrentlyLoggedInPerson().getCalendarId();
+        }
     }
 
     void fireAddGroup(ActionEvent event) {
