@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.Person;
+import server.Server;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -35,6 +36,11 @@ public class MainViewController implements Initializable {
     private Label yearLabel;
     private ArrayList<Label> labelList = new ArrayList<>();
     private ArrayList<String> labelNames = new ArrayList<>();
+    private int currentlySelectedCalendarId = Server.getInstance().getCurrentlyLoggedInPerson().getCalendarId();
+
+    public int getcurrentlySelectedCalendarId () {
+        return currentlySelectedCalendarId;
+    }
 
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 

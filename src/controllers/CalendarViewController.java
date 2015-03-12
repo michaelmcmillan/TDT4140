@@ -64,7 +64,7 @@ public class CalendarViewController implements Initializable {
         this.weekHBox = (HBox) this.mainScene.lookup("#weekHBox");
 
         // Set default calendar
-        popupView = new AppointmentPopupViewController(calendarPane);
+        popupView = new AppointmentPopupViewController(calendarPane, mainViewController);
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
 
@@ -168,14 +168,14 @@ public class CalendarViewController implements Initializable {
         rectangles.add(rectangle);
 
         if (showPopup)
-            popupView.show(startTime, endTime);
+            popupView.show(pane, startTime, endTime);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if(!isDragging){
-                    popupView.show(startTime, endTime);
+                    popupView.show(pane,startTime, endTime);
                     rectangle.setClicked(true);
                 }
             }
@@ -266,7 +266,7 @@ public class CalendarViewController implements Initializable {
     public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
         LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
 
-        ArrayList<Appointment> appointments = Server.getInstance().getAppointments(firstDayOfWeek, lastDayOfWeek);
+        ArrayList<Appointment> appointments = Server.getInstance().getAppointments(this.mainViewController.getcurrentlySelectedCalendarId(), firstDayOfWeek, lastDayOfWeek);
 
         for (Appointment appointment : appointments) {
             for (DayView dayView : this.dayPanes) {

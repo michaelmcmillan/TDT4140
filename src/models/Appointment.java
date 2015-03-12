@@ -5,38 +5,35 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by sharklaks on 26/02/15.
- */
 public class Appointment {
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String title;
     private String description;
-    private ArrayList<Person> participants;
-    private Person createdBy;
+    private String id;
+    private String  personId;
+    private String roomId;
 
-
-    public Appointment(){
+    public Appointment () {
 
     }
 
-    public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description, Person createdBy) {
+    public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.description = description;
-        this.createdBy = createdBy;
-
-        participants = new ArrayList<Person>();
-        participants.add(createdBy);
+        this.id = id;
+        this.personId = personId;
+        this.roomId = roomId;
     }
 
     public LocalDateTime getStartTime(){ return this.startTime;}
     public void setStartTime(LocalDateTime startTime) {this.startTime = startTime;}
 
     public LocalDateTime getEndTime(){ return this.endTime;}
+
     public void setEndTime(LocalDateTime endTime) {this.endTime = endTime;}
 
     public String getTitle() {return title;}
@@ -45,9 +42,18 @@ public class Appointment {
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
 
-    public ArrayList<Person> getParticipants() {return participants;}
-    public void addParticipant(Person person){participants.add(person);}
-    public void removeParticipant(Person person){participants.remove(person);}
+    public String getId() {
+
+        return id;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
 
     public void changeTime(LocalDateTime startTime, LocalDateTime endTime){
         this.startTime = startTime;

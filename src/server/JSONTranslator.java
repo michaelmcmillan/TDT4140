@@ -7,11 +7,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
 public class JSONTranslator {
-/*
+
+    /*
+
     public static ArrayList<Group> toGroupArrayList(JSONArray jsonArray) throws JSONException {
         ArrayList<Group> groups = new ArrayList<>();
         for (int i = 0 ; i <jsonArray.length() ; i ++){
@@ -148,5 +153,28 @@ public class JSONTranslator {
         }
         return jsonArray;
     }
-*/
+
+    */
+
+    public static JSONObject toJSON(Appointment appointment) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+        String start_time = appointment.getStartTime().toString();
+        String end_time = appointment.getEndTime().toString();
+        jsonObject.put("start_time", start_time);
+        jsonObject.put("end_time", end_time);
+        jsonObject.put("id", appointment.getId());
+        jsonObject.put("tittel", appointment.getTitle());
+        jsonObject.put("Person_id", appointment.getPersonId());
+        jsonObject.put("Room_id", appointment.getRoomId());
+        jsonObject.put("description", appointment.getDescription());
+
+
+        return jsonObject;
+    }
+
+
+
 }

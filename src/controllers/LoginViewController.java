@@ -81,35 +81,30 @@ public class LoginViewController{
     private final String MAINVIEW_PATH = "MainView.fxml";
 
     public void doLogin() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        try {
-
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-
-
-            // Don't use the server to login if debug is enabled
-            if (application.Config.getInstance().DEBUG == true) {
-                Person user = new Person(0, "Debug", "Debug", "Debug");
-                new MainViewController(primaryStage, user);
-
-            // Authenticate with the server if debug is disabled
-            } else {
-                Server.getInstance().logInAs(username, password);
-
-                if (Server.getInstance().isAuthenticated()) {
-                    Person user = Server.getInstance().getCurrentlyLoggedInPerson();
+        if (!username.isEmpty() && !password.isEmpty()) {
+            
+            try {
+                // Don't use the server to login if debug is enabled
+                if (application.Config.getInstance().DEBUG == true) {
+                    Person user = new Person(0, "Debug", "Debug", "Debug");
                     new MainViewController(primaryStage, user);
+
+                // Authenticate with the server if debug is disabled
+                } else {
+                    Server.getInstance().logInAs(username, password);
+
+                    if (Server.getInstance().isAuthenticated()) {
+                        Person user = Server.getInstance().getCurrentlyLoggedInPerson();
+                        new MainViewController(primaryStage, user);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e){
-            e.printStackTrace();
         }
-
     }
 
-    public void fireRegisterButton(ActionEvent event){
-
-    };
 }

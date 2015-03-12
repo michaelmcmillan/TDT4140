@@ -69,8 +69,8 @@ public class ServerHTTPCommunicator {
         return this.toJSONObject(this.request(url, "GET"));
     }
 
-    public void post (String url, String body) {
-        this.request(url, "POST", body);
+    public String post (String url, String body) {
+        return this.request(url, "POST", body);
     }
 
     public void put (String url, String body) {
