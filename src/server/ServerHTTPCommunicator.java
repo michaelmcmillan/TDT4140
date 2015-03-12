@@ -70,8 +70,7 @@ public class ServerHTTPCommunicator {
     }
 
     public String post (String url, String body) {
-        return  this.request(url, "POST", body);
-
+        return this.request(url, "POST", body);
     }
 
     public void put (String url, String body) {

@@ -159,26 +159,20 @@ public class AppointmentPopupViewController  implements Initializable {
 
     private void save(){
 
-        /*LocalDate date = appointmentDate.getValue();
+        LocalDate date = appointmentDate.getValue();
 
         int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
         int endHour = Integer.valueOf(this.endTime.getText().substring(0,2));
 
-
         LocalDateTime startTime = date.atTime(startHour,0);
         LocalDateTime endTime = date.atTime(endHour,0);
 
-        String title = titleField.getText();
-        String description = formaalField.getText();
-        String id = "id";
-        String  personId = "personId";
-        String roomId = "roomId";
         ArrayList<Person> participants = new ArrayList<>();
         Person createdBy = new Person(1, "Testy", "mekky", "lasse@drevland.no");
 
-        Appointment newAppointment = new Appointment(startTime,endTime,title,description,createdBy);
-        Server.getInstance().createAppointment(newAppointment);
-        */
+        Appointment newAppointment = new Appointment(startTime, endTime, "sss","wdwqdqw",createdBy);
+        Server.getInstance().createAppointment(1, newAppointment);
+
 
     }
 }

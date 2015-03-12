@@ -81,15 +81,18 @@ public class Server {
     }
 
 
-    public void createAppointment(Appointment appointment) {
-        JSONObject appointmentObject = new JSONObject();
-        System.out.print(server.post("appointment", appointmentObject.toString()));
+    public void createAppointment(int calendarId, Appointment appointment) {
+
+        JSONObject appointmentObject = null;
 
         try {
             appointmentObject = JSONTranslator.toJSON(appointment);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
     public Person getCurrentlyLoggedInPerson () {
