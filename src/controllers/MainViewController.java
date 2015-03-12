@@ -15,6 +15,8 @@ import models.Person;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
@@ -30,6 +32,9 @@ public class MainViewController implements Initializable {
     private LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
     private Label weekNumberLabel;
     private Stage primaryStage;
+    private Label yearLabel;
+    private ArrayList<Label> labelList = new ArrayList<>();
+    private ArrayList<String> labelNames = new ArrayList<>();
 
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 
@@ -52,7 +57,12 @@ public class MainViewController implements Initializable {
         Button nextWeek = (Button) scene.lookup("#nextWeek");
         Button pastWeek = (Button) scene.lookup("#pastWeek");
         weekNumberLabel = (Label) scene.lookup("#ukenr");
+        yearLabel = (Label) scene.lookup("#yearLabel");
         weekNumber = CalendarHelper.getCurrentWeekNumber();
+        labelNames.addAll(Arrays.asList("#manLabel","#tirLabel","#onsLabel","#torLabel","#freLabel","#lørLabel","#sønLabel"));
+        for(int i = 0; i<7 ;i++){
+            labelList.add((Label) scene.lookup(labelNames.get(i)));
+        }
 
         // Listeners
         menuBar = (MenuBar) main.getChildrenUnmodifiable().get(1); // TODO: Find a better way to do this
@@ -60,15 +70,21 @@ public class MainViewController implements Initializable {
 
         // Account menu
         Menu accountMenu = menus.get(0);
+
+        accountMenu.setText(person.getEmail());
         ObservableList<MenuItem> accountMenuItems = accountMenu.getItems();
 
         MenuItem logoutMenuItem = accountMenuItems.get(0);
+
         logoutMenuItem.setOnAction(e -> fireLogout(e));
 
         //Change week
         nextWeek.setOnAction(e -> fireNextWeek(e));
         pastWeek.setOnAction(e -> fireLastWeek(e));
         weekNumberLabel.setText("UKE "+ getSelectedWeekNumber());
+
+        //Get dates
+        generateDateLabels(firstDayOfWeek);
 
         // Item menu
         Menu itemMenu = menus.get(1);
@@ -95,6 +111,7 @@ public class MainViewController implements Initializable {
 
     void fireNextWeek(ActionEvent event) {
         firstDayOfWeek = firstDayOfWeek.plusWeeks(1);
+        generateDateLabels(firstDayOfWeek);
         weekNumberLabel.setText("UKE " + CalendarHelper.getWeekNumber(firstDayOfWeek));
         calendarViewController.generateDayPanes(firstDayOfWeek);
         calendarViewController.populateWeekWithAppointments(firstDayOfWeek);
@@ -102,9 +119,19 @@ public class MainViewController implements Initializable {
 
     void fireLastWeek(ActionEvent event) {
         firstDayOfWeek = firstDayOfWeek.minusWeeks(1);
+        generateDateLabels(firstDayOfWeek);
         weekNumberLabel.setText("UKE " + CalendarHelper.getWeekNumber(firstDayOfWeek));
         calendarViewController.generateDayPanes(firstDayOfWeek);
         calendarViewController.populateWeekWithAppointments(firstDayOfWeek);
+    }
+
+    public void generateDateLabels(LocalDate firstDayOfWeek){
+        for(int i=0;i<7;i++){
+            labelList.get(i).setText(Character.toUpperCase(labelNames.get(i).charAt(1))+labelNames.get(i).substring(2,4)
+                    +" " + firstDayOfWeek.getDayOfMonth() + "." + firstDayOfWeek.getMonthValue());
+            firstDayOfWeek = firstDayOfWeek.plusDays(1);
+        }
+        yearLabel.setText(firstDayOfWeek.getYear()+"");
     }
 
     public int getSelectedWeekNumber() {
