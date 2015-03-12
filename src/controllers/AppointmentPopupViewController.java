@@ -10,12 +10,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import models.Appointment;
+import models.Person;
 import server.Server;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -100,7 +102,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
             //Set methods
             Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
-            
+            Button saveButton = (Button) appointmentPopup.lookup("#saveButton");
             TextField startTime = (TextField) appointmentPopup.lookup("#startTime");
             TextField endTime = (TextField) appointmentPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
@@ -121,6 +123,16 @@ public class AppointmentPopupViewController  implements Initializable {
                 }
             });
 
+            saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    save();
+                }
+            });
+
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,5 +144,28 @@ public class AppointmentPopupViewController  implements Initializable {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
+    }
+
+    private void save(){
+
+        Date startTime = new Date(2015,03,12);
+        Date endTime = new Date(2015,03,12);;
+        String title = "title";
+        String description = "description";
+        String id = "id";
+        String  personId = "personId";
+        String roomId = "roomId";
+        ArrayList<Person> participants = new ArrayList<>();
+        Person createdBy = new Person("lasse@drevland.no");
+
+
+
+
+
+
+        Appointment newAppointment = new Appointment(startTime,endTime,title,description,createdBy,id,roomId,personId);
+        Server.getInstance().createAppointment(newAppointment);
+
+
     }
 }

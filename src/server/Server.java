@@ -72,7 +72,7 @@ public class Server {
             e.printStackTrace();
         }
 
-        System.out.print(server.post("/appointment", appointmentObject.toString()));
+        System.out.print(server.post("appointment", appointmentObject.toString()));
 
 
     }

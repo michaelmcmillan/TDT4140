@@ -162,6 +162,8 @@ public class JSONTranslator {
         jsonObject.put("end_time", appointment.getEndTime());
         jsonObject.put("Person_id", appointment.getPersonId());
         jsonObject.put("Room_id", appointment.getRoomId());
+
+
         return jsonObject;
     }
 
