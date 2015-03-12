@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 
 public class JSONTranslator {
-/*
+
+    /*
+
     public static ArrayList<Group> toGroupArrayList(JSONArray jsonArray) throws JSONException {
         ArrayList<Group> groups = new ArrayList<>();
         for (int i = 0 ; i <jsonArray.length() ; i ++){
@@ -148,5 +150,21 @@ public class JSONTranslator {
         }
         return jsonArray;
     }
-*/
+
+    */
+
+    public static JSONObject toJSON(Appointment appointment) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", appointment.getId());
+        jsonObject.put("tittel", appointment.getTitle());
+        jsonObject.put("description", appointment.getDescription());
+        jsonObject.put("start_time", appointment.getStartTime());
+        jsonObject.put("end_time", appointment.getEndTime());
+        jsonObject.put("Person_id", appointment.getPersonId());
+        jsonObject.put("Room_id", appointment.getRoomId());
+        return jsonObject;
+    }
+
+
+
 }

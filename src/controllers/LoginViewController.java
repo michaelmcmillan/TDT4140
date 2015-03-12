@@ -75,31 +75,37 @@ public class LoginViewController{
     private final String MAINVIEW_PATH = "MainView.fxml";
 
     public void doLogin() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        try {
+        if (!username.isEmpty() && !password.isEmpty()){
+            try {
 
-            String username = usernameField.getText();
-            String password = passwordField.getText();
 
-            // Add a new appointment to the calendar based on input times
-            Person user = new Person(username);
-            user.addCalendar(new Calendar("Hello"));
 
-            // Don't use the server to login if debug is enabled
-            if (application.Config.getInstance().DEBUG == true) {
-                new MainViewController(primaryStage, user);
 
-            // Authenticate with the server if debug is disabled
-            } else {
-                Server.getInstance().logInAs(username, password);
-                if (Server.getInstance().isAuthenticated()) {
+
+                // Add a new appointment to the calendar based on input times
+                Person user = new Person(username);
+                user.addCalendar(new Calendar("Hello"));
+
+                // Don't use the server to login if debug is enabled
+                if (application.Config.getInstance().DEBUG == true) {
                     new MainViewController(primaryStage, user);
+
+                    // Authenticate with the server if debug is disabled
+                } else {
+                    Server.getInstance().logInAs(username, password);
+                    if (Server.getInstance().isAuthenticated()) {
+                        new MainViewController(primaryStage, user);
+                    }
                 }
+
+            } catch (Exception e){
+
             }
-
-        } catch (Exception e){
-
         }
+
 
     }
 

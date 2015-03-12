@@ -100,6 +100,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
             //Set methods
             Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
+            
             TextField startTime = (TextField) appointmentPopup.lookup("#startTime");
             TextField endTime = (TextField) appointmentPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");

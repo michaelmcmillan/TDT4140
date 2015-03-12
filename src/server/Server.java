@@ -64,6 +64,19 @@ public class Server {
         return groups;
     }
 
+    public void createAppointment(Appointment appointment){
+        JSONObject appointmentObject = new JSONObject();
+        try {
+            appointmentObject = JSONTranslator.toJSON(appointment);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        System.out.print(server.post("/appointment", appointmentObject.toString()));
+
+
+    }
+
     protected Server() {
         // Exists only to defeat instantiation.
     }
