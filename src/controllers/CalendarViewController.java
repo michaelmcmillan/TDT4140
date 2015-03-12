@@ -63,7 +63,6 @@ public class CalendarViewController implements Initializable {
         this.weekHBox = (HBox) this.mainScene.lookup("#weekHBox");
 
         // Set default calendar
-        calendar = mainViewController.getPerson().getCalendars().get(0);
         popupView = new AppointmentPopupViewController(calendarPane);
         startOfWeek = java.util.Calendar.getInstance();
         startOfWeek.set(java.util.Calendar.DAY_OF_MONTH, 2);
