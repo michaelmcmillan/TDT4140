@@ -22,12 +22,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-/**
- * Created by Morten on 02.03.15.
- */
+
 public class AppointmentPopupViewController  implements Initializable {
 
-
+    private MainViewController mainview;
     private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
@@ -59,7 +57,8 @@ public class AppointmentPopupViewController  implements Initializable {
     }
     */
 
-    public AppointmentPopupViewController(Pane calendarPane) {
+    public AppointmentPopupViewController(Pane calendarPane, MainViewController mainview) {
+        this.mainview = mainview;
         this.calendarPane = calendarPane;
 
     }
@@ -134,10 +133,11 @@ public class AppointmentPopupViewController  implements Initializable {
                 }
             });
 
-            saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            saveButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     save();
+                    close();
                 }
             });
 
@@ -157,22 +157,20 @@ public class AppointmentPopupViewController  implements Initializable {
         }
     }
 
-    private void save(){
+    private void save () {
 
         LocalDate date = appointmentDate.getValue();
 
         int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
         int endHour = Integer.valueOf(this.endTime.getText().substring(0,2));
 
-        LocalDateTime startTime = date.atTime(startHour,0);
-        LocalDateTime endTime = date.atTime(endHour,0);
+        LocalDateTime startTime = date.atTime(startHour, 0);
+        LocalDateTime endTime = date.atTime(endHour, 0);
 
         ArrayList<Person> participants = new ArrayList<>();
-        Person createdBy = new Person(1, "Testy", "mekky", "lasse@drevland.no");
 
-        Appointment newAppointment = new Appointment(startTime, endTime, "sss","wdwqdqw",createdBy);
-        Server.getInstance().createAppointment(1, newAppointment);
-
+        Appointment newAppointment = new Appointment(startTime, endTime, this.titleField.getText(), this.formaalField.getText());
+        Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), newAppointment);
 
     }
 }

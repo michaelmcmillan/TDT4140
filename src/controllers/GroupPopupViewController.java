@@ -44,7 +44,7 @@ public class GroupPopupViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        model = new Appointment();
+
     }
 
     @FXML void addGroupButtonPressed(ActionEvent event) {

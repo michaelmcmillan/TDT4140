@@ -30,7 +30,7 @@ public class Server {
         return !json.isNull("id");
     }
 
-    public ArrayList<Appointment> getAppointments (LocalDate fromDate, LocalDate toDate) {
+    public ArrayList<Appointment> getAppointments (int calendarId, LocalDate fromDate, LocalDate toDate) {
 
         Date newFromDate = Date.from(fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date newToDate = Date.from(toDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -39,7 +39,7 @@ public class Server {
         String fromDateFormatted = format.format(newFromDate)  ;
         String toDateFormatted = format.format(newToDate);
 
-        JSONArray json = server.getArray("user/appointments/" + fromDateFormatted + "/" + toDateFormatted);
+        JSONArray json = server.getArray("calendar/"+ calendarId +"/appointments/" + fromDateFormatted + "/" + toDateFormatted);
 
         ArrayList<Appointment> appointments = new ArrayList<>();
         for (int i = 0; i < json.length(); i++) {
@@ -63,6 +63,7 @@ public class Server {
         return appointments;
     }
 
+
     public ArrayList<Group> getGroups () {
 
         JSONArray json = server.getArray("user/groups");
@@ -73,25 +74,21 @@ public class Server {
                 Group group = new Group(json.getJSONObject(i).getString("name"));
                 groups.add(group);
             } catch (JSONException error) {
-
+                error.printStackTrace();
             }
         }
 
         return groups;
     }
 
-
     public void createAppointment(int calendarId, Appointment appointment) {
-
         JSONObject appointmentObject = null;
-
         try {
             appointmentObject = JSONTranslator.toJSON(appointment);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
@@ -99,7 +96,9 @@ public class Server {
         JSONObject json = server.getObject("user/me");
 
         try {
-            return new Person(json.getInt("id"), json.getString("email"), json.getString("firstname"), json.getString("surname"));
+            Person person = new Person(json.getInt("id"), json.getString("email"), json.getString("firstname"), json.getString("surname"));
+            person.setCalendarId(json.getInt("Calendar_id"));
+            return person;
         } catch (JSONException error) {
             error.printStackTrace();
         }

@@ -14,28 +14,19 @@ public class Appointment {
     private String id;
     private String  personId;
     private String roomId;
-    private ArrayList<Person> participants;
-    private Person createdBy;
 
-
-    public Appointment(){
+    public Appointment () {
 
     }
 
-
-    public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description, Person createdBy) {
+    public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.description = description;
-        this.createdBy = createdBy;
         this.id = id;
         this.personId = personId;
         this.roomId = roomId;
-
-
-        participants = new ArrayList<Person>();
-        participants.add(createdBy);
     }
 
     public LocalDateTime getStartTime(){ return this.startTime;}
@@ -63,10 +54,6 @@ public class Appointment {
     public String getRoomId() {
         return roomId;
     }
-
-    public ArrayList<Person> getParticipants() {return participants;}
-    public void addParticipant(Person person){participants.add(person);}
-    public void removeParticipant(Person person){participants.remove(person);}
 
     public void changeTime(LocalDateTime startTime, LocalDateTime endTime){
         this.startTime = startTime;
