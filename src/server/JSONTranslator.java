@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -155,13 +156,16 @@ public class JSONTranslator {
 
     public static JSONObject toJSON(Appointment appointment) throws JSONException {
         JSONObject jsonObject = new JSONObject();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        String start_time = sdf.format(appointment.getStartTime());
+        String end_time = sdf.format(appointment.getEndTime());
+        jsonObject.put("start_time", start_time);
+        jsonObject.put("end_time", end_time);
         jsonObject.put("id", appointment.getId());
         jsonObject.put("tittel", appointment.getTitle());
-        jsonObject.put("description", appointment.getDescription());
-        jsonObject.put("start_time", appointment.getStartTime());
-        jsonObject.put("end_time", appointment.getEndTime());
         jsonObject.put("Person_id", appointment.getPersonId());
         jsonObject.put("Room_id", appointment.getRoomId());
+        jsonObject.put("description", appointment.getDescription());
 
 
         return jsonObject;

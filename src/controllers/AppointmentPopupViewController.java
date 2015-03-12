@@ -12,9 +12,11 @@ import javafx.scene.shape.Rectangle;
 import models.Appointment;
 import models.Person;
 import server.Server;
+import views.DayView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,27 +27,25 @@ import java.util.ResourceBundle;
  */
 public class AppointmentPopupViewController  implements Initializable {
 
-    @FXML private TextArea purposeTextArea;
-    @FXML private TextField roomTextField;
-    @FXML private DatePicker fromDatePicker;
-    @FXML private TextField fromTimeTextField;
-    @FXML private TextField toTimeTextField;
-    @FXML private CheckBox repetitionCheckbox;
-    @FXML private Label repetitionFrequencyLabel;
-    @FXML private TextField repetitionFrequencyTextField;
-    @FXML private Label endDateLabel;
-    @FXML private DatePicker endDatePicker;
+
     private ArrayList<Pane> openAppointmentPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
     private Pane calendarPane;
+    private Pane dayPane;
+    TextField   startTime;
+    TextField   endTime;
+    TextField titleField;
+    TextArea formaalField;
+    TextField roomField;
+    DatePicker  appointmentDate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        model = new Appointment();
-        removeEndDayForm(); // Don't show calendar repetition events at startup
+        //model = new Appointment();
+        //removeEndDayForm(); // Don't show calendar repetition events at startup
     }
-
+/*
     @FXML void addAppointmentButtonPressed(ActionEvent event) {
 
     }
@@ -57,11 +57,13 @@ public class AppointmentPopupViewController  implements Initializable {
             removeEndDayForm();
         }
     }
+    */
 
-    public AppointmentPopupViewController(Pane calendarPane){
+    public AppointmentPopupViewController(Pane calendarPane) {
         this.calendarPane = calendarPane;
-    }
 
+    }
+    /*
     private void showEndDayForm() {
         repetitionFrequencyLabel.setVisible(true);
         repetitionFrequencyTextField.setVisible(true);
@@ -75,8 +77,9 @@ public class AppointmentPopupViewController  implements Initializable {
         endDateLabel.setVisible(false);
         endDatePicker.setVisible(false);
     }
+    */
 
-    public void show(LocalDateTime startDate, LocalDateTime endDate){
+    public void show(DayView pane,LocalDateTime startDate, LocalDateTime endDate){
 
         try {
             // Init popupview from FXML
@@ -103,18 +106,26 @@ public class AppointmentPopupViewController  implements Initializable {
             //Set methods
             Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
             Button saveButton = (Button) appointmentPopup.lookup("#saveButton");
-            TextField startTime = (TextField) appointmentPopup.lookup("#startTime");
-            TextField endTime = (TextField) appointmentPopup.lookup("#endTime");
-            DatePicker appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
+
+
+
+            startTime       = (TextField) appointmentPopup.lookup("#startTime");
+            endTime         = (TextField) appointmentPopup.lookup("#endTime");
+            appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
+            formaalField    = (TextArea) appointmentPopup.lookup("#purposeTextArea");
+            roomField       = (TextField) appointmentPopup.lookup("#roomTextField");
+            titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
+            dayPane         = pane;
+
 
             String startHour = Integer.toString(startDate.getHour()) + ":00";
             String endHour = Integer.toString(endDate.getHour() + 1) + ":00";
             startTime.setText(startHour);
             endTime.setText(endHour);
 
-            //LocalDate date = LocalDate.of(startDate.getYear() + 1900, startDate.getMonth().plus(1), startDate.getDate());
 
-            //appointmentDate.setValue(date);
+
+            appointmentDate.setValue(pane.getDate());
 
             closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -148,17 +159,30 @@ public class AppointmentPopupViewController  implements Initializable {
 
     private void save(){
 
-        Date startTime = new Date(2015,03,12);
-        Date endTime = new Date(2015,03,12);;
-        String title = "title";
-        String description = "description";
+        LocalDate date = ((DayView)dayPane).getDate();
+
+        int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
+        int endHour = Integer.valueOf(this.endTime.getText().substring(0,2));
+
+        Date startTime = new Date(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
+        Date endTime = new Date(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
+
+
+
+
+
+        startTime.setHours(startHour);
+        endTime.setHours(endHour);
+
+
+
+        String title = titleField.getText();
+        String description = formaalField.getText();
         String id = "id";
         String  personId = "personId";
         String roomId = "roomId";
         ArrayList<Person> participants = new ArrayList<>();
         Person createdBy = new Person("lasse@drevland.no");
-
-
 
 
 
