@@ -137,10 +137,10 @@ public class CalendarViewController implements Initializable {
 
         Date[] firstAndLastDayOfWeek = CalendarHelper.getFirstAndLastDayOfCurrentWeek();
 
-        createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])));
+        createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])), true);
     }
 
-    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime) {
+    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime, boolean showPopup) {
 
         LocalTime dayStartTime = startTime.toLocalTime();
         LocalTime dayEndTime = endTime.toLocalTime();
@@ -165,7 +165,9 @@ public class CalendarViewController implements Initializable {
 
         pane.getChildren().add(rectangle);
         rectangles.add(rectangle);
-        popupView.show(startTime, endTime);
+
+        if (showPopup)
+            popupView.show(startTime, endTime);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -270,7 +272,7 @@ public class CalendarViewController implements Initializable {
 
                 if (dayView.getDate().equals(appointment.getStartTime().toLocalDate())) {
                     System.out.println("happend");
-                    this.createAppointmentView(dayView, appointment.getStartTime(), appointment.getEndTime());
+                    this.createAppointmentView(dayView, appointment.getStartTime(), appointment.getEndTime(), false);
                 }
             }
         }
