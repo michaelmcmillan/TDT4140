@@ -100,7 +100,7 @@ public class GroupPopupViewController implements Initializable {
             persons.add(tempPerson4);
 
             ObservableList<Person> personsObservableList = FXCollections.observableArrayList();
-            ObservableList<String> groupMembersObservableList = FXCollections.observableArrayList();
+            ObservableList<Person> groupMembersObservableList = FXCollections.observableArrayList();
 
             // If debug is disabled, get group data from server
             for (Person person : persons) {
@@ -128,6 +128,22 @@ public class GroupPopupViewController implements Initializable {
                 }
             });
 
+            groupMembersList.setCellFactory(new Callback<ListView<Person>, ListCell<Person>>() {
+                @Override
+                public ListCell<Person> call(ListView<Person> param) {
+                    ListCell<Person> cell = new ListCell<Person>() {
+                        @Override
+                        protected void updateItem(Person p, boolean bln) {
+                            super.updateItem(p, bln);
+                            if (p != null) {
+                                setText(p.getFirstName());
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            });
+
 
 
             // Listeners
@@ -136,7 +152,8 @@ public class GroupPopupViewController implements Initializable {
                 public void handle(MouseEvent event) {
                     System.out.println("fsdoijufsdopiusdf");
                     Person selectedPerson = (Person)allPersonsList.getSelectionModel().getSelectedItem();
-                    System.out.println(selectedPerson);
+                    groupMembersObservableList.add(selectedPerson);
+                    groupMembersList.setItems(groupMembersObservableList);
                 }
             });
 

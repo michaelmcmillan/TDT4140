@@ -29,7 +29,7 @@
                </Label>
             <Button fx:id="closeButton" layoutX="464.0" layoutY="446.0" mnemonicParsing="false" text="Close" />
             <ListView fx:id="groupMembersList" layoutX="15.0" layoutY="158.0" prefHeight="271.0" prefWidth="225.0" />
-            <Label layoutX="301.0" layoutY="133.0" prefHeight="25.0" prefWidth="127.0" text="Personer">
+            <Label layoutX="301.0" layoutY="133.0" prefHeight="25.0" prefWidth="127.0" text="Alle personer">
                <font>
                   <Font name="Helvetica Neue Light" size="14.0" />
                </font>
