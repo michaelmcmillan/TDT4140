@@ -52,8 +52,8 @@ public class MainViewController implements Initializable {
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         calendarViewController = new CalendarViewController(this, primaryStage);
         Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
-        groupPopupViewController = new GroupPopupViewController(calendarPane);
-        editGroupPopupViewController = new EditGroupPopupViewController(calendarPane);
+        groupPopupViewController = new GroupPopupViewController(calendarPane, this, primaryStage);
+        editGroupPopupViewController = new EditGroupPopupViewController(calendarPane, this, primaryStage);
         Button nextWeek = (Button) scene.lookup("#nextWeek");
         Button pastWeek = (Button) scene.lookup("#pastWeek");
         weekNumberLabel = (Label) scene.lookup("#ukenr");

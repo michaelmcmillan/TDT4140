@@ -1,15 +1,23 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import models.Appointment;
+import models.Person;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,9 +34,12 @@ public class GroupPopupViewController implements Initializable {
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
     private Pane calendarPane;
+    private Scene scene;
+    private ListView allPersonsList;
 
-    public GroupPopupViewController(Pane calendarPane){
+    public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
         this.calendarPane = calendarPane;
+        this.scene = calendarPane.getScene();
     }
 
     @Override
@@ -69,6 +80,34 @@ public class GroupPopupViewController implements Initializable {
             TextField startTime = (TextField) groupPopup.lookup("#startTime");
             TextField endTime = (TextField) groupPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) groupPopup.lookup("#startDatePicker");
+
+            // Dummy data
+
+            allPersonsList = (ListView) groupPopup.lookup("#allPersonsList");
+
+            Person tempPerson = new Person("Morten", "Kleveland", "yolo@gmail.com", "passord");
+            Person tempPerson2 = new Person("Marit", "Kleveland", "yolo@gmail.com", "passord");
+            Person tempPerson3 = new Person("Svetlana", "Kleveland", "yolo@gmail.com", "passord");
+            Person tempPerson4 = new Person("Kong", "Kleveland", "yolo@gmail.com", "passord");
+
+            ArrayList<Person> persons = new ArrayList<Person>();
+            persons.add(tempPerson);
+            persons.add(tempPerson2);
+            persons.add(tempPerson3);
+            persons.add(tempPerson4);
+
+            ObservableList<String> groupMembers = FXCollections.observableArrayList();
+
+            // If debug is disabled, get group data from server
+            for (Person person : persons) {
+                groupMembers.add(person.getFirstName() + " " + person.getSurname());
+            }
+
+            System.out.println(persons);
+            System.out.println(groupMembers);
+            System.out.println(allPersonsList);
+            // Handle clicks in sidebar (Kalendervelger)
+            allPersonsList.setItems(groupMembers);
 
             closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
