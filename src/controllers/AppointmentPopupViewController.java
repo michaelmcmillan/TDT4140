@@ -159,20 +159,17 @@ public class AppointmentPopupViewController  implements Initializable {
 
     private void save(){
 
-        LocalDate date = ((DayView)dayPane).getDate();
+        LocalDate date = appointmentDate.getValue();
 
   /*      int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
         int endHour = Integer.valueOf(this.endTime.getText().substring(0,2));
 
-        Date startTime = new Date(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
-        Date endTime = new Date(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
+        LocalDateTime startTime = date.atTime(startHour,0);
+        LocalDateTime endTime = date.atTime(endHour,0);
 
 
 
 
-
-        startTime.setHours(startHour);
-        endTime.setHours(endHour);
 
 
 
@@ -187,7 +184,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
 
 
-        Appointment newAppointment = new Appointment(startTime,endTime,title,description,createdBy,id,roomId,personId);
+        Appointment newAppointment = new Appointment(startTime,endTime,title,description,createdBy);
         Server.getInstance().createAppointment(newAppointment);
         */
 
