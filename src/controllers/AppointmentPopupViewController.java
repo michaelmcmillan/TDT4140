@@ -161,8 +161,8 @@ public class AppointmentPopupViewController  implements Initializable {
 
         LocalDate date = appointmentDate.getValue();
 
-        int startHour = Integer.valueOf(this.startTime.getText().substring(0, 2));
-        int endHour = Integer.valueOf(this.endTime.getText().substring(0,2));
+        int startHour = Integer.valueOf(this.startTime.getText().split(":")[0]);
+        int endHour = Integer.valueOf(this.endTime.getText().split(":")[0]);
 
         LocalDateTime startTime = date.atTime(startHour, 0);
         LocalDateTime endTime = date.atTime(endHour, 0);
