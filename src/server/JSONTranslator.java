@@ -25,13 +25,7 @@ public class JSONTranslator {
         return groups;
     }
 
-    public static ArrayList<Person> toPersonArrayList(JSONArray jsonArray) throws JSONException {
-        ArrayList<Person> persons = new ArrayList<>();
-        for (int i = 0 ; i <jsonArray.length() ; i ++){
-            persons.add(toPerson(jsonArray.getJSONObject(i)));
-        }
-        return persons;
-    }
+
 
     public static ArrayList<Appointment> toAppointmentArrayList(JSONArray jsonArray) throws JSONException {
         ArrayList<Appointment> appointments = new ArrayList<>();
@@ -41,26 +35,9 @@ public class JSONTranslator {
         return appointments;
     }
 
-    public static Group toGroup(JSONObject jsonObject) throws JSONException {
-        Group group = new Group();
-        group.setId(jsonObject.getInt("id"));
-        group.setName(jsonObject.getString("name"));
-        group.setCalendarId(jsonObject.getInt("Calendar_id"));
-        group.setSuperGroupId(jsonObject.getInt("Gruppe_id"));
-        return group;
-    }
 
-    public static Person toPerson(JSONObject jsonObject) throws JSONException {
-        Person person = new Person();
-        person.setId(jsonObject.getInt("id"));
-        person.setEmail(jsonObject.getString("email"));
-        person.setFirstName(jsonObject.getString("firstname"));
-        person.setSurname(jsonObject.getString("surname"));
-        person.setPassword(jsonObject.getString("password"));
-        person.setAlarmTime(jsonObject.getInt("alarm_time"));
-        person.setCalendarId(jsonObject.getInt("Calendar_id"));
-        return person;
-    }
+
+
 
     public static Appointment toAppointment(JSONObject jsonObject) throws JSONException {
         Appointment appointment = new Appointment();
@@ -178,5 +155,51 @@ public class JSONTranslator {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", group.getName());
         return jsonObject;
+    }
+
+    public static Group toGroup(JSONObject jsonObject) throws JSONException {
+        Group group = new Group();
+        group.setId(jsonObject.getInt("id"));
+        group.setName(jsonObject.getString("name"));
+        group.setCalendar_id(jsonObject.getInt("Calendar_id"));
+        group.setSupergroup(jsonObject.getInt("Gruppe_id"));
+        return group;
+    }
+
+    public static JSONArray toJSONPersons(ArrayList<Person> persons) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Person person : persons){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", person.getId());
+            jsonObject.put("email", person.getEmail());
+            jsonObject.put("firstname", person.getFirstName());
+            jsonObject.put("surname", person.getSurname());
+            jsonObject.put("password", person.getPassword());
+            jsonObject.put("alarm_time", person.getAlarmTime());
+            jsonObject.put("Calendar_id", person.getCalendarId());
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray;
+    }
+
+    public static ArrayList<Person> toPersonArrayList(JSONArray jsonArray) throws JSONException {
+        ArrayList<Person> persons = new ArrayList<>();
+        for (int i = 0 ; i <jsonArray.length() ; i ++){
+            persons.add(toPerson(jsonArray.getJSONObject(i)));
+        }
+        return persons;
+    }
+
+    public static Person toPerson(JSONObject jsonObject) throws JSONException {
+        Person person = new Person();
+        person.setId(jsonObject.getInt("id"));
+        person.setEmail(jsonObject.getString("email"));
+        person.setFirstName(jsonObject.getString("firstname"));
+        person.setSurname(jsonObject.getString("surname"));
+        person.setPassword(jsonObject.getString("password"));
+        person.setAlarmTime(jsonObject.getInt("alarm_time"));
+        person.setCalendarId(jsonObject.getInt("Calendar_id"));
+        return person;
     }
 }

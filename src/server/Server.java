@@ -71,8 +71,8 @@ public class Server {
 
         for (int i = 0; i < json.length(); i++) {
             try {
-
-                Group group = new Group(json.getJSONObject(i).getString("name"));
+                Group group = new Group();
+                group.setName(json.getJSONObject(i).getString("name"));
                 groups.add(group);
             } catch (JSONException error) {
                 error.printStackTrace();
@@ -82,7 +82,7 @@ public class Server {
         return groups;
     }
 
-    public void createAppointment(int calendarId, Appointment appointment) {
+    public String createAppointment(int calendarId, Appointment appointment) {
         JSONObject appointmentObject = null;
         try {
             appointmentObject = JSONTranslator.toJSON(appointment);
@@ -90,20 +90,42 @@ public class Server {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        server.post("appointment/" + calendarId, appointmentObject.toString());
+        return server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
-    public void createGroup(Group group) {
-        JSONObject groupObject = null;
+    public Group createGroup(Group group) {
+        JSONObject groupObjectToBePosted = null;
+        JSONObject groupObjectToBeReturned = null;
+
         try {
-            groupObject = JSONTranslator.toJSON(group);
+            groupObjectToBePosted = JSONTranslator.toJSON(group);
+            groupObjectToBeReturned = new JSONObject(server.post("group", groupObjectToBePosted.toString()));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String serverResponse = server.post("group", groupObject.toString());
 
-        System.out.print(serverResponse);
+        try {
+            return JSONTranslator.toGroup(groupObjectToBeReturned);
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ArrayList<Person> addMembersToGroup (Group group, ArrayList<Person> members) {
+        int groupId = group.getId();
+        String returned = "";
+
+        try {
+            returned = server.post("group/" + groupId, JSONTranslator.toJSONPersons(members).toString());
+            return JSONTranslator.toPersonArrayList(new JSONArray(returned));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public Person getCurrentlyLoggedInPerson () {

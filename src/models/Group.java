@@ -6,12 +6,11 @@ import java.util.ArrayList;
 public class Group {
     private int id;
     private int Calendar_id;
+    private int supergroup;
     private String name;
-    private ArrayList<Person> members;
 
-    public Group(String name) {
-        this.name = name;
-        this.members = members;
+    public Group() {
+
     }
 
     public void setCalendar_id (int calendar_id) { this.Calendar_id = calendar_id; }
@@ -23,16 +22,11 @@ public class Group {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public void addMember (Person person) {
-        this.members.add(person);
+    public int getSupergroup() {
+        return supergroup;
     }
 
-    public ArrayList<Person> getMembers () {
-        return this.members;
+    public void setSupergroup(int supergroup) {
+        this.supergroup = supergroup;
     }
-
-    public void removeMember (Person person) {
-        this.members.remove(person);
-    }
-
 }

@@ -68,9 +68,8 @@ public class CalendarHelper {
 //        return new Date[]{weekStart, weekEnd};
 //    }
 
-    public static void checkRectangleCollisions(Pane pane, Rectangle rectangle, ArrayList<Rectangle> rectangles) {
+    public static void checkRectangleCollisions(Double dayWidth, Rectangle rectangle, ArrayList<Rectangle> rectangles) {
         boolean collisionDetected = false;
-
         ArrayList<Rectangle> collidingRectangles = new ArrayList<Rectangle>();
 
         for (Rectangle otherRectangle : rectangles) {
@@ -88,13 +87,13 @@ public class CalendarHelper {
             int numCollisions = collidingRectangles.size();
             for(int i = 0; i < collidingRectangles.size(); i++) {
                 Rectangle currentRectangle = collidingRectangles.get(i);
-                currentRectangle.setWidth(pane.getWidth()/numCollisions - 1);
-                currentRectangle.setX((pane.getWidth()/numCollisions)*i + 1);
+                currentRectangle.setWidth(dayWidth/numCollisions - 1);
+                currentRectangle.setX((dayWidth/numCollisions)*i + 1);
             }
             //kollisjon fikset(ish):
-            for (Rectangle rect : collidingRectangles){
+            /*for (Rectangle rect : collidingRectangles){
                 checkRectangleCollisions(pane, rect, rectangles);
-            }
+            }*/
         }
     }
 
