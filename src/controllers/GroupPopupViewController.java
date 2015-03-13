@@ -89,12 +89,13 @@ public class GroupPopupViewController {
             DatePicker appointmentDate = (DatePicker) groupPopup.lookup("#startDatePicker");
 
 
+
             // Fill lists
             allPersonsList = (ListView) groupPopup.lookup("#allPersonsList");
             groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
 
 
-
+/*
 
             Person tempPerson = new Person(1, "Morten", "Kleveland", "yolo@gmail.com");
             Person tempPerson2 = new Person(2, "Marit", "Kleveland", "yolo@gmail.com");
@@ -106,15 +107,19 @@ public class GroupPopupViewController {
             persons.add(tempPerson2);
             persons.add(tempPerson3);
             persons.add(tempPerson4);
+            */
 
             personsObservableList        = FXCollections.observableArrayList();
             groupMembersObservableList   = FXCollections.observableArrayList();
-
+/*
             // If debug is disabled, get group data from server
             for (Person person : persons) {
                 //personsObservableList.add(person.getFirstName() + " " + person.getSurname());
                 personsObservableList.add(person);
             }
+            */
+
+            personsObservableList.addAll(Server.getInstance().getAllUsers());
 
             allPersonsList.setItems(personsObservableList);
             groupMembersList.setItems(groupMembersObservableList);
