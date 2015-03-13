@@ -10,8 +10,8 @@
          <!--<Rectangle arcHeight="0.0" arcWidth="0.0" fill="GAINSBORO" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="542.0" />-->
        <Pane prefHeight="500.0" prefWidth="540.0">
            <children>
-               <TextField fx:id="roomTextField" layoutX="94.0" layoutY="88.0" prefHeight="26.0" prefWidth="430.0" promptText="Skriv inn tittel" />
-               <Button fx:id="addAppointmentButton" layoutX="223.0" layoutY="446.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" text="Legg til" />
+               <TextField fx:id="titleTextField"  layoutX="94.0" layoutY="88.0" prefHeight="26.0" prefWidth="430.0" promptText="Skriv inn tittel" />
+               <Button id="saveButton" fx:id="addAppointmentButton" layoutX="223.0" layoutY="446.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" text="Legg til" />
                <Label layoutX="15.0" layoutY="89.0" prefHeight="25.0" prefWidth="127.0" text="Tittel:">
                    <font>
                        <Font name="Helvetica Neue Light" size="14.0" />

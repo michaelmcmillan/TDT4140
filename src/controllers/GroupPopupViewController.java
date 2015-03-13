@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.control.ListCell;
 import models.Appointment;
+import models.Group;
 import models.Person;
+import server.Server;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +30,7 @@ import java.util.ResourceBundle;
  */
 public class GroupPopupViewController {
 
-    @FXML private TextField titleTextField;
+    private TextField titleTextField;
     private ArrayList<Pane> openGroupPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
@@ -36,6 +38,7 @@ public class GroupPopupViewController {
     private Scene scene;
     private ListView allPersonsList;
     private ListView groupMembersList;
+
 
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
         this.calendarPane = calendarPane;
@@ -47,6 +50,9 @@ public class GroupPopupViewController {
     public void show(){
 
         try {
+
+
+
             // Init popupview from FXML
             FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/GroupPopupView.fxml"));
             Pane groupPopup = testLoader.load();
@@ -69,17 +75,24 @@ public class GroupPopupViewController {
             groupPopup.setLayoutY(100);
 
             //Set methods
-            Button closeButton = (Button) groupPopup.lookup("#closeButton");
-            Button addButton = (Button) groupPopup.lookup("#addButton");
+            Button closeButton  = (Button) groupPopup.lookup("#closeButton");
+            Button saveButton   = (Button) groupPopup.lookup("#saveButton");
+            Button addButton    = (Button) groupPopup.lookup("#addButton");
             Button removeButton = (Button) groupPopup.lookup("#removeButton");
+
+            titleTextField = (TextField) groupPopup.lookup("#titleTextField");
+
             TextField startTime = (TextField) groupPopup.lookup("#startTime");
-            TextField endTime = (TextField) groupPopup.lookup("#endTime");
+            TextField endTime   = (TextField) groupPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) groupPopup.lookup("#startDatePicker");
 
 
             // Fill lists
             allPersonsList = (ListView) groupPopup.lookup("#allPersonsList");
             groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
+
+
+
 
             Person tempPerson = new Person(1, "Morten", "Kleveland", "yolo@gmail.com");
             Person tempPerson2 = new Person(2, "Marit", "Kleveland", "yolo@gmail.com");
@@ -172,16 +185,35 @@ public class GroupPopupViewController {
                 }
             });
 
+            saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    save();
+                }
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void close() {
+    private void close() {
         for (int i = 0; i < calendarPane.getChildren().size(); i++) {
             if (openGroupPopups.contains(calendarPane.getChildren().get(i))) {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
     }
+
+    private void save(){
+
+        Group newGroup = new Group(titleTextField.getText());
+
+        Server.getInstance().createGroup(newGroup);
+
+
+
+    }
+
+
 }

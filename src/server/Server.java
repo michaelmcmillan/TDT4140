@@ -101,7 +101,9 @@ public class Server {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        server.post("group", groupObject.toString());
+        String serverResponse = server.post("group", groupObject.toString());
+
+        System.out.print(serverResponse);
     }
 
     public Person getCurrentlyLoggedInPerson () {
