@@ -1,5 +1,6 @@
 package controllers;
 
+import application.Config;
 import helpers.CalendarHelper;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -70,8 +71,9 @@ public class CalendarViewController implements Initializable {
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         this.generateDayPanes(firstDayOfWeek);
 
-        this.populateWeekWithAppointments(firstDayOfWeek);
-
+        if(!Config.getInstance().DEBUG) {
+            this.populateWeekWithAppointments(firstDayOfWeek);
+        }
     }
 
     public void initialize(URL location, ResourceBundle resources) {
