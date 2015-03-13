@@ -63,6 +63,11 @@ public class Server {
         return appointments;
     }
 
+    public ArrayList<Person> getAllUsers (){
+        JSONArray json = server.getArray("user");
+        return JSONTranslator.to
+    }
+
 
     public ArrayList<Group> getGroups () {
 
