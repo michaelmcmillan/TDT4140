@@ -126,6 +126,11 @@ public class ServerHTTPCommunicator {
             System.out.println("io error" + ioError.getMessage());
         }
 
+        System.out.println(url);
+        System.out.println(response);
+
+
+
         return response;
     }
 

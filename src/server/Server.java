@@ -63,6 +63,16 @@ public class Server {
         return appointments;
     }
 
+    public ArrayList<Person> getAllUsers (){
+        JSONArray json = server.getArray("user");
+        try {
+            return JSONTranslator.toPersonArrayList(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public ArrayList<Group> getGroups () {
 
