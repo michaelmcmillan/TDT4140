@@ -41,14 +41,7 @@ public class JSONTranslator {
         return appointments;
     }
 
-    public static Group toGroup(JSONObject jsonObject) throws JSONException {
-        Group group = new Group();
-        group.setId(jsonObject.getInt("id"));
-        group.setName(jsonObject.getString("name"));
-        group.setCalendarId(jsonObject.getInt("Calendar_id"));
-        group.setSuperGroupId(jsonObject.getInt("Gruppe_id"));
-        return group;
-    }
+
 
     public static Person toPerson(JSONObject jsonObject) throws JSONException {
         Person person = new Person();
@@ -178,5 +171,14 @@ public class JSONTranslator {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", group.getName());
         return jsonObject;
+    }
+
+    public static Group toGroup(JSONObject jsonObject) throws JSONException {
+        Group group = new Group();
+        group.setId(jsonObject.getInt("id"));
+        group.setName(jsonObject.getString("name"));
+        group.setCalendar_id(jsonObject.getInt("Calendar_id"));
+        group.setSupergroup(jsonObject.getInt("Gruppe_id"));
+        return group;
     }
 }
