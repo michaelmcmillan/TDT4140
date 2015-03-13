@@ -69,9 +69,7 @@ public class CalendarViewController implements Initializable {
 
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         this.generateDayPanes(firstDayOfWeek);
-
         this.populateWeekWithAppointments(firstDayOfWeek);
-
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -262,15 +260,17 @@ public class CalendarViewController implements Initializable {
     }
 
     public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
+
+        // Clear attribute rectangles to avoid clog
+        this.rectangles.clear();
+
         LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
 
         ArrayList<Appointment> appointments = Server.getInstance().getAppointments(this.mainViewController.getcurrentlySelectedCalendarId(), firstDayOfWeek, lastDayOfWeek);
 
         for (Appointment appointment : appointments) {
             for (DayView dayView : this.dayPanes) {
-
                 if (dayView.getDate().equals(appointment.getStartTime().toLocalDate())) {
-                    System.out.println("happend");
                     this.createAppointmentView(dayView, appointment.getStartTime(), appointment.getEndTime(), false);
                 }
             }
