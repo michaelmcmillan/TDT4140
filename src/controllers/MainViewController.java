@@ -41,6 +41,7 @@ public class MainViewController implements Initializable {
     public int getcurrentlySelectedCalendarId () {
         return currentlySelectedCalendarId;
     }
+    public void setcurrentlySelectedCalendarId (int calendarId) { currentlySelectedCalendarId = calendarId;}
 
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 
@@ -54,9 +55,9 @@ public class MainViewController implements Initializable {
         scene.getStylesheets().add(this.getClass().getResource("/views/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
-        sidebarViewController = new SidebarViewController(this, primaryStage);
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         calendarViewController = new CalendarViewController(this, primaryStage);
+        sidebarViewController = new SidebarViewController(this, calendarViewController,primaryStage);
         Pane calendarPane = (AnchorPane) scene.lookup("#calendarPane");
         groupPopupViewController = new GroupPopupViewController(calendarPane, this, primaryStage);
         editGroupPopupViewController = new EditGroupPopupViewController(calendarPane, this, primaryStage);
@@ -137,8 +138,10 @@ public class MainViewController implements Initializable {
                     +" " + firstDayOfWeek.getDayOfMonth() + "." + firstDayOfWeek.getMonthValue());
             firstDayOfWeek = firstDayOfWeek.plusDays(1);
         }
-        yearLabel.setText(firstDayOfWeek.getYear()+"");
+        yearLabel.setText(firstDayOfWeek.getYear() + "");
     }
+
+    public LocalDate getFirstDayOfWeek() {return firstDayOfWeek;}
 
     public int getSelectedWeekNumber() {
         return weekNumber;

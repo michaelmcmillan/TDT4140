@@ -253,10 +253,13 @@ public class CalendarViewController implements Initializable {
         this.addHourBreakers();
     }
 
+    public void removeRectangles() {
+        rectangles.clear();}
+
     public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
 
         // Clear attribute rectangles to avoid clog
-        this.rectangles.clear();
+        rectangles.clear();
 
         LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
 
