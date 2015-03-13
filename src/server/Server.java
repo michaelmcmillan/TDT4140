@@ -84,6 +84,7 @@ public class Server {
                 Group group = new Group();
                 group.setName(json.getJSONObject(i).getString("name"));
                 groups.add(group);
+                group.setCalendar_id(json.getJSONObject(i).getInt("Calendar_id"));
             } catch (JSONException error) {
                 error.printStackTrace();
             }
