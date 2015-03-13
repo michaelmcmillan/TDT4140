@@ -114,6 +114,20 @@ public class Server {
         return null;
     }
 
+    public ArrayList<Person> addMembersToGroup (Group group, ArrayList<Person> members) {
+        int groupId = group.getId();
+        String returned = "";
+
+        try {
+            returned = server.post("group/" + groupId, JSONTranslator.toJSONPersons(members).toString());
+            return JSONTranslator.toPersonArrayList(new JSONArray(returned));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public Person getCurrentlyLoggedInPerson () {
         JSONObject json = server.getObject("user/me");
 
