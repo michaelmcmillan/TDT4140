@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.control.ListCell;
 import models.Appointment;
+import models.Group;
 import models.Person;
+import server.Server;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,9 +28,9 @@ import java.util.ResourceBundle;
 /**
  * Created by Morten on 02.03.15.
  */
-public class GroupPopupViewController implements Initializable {
+public class GroupPopupViewController {
 
-    @FXML private TextField titleTextField;
+    private TextField titleTextField;
     private ArrayList<Pane> openGroupPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
@@ -36,24 +38,23 @@ public class GroupPopupViewController implements Initializable {
     private Scene scene;
     private ListView allPersonsList;
     private ListView groupMembersList;
+    private ObservableList<Person> personsObservableList       ;
+    private ObservableList<Person> groupMembersObservableList  ;
+
 
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
         this.calendarPane = calendarPane;
         this.scene = calendarPane.getScene();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-    }
-
-    @FXML void addGroupButtonPressed(ActionEvent event) {
-
-    }
 
     public void show(){
 
         try {
+
+
+
             // Init popupview from FXML
             FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/GroupPopupView.fxml"));
             Pane groupPopup = testLoader.load();
@@ -76,17 +77,25 @@ public class GroupPopupViewController implements Initializable {
             groupPopup.setLayoutY(100);
 
             //Set methods
-            Button closeButton = (Button) groupPopup.lookup("#closeButton");
-            Button addButton = (Button) groupPopup.lookup("#addButton");
+            Button closeButton  = (Button) groupPopup.lookup("#closeButton");
+            Button saveButton   = (Button) groupPopup.lookup("#saveButton");
+            Button addButton    = (Button) groupPopup.lookup("#addButton");
             Button removeButton = (Button) groupPopup.lookup("#removeButton");
+
+            titleTextField = (TextField) groupPopup.lookup("#titleTextField");
+
             TextField startTime = (TextField) groupPopup.lookup("#startTime");
-            TextField endTime = (TextField) groupPopup.lookup("#endTime");
+            TextField endTime   = (TextField) groupPopup.lookup("#endTime");
             DatePicker appointmentDate = (DatePicker) groupPopup.lookup("#startDatePicker");
+
 
 
             // Fill lists
             allPersonsList = (ListView) groupPopup.lookup("#allPersonsList");
             groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
+
+
+/*
 
             Person tempPerson = new Person(1, "Morten", "Kleveland", "yolo@gmail.com");
             Person tempPerson2 = new Person(2, "Marit", "Kleveland", "yolo@gmail.com");
@@ -98,15 +107,19 @@ public class GroupPopupViewController implements Initializable {
             persons.add(tempPerson2);
             persons.add(tempPerson3);
             persons.add(tempPerson4);
+            */
 
-            ObservableList<Person> personsObservableList = FXCollections.observableArrayList();
-            ObservableList<Person> groupMembersObservableList = FXCollections.observableArrayList();
-
+            personsObservableList        = FXCollections.observableArrayList();
+            groupMembersObservableList   = FXCollections.observableArrayList();
+/*
             // If debug is disabled, get group data from server
             for (Person person : persons) {
                 //personsObservableList.add(person.getFirstName() + " " + person.getSurname());
                 personsObservableList.add(person);
             }
+            */
+
+            personsObservableList.addAll(Server.getInstance().getAllUsers());
 
             allPersonsList.setItems(personsObservableList);
             groupMembersList.setItems(groupMembersObservableList);
@@ -121,6 +134,8 @@ public class GroupPopupViewController implements Initializable {
                             super.updateItem(p, bln);
                             if (p != null) {
                                 setText(p.getEmail());
+                            }else {
+                                setText("");
                             }
                         }
                     };
@@ -137,6 +152,8 @@ public class GroupPopupViewController implements Initializable {
                             super.updateItem(p, bln);
                             if (p != null) {
                                 setText(p.getEmail());
+                            } else {
+                                setText("");
                             }
                         }
                     };
@@ -152,7 +169,7 @@ public class GroupPopupViewController implements Initializable {
                     Person selectedPerson = (Person)allPersonsList.getSelectionModel().getSelectedItem();
                     if (!groupMembersObservableList.contains(selectedPerson)) {
                         groupMembersObservableList.add(selectedPerson);
-                        groupMembersList.setItems(groupMembersObservableList);
+
                     }
                 }
             });
@@ -163,7 +180,7 @@ public class GroupPopupViewController implements Initializable {
                     Person selectedPerson = (Person)groupMembersList.getSelectionModel().getSelectedItem();
                     if (groupMembersObservableList.contains(selectedPerson)) {
                         groupMembersObservableList.remove(selectedPerson);
-                        groupMembersList.setItems(groupMembersObservableList);
+
                     }
                 }
             });
@@ -175,16 +192,40 @@ public class GroupPopupViewController implements Initializable {
                 }
             });
 
+            saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    save();
+                }
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void close() {
+    private void close() {
         for (int i = 0; i < calendarPane.getChildren().size(); i++) {
             if (openGroupPopups.contains(calendarPane.getChildren().get(i))) {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
     }
+
+    private void save(){
+
+        Group newGroup = new Group(titleTextField.getText());
+
+        newGroup = Server.getInstance().createGroup(newGroup);
+        ArrayList<Person> groupMembers = new ArrayList<>();
+        groupMembers.addAll(groupMembersObservableList);
+        Server.getInstance().addMembersToGroup(newGroup, groupMembers);
+
+
+
+
+
+    }
+
+
 }
