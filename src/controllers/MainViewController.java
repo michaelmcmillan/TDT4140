@@ -113,7 +113,11 @@ public class MainViewController implements Initializable {
         editGroupPopupViewController.show();
     }
 
-    void fireLogout(ActionEvent event) {System.out.println("Log out");}
+    void fireLogout(ActionEvent event) {
+        new LoginViewController(primaryStage);
+
+
+    }
 
     void fireNextWeek(ActionEvent event) {
         firstDayOfWeek = firstDayOfWeek.plusWeeks(1);
