@@ -171,10 +171,12 @@ public class JSONTranslator {
         jsonObject.put("Room_id", appointment.getRoomId());
         jsonObject.put("description", appointment.getDescription());
 
-
         return jsonObject;
     }
 
-
-
+    public static JSONObject toJSON(Group group) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", group.getName());
+        return jsonObject;
+    }
 }

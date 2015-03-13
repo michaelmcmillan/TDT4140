@@ -92,6 +92,17 @@ public class Server {
         server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
+    public void createGroup(Group group) {
+        JSONObject groupObject = null;
+        try {
+            groupObject = JSONTranslator.toJSON(group);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        server.post("group", groupObject.toString());
+    }
+
     public Person getCurrentlyLoggedInPerson () {
         JSONObject json = server.getObject("user/me");
 
