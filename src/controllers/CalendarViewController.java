@@ -69,9 +69,7 @@ public class CalendarViewController implements Initializable {
 
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         this.generateDayPanes(firstDayOfWeek);
-
         this.populateWeekWithAppointments(firstDayOfWeek);
-
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -126,15 +124,9 @@ public class CalendarViewController implements Initializable {
 
     public void createAppointmentViewOnMouseDrag(final DayView pane, double startY, double endY) {
 
-        //Get date from weekstart
-        int startDay = startOfWeek.get(java.util.Calendar.DAY_OF_MONTH);
-        startDay += dayPanes.indexOf(pane);
-
         // Get start and end times based on the rectangle positioning
         int startTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.min(startY, endY));
         int endTime[] = CalendarHelper.convertYAxisToHourAndMinutes(pane, Math.max(startY, endY));
-
-        Date[] firstAndLastDayOfWeek = CalendarHelper.getFirstAndLastDayOfCurrentWeek();
 
         createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])), true);
     }
@@ -180,7 +172,7 @@ public class CalendarViewController implements Initializable {
         });
 
         // Check collisions between this and all other rectangles (appointments)
-        CalendarHelper.checkRectangleCollisions(pane, rectangle, rectangles);
+        CalendarHelper.checkRectangleCollisions(DAY_WIDTH, rectangle, rectangles);
     }
 
     public void generateDayPanes(LocalDate firstDayOfWeek) {
@@ -262,15 +254,17 @@ public class CalendarViewController implements Initializable {
     }
 
     public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
+
+        // Clear attribute rectangles to avoid clog
+        this.rectangles.clear();
+
         LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
 
         ArrayList<Appointment> appointments = Server.getInstance().getAppointments(this.mainViewController.getcurrentlySelectedCalendarId(), firstDayOfWeek, lastDayOfWeek);
 
         for (Appointment appointment : appointments) {
             for (DayView dayView : this.dayPanes) {
-
                 if (dayView.getDate().equals(appointment.getStartTime().toLocalDate())) {
-                    System.out.println("happend");
                     this.createAppointmentView(dayView, appointment.getStartTime(), appointment.getEndTime(), false);
                 }
             }
