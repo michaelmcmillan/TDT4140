@@ -71,6 +71,7 @@ public class Server {
 
         for (int i = 0; i < json.length(); i++) {
             try {
+
                 Group group = new Group(json.getJSONObject(i).getString("name"));
                 groups.add(group);
             } catch (JSONException error) {
