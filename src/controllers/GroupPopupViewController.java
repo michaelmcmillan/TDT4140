@@ -38,6 +38,8 @@ public class GroupPopupViewController {
     private Scene scene;
     private ListView allPersonsList;
     private ListView groupMembersList;
+    private ObservableList<Person> personsObservableList       ;
+    private ObservableList<Person> groupMembersObservableList  ;
 
 
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
@@ -105,8 +107,8 @@ public class GroupPopupViewController {
             persons.add(tempPerson3);
             persons.add(tempPerson4);
 
-            ObservableList<Person> personsObservableList = FXCollections.observableArrayList();
-            ObservableList<Person> groupMembersObservableList = FXCollections.observableArrayList();
+            personsObservableList        = FXCollections.observableArrayList();
+            groupMembersObservableList   = FXCollections.observableArrayList();
 
             // If debug is disabled, get group data from server
             for (Person person : persons) {
@@ -209,7 +211,12 @@ public class GroupPopupViewController {
 
         Group newGroup = new Group(titleTextField.getText());
 
-        Server.getInstance().createGroup(newGroup);
+        newGroup = Server.getInstance().createGroup(newGroup);
+        ArrayList<Person> groupMembers = new ArrayList<>();
+        groupMembers.addAll(groupMembersObservableList);
+        Server.getInstance().addMembersToGroup(newGroup, groupMembers);
+
+
 
 
 

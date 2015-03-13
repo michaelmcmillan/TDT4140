@@ -11,6 +11,12 @@ public class Group {
 
     public Group() {
 
+
+    }
+    public Group(String name) {
+        this.name = name;
+
+
     }
 
     public void setCalendar_id (int calendar_id) { this.Calendar_id = calendar_id; }

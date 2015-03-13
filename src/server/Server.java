@@ -114,13 +114,13 @@ public class Server {
         return null;
     }
 
-    public ArrayList<Person> addMembersToGroup (Group group, ArrayList<Person> members) {
+    public Void addMembersToGroup (Group group, ArrayList<Person> members) {
         int groupId = group.getId();
         String returned = "";
 
         try {
-            returned = server.post("group/" + groupId, JSONTranslator.toJSONPersons(members).toString());
-            return JSONTranslator.toPersonArrayList(new JSONArray(returned));
+            server.post("group/" + groupId +"/members", JSONTranslator.toJSONPersons(members).toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
