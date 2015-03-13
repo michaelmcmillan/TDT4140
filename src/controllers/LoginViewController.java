@@ -32,39 +32,45 @@ public class LoginViewController{
     Button loginButton;
     Button registerButton;
 
-    public LoginViewController(Stage primaryStage) throws Exception{
-        this.primaryStage = primaryStage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(LOGINVIEW_PATH));
-        Parent root = loader.load();
-        loader.setController(this);
-        primaryStage.setTitle("Login - Kalendersystem");
-        scene = new Scene(root);
-        primaryStage.setScene(scene);
+    public LoginViewController(Stage primaryStage){
+        try {
 
-        primaryStage.setResizable(false);
-        primaryStage.show();
 
-        this. usernameField = (TextField) scene.lookup("#usernameTextfield");
-        this.passwordField = (TextField) scene.lookup("#passwordTextfield");
+            this.primaryStage = primaryStage;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(LOGINVIEW_PATH));
+            Parent root = loader.load();
+            loader.setController(this);
+            primaryStage.setTitle("Login - Kalendersystem");
+            scene = new Scene(root);
+            primaryStage.setScene(scene);
+
+            primaryStage.setResizable(false);
+            primaryStage.show();
+
+            this.usernameField = (TextField) scene.lookup("#usernameTextfield");
+            this.passwordField = (TextField) scene.lookup("#passwordTextfield");
 
         /* Debugging */
-        this.usernameField.setText("jonaslaksen@live.com");
-        this.passwordField.setText("heisann");
+            this.usernameField.setText("jonaslaksen@live.com");
+            this.passwordField.setText("heisann");
 
-        loginButton = (Button) scene.lookup("#loginButton");
-        registerButton = (Button) scene.lookup("#registerButton");
+            loginButton = (Button) scene.lookup("#loginButton");
+            registerButton = (Button) scene.lookup("#registerButton");
 
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
+            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.ENTER) {
 
-                    doLogin();
+                        doLogin();
+
+                    }
 
                 }
-
-            }
-        });
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
