@@ -1,32 +1,32 @@
 package models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by Morten on 25.02.15.
- */
 public class Group {
+    private int id;
+    private int Calendar_id;
+    private int supergroup;
+    private String name;
 
-    List<Person> members;
-    ArrayList<Group> subGroups; //Burde det ikke vaere superGroups?
-    String name;
+    public Group() {
 
-
-    public Group(String name) {
-        this.name = name;
-        members = new ArrayList<Person>();
-        subGroups = new ArrayList<Group>();
     }
+
+    public void setCalendar_id (int calendar_id) { this.Calendar_id = calendar_id; }
+    public int getCalendar_id () { return this.Calendar_id; }
+
+    public void setId (int id) { this.id = id; }
+    public int getId () { return this.id; }
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public List<Person> getMembers() {return members;}
-    public void addMember(Person person){members.add(person);}
-    public void removeMember(Person person){members.remove(person);}
+    public int getSupergroup() {
+        return supergroup;
+    }
 
-    public ArrayList<Group> getSubGroups() {return subGroups;}
-    public void addSubGroup(Group group){subGroups.add(group);}
-
+    public void setSupergroup(int supergroup) {
+        this.supergroup = supergroup;
+    }
 }

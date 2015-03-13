@@ -71,7 +71,8 @@ public class Server {
 
         for (int i = 0; i < json.length(); i++) {
             try {
-                Group group = new Group(json.getJSONObject(i).getString("name"));
+                Group group = new Group();
+                group.setName(json.getJSONObject(i).getString("name"));
                 groups.add(group);
             } catch (JSONException error) {
                 error.printStackTrace();
@@ -90,6 +91,27 @@ public class Server {
             e.printStackTrace();
         }
         return server.post("appointment/" + calendarId, appointmentObject.toString());
+    }
+
+    public Group createGroup(Group group) {
+        JSONObject groupObjectToBePosted = null;
+        JSONObject groupObjectToBeReturned = null;
+
+        try {
+            groupObjectToBePosted = JSONTranslator.toJSON(group);
+            groupObjectToBeReturned = new JSONObject(server.post("group", groupObjectToBePosted.toString()));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            return JSONTranslator.toGroup(groupObjectToBeReturned);
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+
+        return null;
     }
 
     public Person getCurrentlyLoggedInPerson () {
