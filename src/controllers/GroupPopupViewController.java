@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Morten on 02.03.15.
  */
-public class GroupPopupViewController implements Initializable {
+public class GroupPopupViewController {
 
     @FXML private TextField titleTextField;
     private ArrayList<Pane> openGroupPopups = new ArrayList<Pane>();
@@ -42,14 +42,7 @@ public class GroupPopupViewController implements Initializable {
         this.scene = calendarPane.getScene();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-    }
-
-    @FXML void addGroupButtonPressed(ActionEvent event) {
-
-    }
 
     public void show(){
 
@@ -121,6 +114,8 @@ public class GroupPopupViewController implements Initializable {
                             super.updateItem(p, bln);
                             if (p != null) {
                                 setText(p.getEmail());
+                            }else {
+                                setText("");
                             }
                         }
                     };
@@ -137,6 +132,8 @@ public class GroupPopupViewController implements Initializable {
                             super.updateItem(p, bln);
                             if (p != null) {
                                 setText(p.getEmail());
+                            } else {
+                                setText("");
                             }
                         }
                     };
@@ -152,7 +149,7 @@ public class GroupPopupViewController implements Initializable {
                     Person selectedPerson = (Person)allPersonsList.getSelectionModel().getSelectedItem();
                     if (!groupMembersObservableList.contains(selectedPerson)) {
                         groupMembersObservableList.add(selectedPerson);
-                        groupMembersList.setItems(groupMembersObservableList);
+
                     }
                 }
             });
@@ -163,7 +160,7 @@ public class GroupPopupViewController implements Initializable {
                     Person selectedPerson = (Person)groupMembersList.getSelectionModel().getSelectedItem();
                     if (groupMembersObservableList.contains(selectedPerson)) {
                         groupMembersObservableList.remove(selectedPerson);
-                        groupMembersList.setItems(groupMembersObservableList);
+
                     }
                 }
             });
