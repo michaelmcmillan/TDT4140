@@ -81,7 +81,7 @@ public class Server {
         return groups;
     }
 
-    public void createAppointment(int calendarId, Appointment appointment) {
+    public String createAppointment(int calendarId, Appointment appointment) {
         JSONObject appointmentObject = null;
         try {
             appointmentObject = JSONTranslator.toJSON(appointment);
@@ -89,7 +89,7 @@ public class Server {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        server.post("appointment/" + calendarId, appointmentObject.toString());
+        return server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
     public Person getCurrentlyLoggedInPerson () {

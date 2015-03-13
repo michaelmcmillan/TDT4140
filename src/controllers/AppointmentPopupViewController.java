@@ -37,7 +37,8 @@ public class AppointmentPopupViewController  implements Initializable {
     TextArea formaalField;
     TextField roomField;
     DatePicker  appointmentDate;
-
+    Button closeButton;
+    Button saveButton ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //model = new Appointment();
@@ -103,8 +104,8 @@ public class AppointmentPopupViewController  implements Initializable {
             appointmentPopup.setLayoutY(100);
 
             //Set methods
-            Button closeButton = (Button) appointmentPopup.lookup("#closeButton");
-            Button saveButton = (Button) appointmentPopup.lookup("#saveButton");
+            closeButton = (Button) appointmentPopup.lookup("#closeButton");
+            saveButton = (Button) appointmentPopup.lookup("#saveButton");
 
 
 
@@ -137,7 +138,7 @@ public class AppointmentPopupViewController  implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     save();
-                    close();
+
                 }
             });
 
@@ -170,7 +171,20 @@ public class AppointmentPopupViewController  implements Initializable {
         ArrayList<Person> participants = new ArrayList<>();
 
         Appointment newAppointment = new Appointment(startTime, endTime, this.titleField.getText(), this.formaalField.getText());
-        Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), newAppointment);
+
+
+        String serverResponse = Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), newAppointment);
+
+        System.out.print(serverResponse);
+
+        if (serverResponse.equals("true")){
+            close();
+            //saveButton.setDisable(true);
+
+        } else {
+            titleField.setText("ERROR: " + serverResponse);
+
+        }
 
     }
 }
