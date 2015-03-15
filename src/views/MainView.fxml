@@ -238,10 +238,10 @@
               <MenuItem id="menu-account-logout" mnemonicParsing="false" text="Logout" />
             </items>
           </Menu>
-          <Menu id="menu-edit" mnemonicParsing="false" text="Edit">
+          <Menu id="menu-edit" mnemonicParsing="false" text="Group">
             <items>
-                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Edit group" />
-                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New group" />
+                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Leave" />
+                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New" />
             </items>
           </Menu>
         </menus>
