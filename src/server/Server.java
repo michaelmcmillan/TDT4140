@@ -64,7 +64,7 @@ public class Server {
     }
 
     public ArrayList<Person> getAllUsers (){
-        JSONArray json = server.getArray("user");
+        JSONArray json = server.getArray("users");
         try {
             return JSONTranslator.toPersonArrayList(json);
         } catch (JSONException e) {
