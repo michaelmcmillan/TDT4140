@@ -11,8 +11,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
@@ -131,7 +134,10 @@ public class CalendarViewController implements Initializable {
         createAppointmentView(pane, LocalDateTime.of(pane.getDate(), LocalTime.of(startTime[0], startTime[1])), LocalDateTime.of(pane.getDate(), LocalTime.of(endTime[0], endTime[1])), true);
     }
 
-    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime, boolean showPopup) {
+    public void createAppointmentView(final DayView pane, Appointment appointment, boolean showPopup){
+
+        LocalDateTime startTime = appointment.getStartTime();
+        LocalDateTime endTime = appointment.getEndTime();
 
         LocalTime dayStartTime = startTime.toLocalTime();
         LocalTime dayEndTime = endTime.toLocalTime();
@@ -141,6 +147,13 @@ public class CalendarViewController implements Initializable {
         rectangle.setX(1);
         int minY = (int) Math.min(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
         int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
+
+
+        Text titleText = new Text(appointment.getTitle());
+        titleText.setX(4);
+        titleText.setY(minY + 14);
+        titleText.setFont(Font.font("Helvetica"));
+        titleText.setFill(Color.WHITE);
 
         maxY += pane.getPrefHeight()/24;
         maxY = maxY == minY ? maxY += pane.getPrefHeight()/24 : maxY;
@@ -155,17 +168,18 @@ public class CalendarViewController implements Initializable {
         rectangle.setEffect(dropShadow);
 
         pane.getChildren().add(rectangle);
+        pane.getChildren().add(titleText);
         rectangles.add(rectangle);
 
         if (showPopup)
-            popupView.show(pane, startTime, endTime);
+            popupView.show(pane, appointment);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if(!isDragging){
-                    popupView.show(pane,startTime, endTime);
+                    popupView.show(pane,appointment);
                     rectangle.setClicked(true);
                 }
             }
@@ -173,6 +187,18 @@ public class CalendarViewController implements Initializable {
 
         // Check collisions between this and all other rectangles (appointments)
         CalendarHelper.checkRectangleCollisions(DAY_WIDTH, rectangle, rectangles);
+
+    }
+
+    public void createAppointmentView(final DayView pane, LocalDateTime startTime, LocalDateTime endTime, boolean showPopup) {
+        Appointment appointment = new Appointment();
+
+        appointment.setStartTime(startTime);
+        appointment.setEndTime(endTime);
+
+        createAppointmentView(pane,appointment,showPopup);
+
+
     }
 
     public void generateDayPanes(LocalDate firstDayOfWeek) {
@@ -266,7 +292,7 @@ public class CalendarViewController implements Initializable {
         for (Appointment appointment : appointments) {
             for (DayView dayView : this.dayPanes) {
                 if (dayView.getDate().equals(appointment.getStartTime().toLocalDate())) {
-                    this.createAppointmentView(dayView, appointment.getStartTime(), appointment.getEndTime(), false);
+                    this.createAppointmentView(dayView, appointment, false);
                 }
             }
         }
