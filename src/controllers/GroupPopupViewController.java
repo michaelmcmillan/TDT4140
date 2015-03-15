@@ -1,5 +1,6 @@
 package controllers;
 
+import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 public class GroupPopupViewController {
 
     private TextField titleTextField;
+    private MainViewController mainViewController;
     private ArrayList<Pane> openGroupPopups = new ArrayList<Pane>();
     private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
     private Appointment model;
@@ -39,6 +41,7 @@ public class GroupPopupViewController {
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
         this.calendarPane = calendarPane;
         this.scene = calendarPane.getScene();
+        this.mainViewController = mainViewController;
     }
 
 
@@ -89,29 +92,12 @@ public class GroupPopupViewController {
             groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
 
 
-/*
 
-            Person tempPerson = new Person(1, "Morten", "Kleveland", "yolo@gmail.com");
-            Person tempPerson2 = new Person(2, "Marit", "Kleveland", "yolo@gmail.com");
-            Person tempPerson3 = new Person(3, "Svetlana", "Kleveland", "yolo@gmail.com");
-            Person tempPerson4 = new Person(4, "Kong", "Kleveland", "yolo@gmail.com");
 
-            ArrayList<Person> persons = new ArrayList<>();
-            persons.add(tempPerson);
-            persons.add(tempPerson2);
-            persons.add(tempPerson3);
-            persons.add(tempPerson4);
-            */
 
             personsObservableList        = FXCollections.observableArrayList();
             groupMembersObservableList   = FXCollections.observableArrayList();
-/*
-            // If debug is disabled, get group data from server
-            for (Person person : persons) {
-                //personsObservableList.add(person.getFirstName() + " " + person.getSurname());
-                personsObservableList.add(person);
-            }
-            */
+
 
             personsObservableList.addAll(Server.getInstance().getAllUsers());
 
@@ -214,6 +200,7 @@ public class GroupPopupViewController {
         ArrayList<Person> groupMembers = new ArrayList<>();
         groupMembers.addAll(groupMembersObservableList);
         Server.getInstance().addMembersToGroup(newGroup, groupMembers);
+        mainViewController.refresh();
 
 
 

@@ -23,6 +23,7 @@ public class SidebarViewController implements Initializable {
     private Stage primaryStage;
     private Scene mainScene;
     private ArrayList<Group> groupList = new ArrayList<>();
+    private ObservableList<String> observableGroupList;
 
     public SidebarViewController (MainViewController mainViewController, CalendarViewController calendarViewController,  Stage primarystage) {
 
@@ -33,21 +34,21 @@ public class SidebarViewController implements Initializable {
         calendarListView = (ListView) mainScene.lookup("#calendarListView");
         this.groupList = Server.getInstance().getGroups();
 
-        ObservableList<String> list = FXCollections.observableArrayList();
-        list.add("Min kalender");
+        observableGroupList = FXCollections.observableArrayList();
+        observableGroupList.add("Min kalender");
 
         // If debug is disabled get groups from server
         if (application.Config.getInstance().DEBUG == false)
             for (Group group : this.groupList)
-                list.add(group.getName());
+                observableGroupList.add(group.getName());
 
         // Handle clicks in sidebar (Kalendervelger)
-        calendarListView.setItems(list);
+        calendarListView.setItems(observableGroupList);
 
-        //Add checkboxes to list:
+        //Add checkboxes to observableGroupList:
         //calendarListView.setCellFactory(CheckBoxListCell.forListView(callback,converter));
 
-        // Select the first calendar in the list as default
+        // Select the first calendar in the observableGroupList as default
         calendarListView.getSelectionModel().select(0);
         calendarListView.getFocusModel().focus(0);
 
@@ -55,10 +56,19 @@ public class SidebarViewController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 ArrayList<Group> groups = Server.getInstance().getGroups();
-                int calendrId = groups.get(calendarListView.getSelectionModel().getSelectedIndex()).getCalendar_id()-2;
-                System.out.println(calendrId);
+                int selectedIndex = calendarListView.getSelectionModel().getSelectedIndex();
+                int calenderId;
+                if (selectedIndex != 0){
+                    calenderId = groups.get(selectedIndex-1).getCalendar_id();
+                } else {
+                    calenderId = mainViewController.getCurrentPerson().getCalendarId();
+                }
+
+                System.out.println(calenderId);
+
+
                 calendarViewController.removeRectangles();
-                mainViewController.setcurrentlySelectedCalendarId(calendrId);
+                mainViewController.setcurrentlySelectedCalendarId(calenderId);
                 calendarViewController.generateDayPanes(mainViewController.getFirstDayOfWeek());
                 calendarViewController.populateWeekWithAppointments(mainViewController.getFirstDayOfWeek());
             }
@@ -67,6 +77,15 @@ public class SidebarViewController implements Initializable {
 
 
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    public void refresh(){
+        this.groupList = Server.getInstance().getGroups();
+        observableGroupList.clear();
+        observableGroupList.add("Min kalender");
+        for (Group group : this.groupList)
+            observableGroupList.add(group.getName());
 
     }
 }
