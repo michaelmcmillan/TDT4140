@@ -164,4 +164,8 @@ public class MainViewController implements Initializable {
         System.out.print("yolo");
     }
 
+    public void refresh(){
+        sidebarViewController.refresh();
+    }
+
 }
