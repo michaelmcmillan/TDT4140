@@ -56,10 +56,19 @@ public class SidebarViewController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 ArrayList<Group> groups = Server.getInstance().getGroups();
-                int calendrId = groups.get(calendarListView.getSelectionModel().getSelectedIndex()).getCalendar_id()-2;
-                System.out.println(calendrId);
+                int selectedIndex = calendarListView.getSelectionModel().getSelectedIndex();
+                int calenderId;
+                if (selectedIndex != 0){
+                    calenderId = groups.get(selectedIndex-1).getCalendar_id();
+                } else {
+                    calenderId = mainViewController.getCurrentPerson().getCalendarId();
+                }
+
+                System.out.println(calenderId);
+
+
                 calendarViewController.removeRectangles();
-                mainViewController.setcurrentlySelectedCalendarId(calendrId);
+                mainViewController.setcurrentlySelectedCalendarId(calenderId);
                 calendarViewController.generateDayPanes(mainViewController.getFirstDayOfWeek());
                 calendarViewController.populateWeekWithAppointments(mainViewController.getFirstDayOfWeek());
             }

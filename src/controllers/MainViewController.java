@@ -155,7 +155,7 @@ public class MainViewController implements Initializable {
         this.weekNumber = weekNumber;
     }
 
-    protected Person getPerson() {
+    protected Person getCurrentPerson() {
         return this.person;
     }
 
