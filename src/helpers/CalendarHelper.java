@@ -95,7 +95,9 @@ public class CalendarHelper {
                 currentRectangle.setWidth(newWidth);
                 currentRectangle.setX(newX);
 
-                ((AppointmentView) currentRectangle).getTitleText().setX(newX);
+
+                ((AppointmentView) currentRectangle).getDetailsText().setX(newX);
+                ((AppointmentView) currentRectangle).getDetailsText().setWrappingWidth(newWidth);
 
 
             }

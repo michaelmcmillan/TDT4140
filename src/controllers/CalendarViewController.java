@@ -11,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -28,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import static java.lang.Math.abs;
@@ -151,11 +149,24 @@ public class CalendarViewController implements Initializable {
         int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
 
 
-        Text titleText = new Text(appointment.getTitle());
-        titleText.setX(4);
-        titleText.setY(minY + 14);
-        titleText.setFont(Font.font("Helvetica"));
-        titleText.setFill(Color.WHITE);
+        String startTimeString = Integer.toString(appointment.getStartTime().getHour());
+        String endTimeString = Integer.toString(appointment.getEndTime().getHour()+1);
+
+        Text detailsText = new Text(
+                startTimeString +":00 - "+endTimeString +":00" + System.lineSeparator()
+                        + appointment.getTitle());
+
+        detailsText.setWrappingWidth(DAY_WIDTH);
+        detailsText.setX(5);
+        detailsText.setY(minY + 20);
+        detailsText.setFont(Font.font("Helvetica"));
+        detailsText.setFill(Color.WHITE);
+
+
+
+
+
+
 
 
         maxY += pane.getPrefHeight()/24;
@@ -169,12 +180,14 @@ public class CalendarViewController implements Initializable {
         rectangle.setFill(Color.DEEPSKYBLUE);
         rectangle.setOpacity(0.7);
         rectangle.setEffect(dropShadow);
-        rectangle.setTitleText(titleText);
 
+        rectangle.setDetailsText(detailsText);
         rectangle.setAppointment(appointment);
 
         pane.getChildren().add(rectangle);
-        pane.getChildren().add(titleText);
+        pane.getChildren().add(detailsText);
+
+
         rectangles.add(rectangle);
 
         if (showPopup)

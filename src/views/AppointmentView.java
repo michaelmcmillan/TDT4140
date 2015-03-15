@@ -1,8 +1,6 @@
 package views;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import models.Appointment;
 
@@ -12,7 +10,8 @@ import models.Appointment;
 public class AppointmentView extends Rectangle {
     private Appointment appointment;
     private boolean isClicked = false;
-    private Text titleText;
+
+    private Text detailsText;
     public AppointmentView() {
 
         super();
@@ -36,11 +35,12 @@ public class AppointmentView extends Rectangle {
 
     }
 
-    public Text getTitleText() {
-        return titleText;
+
+    public Text getDetailsText() {
+        return detailsText;
     }
 
-    public void setTitleText(Text titleText) {
-        this.titleText = titleText;
+    public void setDetailsText(Text detailsText) {
+        this.detailsText = detailsText;
     }
 }
