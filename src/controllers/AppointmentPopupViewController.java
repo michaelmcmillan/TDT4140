@@ -1,8 +1,6 @@
 package controllers;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -19,7 +17,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -34,7 +31,7 @@ public class AppointmentPopupViewController  implements Initializable {
     TextField   startTime;
     TextField   endTime;
     TextField titleField;
-    TextArea formaalField;
+    TextArea descriptionField;
     TextField roomField;
     DatePicker  appointmentDate;
     Button closeButton;
@@ -79,7 +76,9 @@ public class AppointmentPopupViewController  implements Initializable {
     }
     */
 
-    public void show(DayView pane,LocalDateTime startDate, LocalDateTime endDate){
+    public void show(DayView pane,Appointment appointment){
+        LocalDateTime startDate = appointment.getStartTime();
+        LocalDateTime endDate = appointment.getEndTime();
 
         try {
             // Init popupview from FXML
@@ -112,7 +111,7 @@ public class AppointmentPopupViewController  implements Initializable {
             startTime       = (TextField) appointmentPopup.lookup("#startTime");
             endTime         = (TextField) appointmentPopup.lookup("#endTime");
             appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
-            formaalField    = (TextArea) appointmentPopup.lookup("#purposeTextArea");
+            descriptionField = (TextArea) appointmentPopup.lookup("#purposeTextArea");
             roomField       = (TextField) appointmentPopup.lookup("#roomTextField");
             titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
             dayPane         = pane;
@@ -122,6 +121,8 @@ public class AppointmentPopupViewController  implements Initializable {
             String endHour = Integer.toString(endDate.getHour() + 1) + ":00";
             startTime.setText(startHour);
             endTime.setText(endHour);
+            titleField.setText(appointment.getTitle());
+            descriptionField.setText(appointment.getDescription());
 
 
 
@@ -170,7 +171,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
         ArrayList<Person> participants = new ArrayList<>();
 
-        Appointment newAppointment = new Appointment(startTime, endTime, this.titleField.getText(), this.formaalField.getText());
+        Appointment newAppointment = new Appointment(startTime, endTime, this.titleField.getText(), this.descriptionField.getText());
 
 
         String serverResponse = Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), newAppointment);

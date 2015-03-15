@@ -16,6 +16,8 @@ public class Appointment {
     private String roomId;
 
     public Appointment () {
+        this.title = "New Appointment";
+
 
     }
 
