@@ -12,7 +12,9 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.stream.IntStream;
 
+import static java.lang.Math.decrementExact;
 import static java.lang.Math.floor;
 
 public class CalendarHelper {
@@ -96,8 +98,17 @@ public class CalendarHelper {
                 currentRectangle.setX(newX);
 
 
+
+
+
+
                 ((AppointmentView) currentRectangle).getDetailsText().setX(newX);
                 ((AppointmentView) currentRectangle).getDetailsText().setWrappingWidth(newWidth);
+
+                if (numCollisions > 3){
+                    ((AppointmentView) currentRectangle).getDetailsText().setWrappingWidth(newWidth-4);
+
+                }
 
 
             }

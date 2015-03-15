@@ -164,11 +164,6 @@ public class CalendarViewController implements Initializable {
 
 
 
-
-
-
-
-
         maxY += pane.getPrefHeight()/24;
         maxY = maxY == minY ? maxY += pane.getPrefHeight()/24 : maxY;
         rectangle.setY(minY + 1);
