@@ -213,7 +213,6 @@ public class CalendarViewController implements Initializable {
                     String id = clickedPane.getId();
                     startX = event.getX();
                     startY = event.getY();
-                    System.out.println("Clicked at " + startX + ", " + startY);
                     popupView.close();
                     rect = new Rectangle(1,startY,0,0);
                     clickedPane.getChildren().add(rect);
@@ -240,7 +239,6 @@ public class CalendarViewController implements Initializable {
                     final DayView clickedPane = (DayView) event.getSource();
                     endX = event.getX();
                     endY = event.getY();
-                    System.out.println("Released at " + endX + ", " + endY);
                     clickedPane.getChildren().remove(rect);
                     if(isDragging){
                         createAppointmentViewOnMouseDrag(clickedPane, startY, endY);
