@@ -142,6 +142,8 @@ public class CalendarViewController implements Initializable {
         LocalTime dayStartTime = startTime.toLocalTime();
         LocalTime dayEndTime = endTime.toLocalTime();
 
+
+
         // Create the rectangle view
         final AppointmentView rectangle = new AppointmentView();
         rectangle.setX(1);
@@ -155,6 +157,7 @@ public class CalendarViewController implements Initializable {
         titleText.setFont(Font.font("Helvetica"));
         titleText.setFill(Color.WHITE);
 
+
         maxY += pane.getPrefHeight()/24;
         maxY = maxY == minY ? maxY += pane.getPrefHeight()/24 : maxY;
         rectangle.setY(minY + 1);
@@ -166,6 +169,9 @@ public class CalendarViewController implements Initializable {
         rectangle.setFill(Color.DEEPSKYBLUE);
         rectangle.setOpacity(0.7);
         rectangle.setEffect(dropShadow);
+        rectangle.setTitleText(titleText);
+
+        rectangle.setAppointment(appointment);
 
         pane.getChildren().add(rectangle);
         pane.getChildren().add(titleText);
