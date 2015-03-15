@@ -116,8 +116,6 @@ public class MainViewController implements Initializable {
 
     void fireLogout(ActionEvent event) {
         new LoginViewController(primaryStage);
-
-
     }
 
     void fireNextWeek(ActionEvent event) {
