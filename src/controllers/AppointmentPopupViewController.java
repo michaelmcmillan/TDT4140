@@ -123,8 +123,8 @@ public class AppointmentPopupViewController  implements Initializable {
             roomField       = (TextField) appointmentPopup.lookup("#roomTextField");
             titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
             dayPane         = pane;
-            participatingCheckBox = (CheckBox) appointmentPopup.lookup("#participatingCheckBox");
 
+            participatingCheckBox = (CheckBox) appointmentPopup.lookup("#participatingCheckBox");
             participatingCheckBox.setSelected(appointment.isParticipating());
 
 

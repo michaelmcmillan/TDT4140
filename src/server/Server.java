@@ -53,6 +53,7 @@ public class Server {
 
                 appointment.setStartTime(LocalDateTime.parse(json.getJSONObject(i).getString("start_time"), formatter));
                 appointment.setEndTime(LocalDateTime.parse(json.getJSONObject(i).getString("end_time"), formatter));
+                appointment.setParticipating(json.getJSONObject(i).getBoolean("participating"));
 
                 appointments.add(appointment);
 
