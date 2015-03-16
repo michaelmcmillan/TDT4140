@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -39,17 +41,7 @@ public class JSONTranslator {
 
 
 
-    public static Appointment toAppointment(JSONObject jsonObject) throws JSONException {
-        Appointment appointment = new Appointment();
-        appointment.setId(jsonObject.getInt("id"));
-        appointment.setTittel(jsonObject.getString("tittel"));
-        appointment.setDescription(jsonObject.getString("description"));
-        appointment.setStartTime(jsonObject.getString("start_time"));
-        appointment.setEndTime(jsonObject.getString("end_time"));
-        appointment.setRoomId(jsonObject.getInt("Room_id"));
-        appointment.setPersonId(jsonObject.getInt("Person_id"));
-        return appointment;
-    }
+
 
     public static JSONObject toJSON(Person person) throws JSONException {
         JSONObject jsonObject = new JSONObject();
@@ -154,6 +146,8 @@ public class JSONTranslator {
     public static JSONObject toJSON(Group group) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", group.getName());
+        jsonObject.put("id",group.getId());
+        jsonObject.put("Calendar_id",group.getCalendar_id());
         return jsonObject;
     }
 
@@ -215,5 +209,17 @@ public class JSONTranslator {
         person.setAlarmTime(jsonObject.getInt("alarm_time"));
         person.setCalendarId(jsonObject.getInt("Calendar_id"));
         return person;
+    }
+
+    public static Appointment toAppointment(JSONObject jsonObject) throws JSONException {
+        Appointment appointment = new Appointment();
+        appointment.setId(jsonObject.getInt("id"));
+        appointment.setTitle(jsonObject.getString("tittel"));
+        appointment.setDescription(jsonObject.getString("description"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0");
+        appointment.setStartTime(LocalDateTime.parse(jsonObject.getString("start_time"), formatter));
+        appointment.setEndTime(LocalDateTime.parse(jsonObject.getString("end_time"), formatter));
+        appointment.setParticipating(jsonObject.getBoolean("participating"));
+        return appointment;
     }
 }

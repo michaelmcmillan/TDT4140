@@ -55,13 +55,16 @@ public class SidebarViewController implements Initializable {
         calendarListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ArrayList<Group> groups = Server.getInstance().getGroups();
+                //ArrayList<Group> groups = Server.getInstance().getGroups();
                 int selectedIndex = calendarListView.getSelectionModel().getSelectedIndex();
                 int calenderId;
                 if (selectedIndex != 0){
-                    calenderId = groups.get(selectedIndex-1).getCalendar_id();
+                    calenderId = groupList.get(selectedIndex-1).getCalendar_id();
+                    mainViewController.setCurrentlySelectedGroup(groupList.get(selectedIndex-1));
+
                 } else {
                     calenderId = mainViewController.getCurrentPerson().getCalendarId();
+                    mainViewController.setCurrentlySelectedGroup(null);
                 }
 
                 System.out.println(calenderId);

@@ -47,6 +47,7 @@ public class Server {
                 Appointment appointment = new Appointment();
                 appointment.setTitle(json.getJSONObject(i).getString("tittel"));
                 appointment.setDescription(json.getJSONObject(i).getString("description"));
+                appointment.setId(json.getJSONObject(i).getInt("id"));
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0");
 
@@ -73,6 +74,13 @@ public class Server {
         return null;
     }
 
+    public void joinAppointment (int appointmentId) {
+        server.post("appointment/" + appointmentId + "/participants", "");
+    }
+
+    public void declineAppointment (int appointmentId) {
+        server.delete("appointment/" + appointmentId + "/participants");
+    }
 
     public ArrayList<Group> getGroups () {
 
@@ -83,6 +91,7 @@ public class Server {
             try {
                 Group group = new Group();
                 group.setName(json.getJSONObject(i).getString("name"));
+                group.setId(json.getJSONObject(i).getInt("id"));
                 groups.add(group);
                 group.setCalendar_id(json.getJSONObject(i).getInt("Calendar_id"));
             } catch (JSONException error) {
@@ -104,6 +113,18 @@ public class Server {
         return server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
+    public void updateAppointment(Appointment appointment) {
+        JSONObject appointmentObject = null;
+        try {
+            appointmentObject = JSONTranslator.toJSON(appointment);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        server.put("appointment/" + appointment.getId(), appointmentObject.toString());
+    }
+
     public Group createGroup(Group group) {
         JSONObject groupObjectToBePosted = null;
         JSONObject groupObjectToBeReturned = null;
@@ -123,6 +144,17 @@ public class Server {
         }
 
         return null;
+    }
+
+    public void updateGroup(Group group) {
+        JSONObject groupObjectToBePosted = null;
+
+        try {
+            groupObjectToBePosted = JSONTranslator.toJSON(group);
+            server.put("group/" + group.getId(), groupObjectToBePosted.toString());
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
     }
 
     public Void addMembersToGroup (Group group, ArrayList<Person> members) {
@@ -151,6 +183,10 @@ public class Server {
             e.printStackTrace();
         }
         return person;
+    }
+    
+    public void leaveGroup(Group group){
+        server.delete("group/" + group.getId());
     }
 
     public Person getCurrentlyLoggedInPerson () {

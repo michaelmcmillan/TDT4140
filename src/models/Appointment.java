@@ -11,14 +11,13 @@ public class Appointment {
     private LocalDateTime endTime;
     private String title;
     private String description;
-    private String id;
+    private int id;
     private String  personId;
     private String roomId;
+    private boolean participating;
 
     public Appointment () {
-        this.title = "New Appointment";
-
-
+        this.title = "Avtaletittel";
     }
 
     public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description) {
@@ -26,9 +25,6 @@ public class Appointment {
         this.endTime = endTime;
         this.title = title;
         this.description = description;
-        this.id = id;
-        this.personId = personId;
-        this.roomId = roomId;
     }
 
     public LocalDateTime getStartTime(){ return this.startTime;}
@@ -44,9 +40,20 @@ public class Appointment {
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
 
-    public String getId() {
+    public int getId() {
+        return this.id;
+    }
 
-        return id;
+    public void setId (int id ) {
+        this.id = id;
+    }
+
+    public boolean isParticipating () {
+        return this.participating;
+    }
+
+    public void setParticipating(boolean participating) {
+        this.participating = participating;
     }
 
     public String getPersonId() {

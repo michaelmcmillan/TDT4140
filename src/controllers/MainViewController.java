@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Group;
 import models.Person;
 import server.Server;
 
@@ -37,11 +38,17 @@ public class MainViewController implements Initializable {
     private ArrayList<Label> labelList = new ArrayList<>();
     private ArrayList<String> labelNames = new ArrayList<>();
     private int currentlySelectedCalendarId = Server.getInstance().getCurrentlyLoggedInPerson().getCalendarId();
+    private Group currentlySelectedGroup;
 
     public int getcurrentlySelectedCalendarId () {
         return currentlySelectedCalendarId;
     }
     public void setcurrentlySelectedCalendarId (int calendarId) { currentlySelectedCalendarId = calendarId;}
+
+
+    public void setCurrentlySelectedGroup(Group currentlySelectedGroup) {
+        this.currentlySelectedGroup = currentlySelectedGroup;
+    }
 
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 
@@ -97,21 +104,36 @@ public class MainViewController implements Initializable {
         Menu itemMenu = menus.get(1);
         ObservableList<MenuItem> itemMenuItems = itemMenu.getItems();
 
-        MenuItem editGroupMenuItem = itemMenuItems.get(0);
-        editGroupMenuItem.setOnAction(e -> fireEditGroup(e));
+        MenuItem leaveGroupMenuItem = itemMenuItems.get(0);
+        leaveGroupMenuItem.setOnAction(e -> fireLeaveGroup(e));
 
         MenuItem addGroupMenuItem = itemMenuItems.get(1);
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
 
+        MenuItem editGroupMenuItem = itemMenuItems.get(2);
+        editGroupMenuItem.setOnAction(e -> fireEditGroup(e));
+
         //HTTPConnection connection = new HTTPConnection("https://www.github.com");
     }
+
 
     void fireAddGroup(ActionEvent event) {
         groupPopupViewController.show();
     }
 
     void fireEditGroup(ActionEvent event) {
-        editGroupPopupViewController.show();
+        if (currentlySelectedGroup!=null){
+            editGroupPopupViewController.show(currentlySelectedGroup);
+        }
+
+    }
+
+    void fireLeaveGroup(ActionEvent event) {
+        if (currentlySelectedGroup != null){
+            Server.getInstance().leaveGroup(currentlySelectedGroup);
+            this.refresh();
+        }
+
     }
 
     void fireLogout(ActionEvent event) {
@@ -164,6 +186,7 @@ public class MainViewController implements Initializable {
 
     public void refresh(){
         sidebarViewController.refresh();
+        calendarViewController.refresh();
     }
 
 }

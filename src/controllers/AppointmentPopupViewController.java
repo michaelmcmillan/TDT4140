@@ -36,6 +36,8 @@ public class AppointmentPopupViewController  implements Initializable {
     DatePicker  appointmentDate;
     Button closeButton;
     Button saveButton ;
+    private boolean editExistingAppointment;
+    private Appointment currentAppointment;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //model = new Appointment();
@@ -76,7 +78,9 @@ public class AppointmentPopupViewController  implements Initializable {
     }
     */
 
-    public void show(DayView pane,Appointment appointment){
+    public void show(DayView pane,Appointment appointment,boolean editExistingAppointment){
+        this.editExistingAppointment = editExistingAppointment;
+        this.currentAppointment = appointment;
         LocalDateTime startDate = appointment.getStartTime();
         LocalDateTime endDate = appointment.getEndTime();
 
@@ -106,6 +110,9 @@ public class AppointmentPopupViewController  implements Initializable {
             closeButton = (Button) appointmentPopup.lookup("#closeButton");
             saveButton = (Button) appointmentPopup.lookup("#saveButton");
 
+            if (editExistingAppointment)
+                saveButton.setText("Lagre");
+
 
 
             startTime       = (TextField) appointmentPopup.lookup("#startTime");
@@ -128,14 +135,14 @@ public class AppointmentPopupViewController  implements Initializable {
 
             appointmentDate.setValue(pane.getDate());
 
-            closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    close();
-                }
-            });
+        closeButton.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                close();
+            }
+        });
 
-            saveButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            saveButton.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     save();
@@ -157,7 +164,9 @@ public class AppointmentPopupViewController  implements Initializable {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
+        //mainview.refresh();
     }
+
 
     private void save () {
 
@@ -171,21 +180,22 @@ public class AppointmentPopupViewController  implements Initializable {
 
         ArrayList<Person> participants = new ArrayList<>();
 
-        Appointment newAppointment = new Appointment(startTime, endTime, this.titleField.getText(), this.descriptionField.getText());
+        //Appointment newAppointment = new Appointment(startTime, endTime, this.titleField.getText(), this.descriptionField.getText());
+
+        currentAppointment.setTitle(titleField.getText());
+        currentAppointment.setDescription(descriptionField.getText());
+        currentAppointment.setStartTime(startTime);
+        currentAppointment.setEndTime(endTime);
 
 
-        String serverResponse = Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), newAppointment);
-
-        System.out.print(serverResponse);
-
-        if (serverResponse.equals("true")){
-            close();
-            //saveButton.setDisable(true);
-
+        if (editExistingAppointment){
+            Server.getInstance().updateAppointment(currentAppointment);;
         } else {
-            titleField.setText("ERROR: " + serverResponse);
-
+            Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), currentAppointment);;
         }
+
+
+        close();
 
     }
 }

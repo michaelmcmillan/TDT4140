@@ -52,6 +52,8 @@ public class CalendarViewController implements Initializable {
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
     private boolean isDragging;
+    private LocalDate firstDayOfWeek;
+
     private Line line;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
@@ -186,14 +188,15 @@ public class CalendarViewController implements Initializable {
         rectangles.add(rectangle);
 
         if (showPopup)
-            popupView.show(pane, appointment);
+            popupView.show(pane,appointment,false);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if(!isDragging){
-                    popupView.show(pane,appointment);
+                    Appointment a = ((AppointmentView)t.getSource()).getAppointment();
+                    popupView.show(pane,a,true);
                     rectangle.setClicked(true);
                 }
             }
@@ -296,6 +299,8 @@ public class CalendarViewController implements Initializable {
 
     public void populateWeekWithAppointments(LocalDate firstDayOfWeek) {
 
+        this.firstDayOfWeek = firstDayOfWeek;
+
         // Clear attribute rectangles to avoid clog
         rectangles.clear();
 
@@ -312,5 +317,14 @@ public class CalendarViewController implements Initializable {
         }
 
     }
+
+    public void refresh(){
+
+        if (firstDayOfWeek!=null){
+            generateDayPanes(firstDayOfWeek);
+            populateWeekWithAppointments(firstDayOfWeek);
+        }
+        }
+
 
 }
