@@ -83,6 +83,7 @@ public class Server {
             try {
                 Group group = new Group();
                 group.setName(json.getJSONObject(i).getString("name"));
+                group.setId(json.getJSONObject(i).getInt("id"));
                 groups.add(group);
                 group.setCalendar_id(json.getJSONObject(i).getInt("Calendar_id"));
             } catch (JSONException error) {
@@ -160,6 +161,10 @@ public class Server {
         }
 
         return null;
+    }
+
+    public void leaveGroup(Group group){
+        server.delete("group/" + group.getId());
     }
 
     public Person getCurrentlyLoggedInPerson () {
