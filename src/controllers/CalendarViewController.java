@@ -52,6 +52,7 @@ public class CalendarViewController implements Initializable {
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
     private boolean isDragging;
+
     private Line line;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
@@ -186,14 +187,15 @@ public class CalendarViewController implements Initializable {
         rectangles.add(rectangle);
 
         if (showPopup)
-            popupView.show(pane, appointment);
+            popupView.show(pane,appointment,false);
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if(!isDragging){
-                    popupView.show(pane,appointment);
+                    Appointment a = ((AppointmentView)t.getSource()).getAppointment();
+                    popupView.show(pane,a,true);
                     rectangle.setClicked(true);
                 }
             }
