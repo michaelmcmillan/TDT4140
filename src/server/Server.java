@@ -74,6 +74,13 @@ public class Server {
         return null;
     }
 
+    public void joinAppointment (int appointmentId) {
+        server.post("appointment/" + appointmentId + "/participants", "");
+    }
+
+    public void declineAppointment (int appointmentId) {
+        server.delete("appointment/" + appointmentId + "/participants");
+    }
 
     public ArrayList<Group> getGroups () {
 
