@@ -14,6 +14,7 @@ public class Appointment {
     private int id;
     private String  personId;
     private String roomId;
+    private boolean participating;
 
     public Appointment () {
         this.title = "Avtaletittel";
@@ -45,6 +46,14 @@ public class Appointment {
 
     public void setId (int id ) {
         this.id = id;
+    }
+
+    public boolean isParticipating () {
+        return this.participating;
+    }
+
+    public void setParticipating(boolean participating) {
+        this.participating = participating;
     }
 
     public String getPersonId() {
