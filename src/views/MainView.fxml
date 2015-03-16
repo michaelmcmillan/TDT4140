@@ -242,6 +242,7 @@
             <items>
                 <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Leave group" />
                 <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New group" />
+                  <MenuItem mnemonicParsing="false" text="Update group" />
             </items>
           </Menu>
         </menus>
