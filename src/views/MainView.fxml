@@ -240,8 +240,8 @@
           </Menu>
           <Menu id="menu-edit" mnemonicParsing="false" text="Group">
             <items>
-                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Leave" />
-                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New" />
+                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Leave group" />
+                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New group" />
             </items>
           </Menu>
         </menus>
