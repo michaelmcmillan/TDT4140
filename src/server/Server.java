@@ -139,6 +139,17 @@ public class Server {
         return null;
     }
 
+    public void updateGroup(Group group) {
+        JSONObject groupObjectToBePosted = null;
+
+        try {
+            groupObjectToBePosted = JSONTranslator.toJSON(group);
+            server.put("group/" + group.getId(), groupObjectToBePosted.toString());
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+    }
+
     public Void addMembersToGroup (Group group, ArrayList<Person> members) {
         int groupId = group.getId();
         String returned = "";
