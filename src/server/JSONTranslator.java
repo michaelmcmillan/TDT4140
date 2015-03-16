@@ -152,6 +152,18 @@ public class JSONTranslator {
         return jsonObject;
     }
 
+    public static JSONObject toJSON (Person person) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", person.getId());
+        jsonObject.put("email", person.getEmail());
+        jsonObject.put("firstname", person.getFirstName());
+        jsonObject.put("surname", person.getSurname());
+        jsonObject.put("password", person.getPassword());
+        jsonObject.put("alarm_time", person.getAlarmTime());
+        jsonObject.put("Calendar_id", person.getCalendarId());
+        return jsonObject;
+    }
+
     public static Group toGroup(JSONObject jsonObject) throws JSONException {
         Group group = new Group();
         group.setId(jsonObject.getInt("id"));
@@ -177,6 +189,8 @@ public class JSONTranslator {
         }
         return jsonArray;
     }
+
+
 
     public static ArrayList<Person> toPersonArrayList(JSONArray jsonArray) throws JSONException {
         ArrayList<Person> persons = new ArrayList<>();

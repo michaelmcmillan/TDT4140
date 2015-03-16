@@ -171,6 +171,20 @@ public class Server {
         return null;
     }
 
+    public Person createPerson(Person person){
+        JSONObject personObjectToBePosted = null;
+        JSONObject personObjectToBeReturned = null;
+
+        try {
+            personObjectToBePosted = JSONTranslator.toJSON(person);
+            personObjectToBeReturned = new JSONObject(server.post("user", personObjectToBePosted.toString()));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return person;
+    }
+    
     public void leaveGroup(Group group){
         server.delete("group/" + group.getId());
     }
