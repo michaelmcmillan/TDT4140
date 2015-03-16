@@ -9,7 +9,7 @@ public class Person {
     private String surname;
     private String email;
     private String password;
-    private int alarmTime = 0;
+    private int alarmTime;
     private int calendarId;
 
     public Person () {
@@ -21,6 +21,14 @@ public class Person {
         this.email = email;
         this.firstName = firstName;
         this.surname = surname;
+    }
+
+    public Person(String email, String firstName, String surname, String password){
+        this.email = email;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.password = password;
+        this.alarmTime = 0;
     }
 
     public int getId () {

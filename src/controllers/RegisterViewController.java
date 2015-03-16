@@ -6,12 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import java.awt.*;
+import models.Person;
+import server.Server;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class RegisterViewController implements Initializable {
@@ -20,7 +22,8 @@ public class RegisterViewController implements Initializable {
     private Stage primaryStage;
     private Button registerButton;
     private Button cancelButton;
-    @FXML TextField emailField, passwordField, firstnameField, surnameField;
+    private TextField emailField, firstnameField, surnameField;
+    @FXML PasswordField passwordField;
 
     public RegisterViewController(Stage primaryStage) throws Exception {
 
@@ -36,21 +39,21 @@ public class RegisterViewController implements Initializable {
         // Get buttons and textviews
         registerButton = (Button) scene.lookup("#registerButton");
         cancelButton = (Button) scene.lookup("#cancelButton");
+        emailField =  (TextField) scene.lookup("#emailField");
+        firstnameField = (TextField) scene.lookup("#firstnameField");
+        surnameField = (TextField) scene.lookup("#surnameField");
+        passwordField = (PasswordField) scene.lookup("#passwordField");
+
 
         registerButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
 
+                Person person = new Person(emailField.getText(), firstnameField.getText(), surnameField.getText(), passwordField.getText());
+                Server.getInstance().createPerson(person);
+
                 // TODO: Make a Server.getInstance().addPerson(person) method
                 // TODO: Validation.....
-                /*
-                int id = 123; // TODO: Overload Person constructur without ID?
-                Person person = new Person(id, emailField.getText(), firstnameField.getText(), surnameField.getText());
-                ArrayList persons = Server.getInstance().getAllUsers();
-                if (!persons.contains(person)) {
-                    Server.getInstance().addPerson(person);
-                }
-                */
 
                 new LoginViewController(primaryStage);
             }
