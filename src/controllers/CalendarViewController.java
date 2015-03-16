@@ -174,9 +174,16 @@ public class CalendarViewController implements Initializable {
         rectangle.setHeight(height);
         rectangle.setArcHeight(appointmentRectangleCornerRadius);
         rectangle.setArcWidth(appointmentRectangleCornerRadius);
-        rectangle.setFill(Color.DEEPSKYBLUE);
+
         rectangle.setOpacity(0.7);
         rectangle.setEffect(dropShadow);
+
+        if (appointment.isParticipating()){
+            rectangle.setFill(Color.LIGHTGREEN);
+        } else {
+            rectangle.setFill(Color.DEEPSKYBLUE);
+        }
+
 
         rectangle.setDetailsText(detailsText);
         rectangle.setAppointment(appointment);
