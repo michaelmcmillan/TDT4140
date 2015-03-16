@@ -24,6 +24,7 @@ public class RegisterViewController implements Initializable {
     private Button cancelButton;
     private TextField emailField, firstnameField, surnameField;
     @FXML PasswordField passwordField;
+    private MainViewController mainViewController;
 
     public RegisterViewController(Stage primaryStage) throws Exception {
 
@@ -55,7 +56,26 @@ public class RegisterViewController implements Initializable {
                 // TODO: Make a Server.getInstance().addPerson(person) method
                 // TODO: Validation.....
 
-                new LoginViewController(primaryStage);
+                Server.getInstance().logInAs(emailField.getText(), passwordField.getText());
+
+                try {
+                    // Don't use the server to login if debug is enabled
+                    if (application.Config.getInstance().DEBUG == true) {
+                        Person user = new Person(0, "Debug", "Debug", "Debug");
+                        new MainViewController(primaryStage, user);
+
+                        // Authenticate with the server if debug is disabled
+                    } else {
+                        Server.getInstance().logInAs(emailField.getText(), passwordField.getText());
+
+                        if (Server.getInstance().isAuthenticated()) {
+                            Person user = Server.getInstance().getCurrentlyLoggedInPerson();
+                            new MainViewController(primaryStage, user);
+                        }
+                    }
+                } catch (Exception e) {
+                    firstnameField.setText("fyll inn alle felter!");
+                }
             }
         });
 
