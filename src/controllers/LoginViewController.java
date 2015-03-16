@@ -1,7 +1,5 @@
 package controllers;
 
-import com.sun.deploy.config.Config;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,15 +10,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import models.Appointment;
-import models.Calendar;
 import models.Person;
 import server.Server;
 
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class LoginViewController{
@@ -34,8 +27,6 @@ public class LoginViewController{
 
     public LoginViewController(Stage primaryStage){
         try {
-
-
             this.primaryStage = primaryStage;
             FXMLLoader loader = new FXMLLoader(getClass().getResource(LOGINVIEW_PATH));
             Parent root = loader.load();
@@ -50,7 +41,7 @@ public class LoginViewController{
             this.usernameField = (TextField) scene.lookup("#usernameTextfield");
             this.passwordField = (TextField) scene.lookup("#passwordTextfield");
 
-        /* Debugging */
+            /* Debugging */
             this.usernameField.setText("jonaslaksen@live.com");
             this.passwordField.setText("heisann");
 
@@ -61,11 +52,8 @@ public class LoginViewController{
                 @Override
                 public void handle(KeyEvent event) {
                     if (event.getCode() == KeyCode.ENTER) {
-
                         doLogin();
-
                     }
-
                 }
             });
         } catch (Exception e){
@@ -79,8 +67,16 @@ public class LoginViewController{
             }
         });
 
-
-
+        registerButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    new RegisterViewController(primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

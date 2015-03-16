@@ -3,6 +3,7 @@ package helpers;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import views.AppointmentView;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,7 +12,9 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.stream.IntStream;
 
+import static java.lang.Math.decrementExact;
 import static java.lang.Math.floor;
 
 public class CalendarHelper {
@@ -86,9 +89,28 @@ public class CalendarHelper {
         if (collisionDetected) {
             int numCollisions = collidingRectangles.size();
             for(int i = 0; i < collidingRectangles.size(); i++) {
+
+                double newWidth = dayWidth/numCollisions - 1;
+                double newX = (dayWidth/numCollisions)*i + 1;
+
                 Rectangle currentRectangle = collidingRectangles.get(i);
-                currentRectangle.setWidth(dayWidth/numCollisions - 1);
-                currentRectangle.setX((dayWidth/numCollisions)*i + 1);
+                currentRectangle.setWidth(newWidth);
+                currentRectangle.setX(newX);
+
+
+
+
+
+
+                ((AppointmentView) currentRectangle).getDetailsText().setX(newX);
+                ((AppointmentView) currentRectangle).getDetailsText().setWrappingWidth(newWidth);
+
+                if (numCollisions > 3){
+                    ((AppointmentView) currentRectangle).getDetailsText().setWrappingWidth(newWidth-4);
+
+                }
+
+
             }
             //kollisjon fikset(ish):
             /*for (Rectangle rect : collidingRectangles){
