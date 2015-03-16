@@ -164,7 +164,7 @@ public class AppointmentPopupViewController  implements Initializable {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
-        //mainview.refresh();
+        mainview.refresh();
     }
 
 

@@ -256,7 +256,6 @@ public class CalendarViewController implements Initializable {
                     String id = clickedPane.getId();
                     startX = event.getX();
                     startY = event.getY();
-                    popupView.close();
                     rect = new Rectangle(1,startY,0,0);
                     clickedPane.getChildren().add(rect);
                     rect.setFill(Color.DEEPSKYBLUE);
@@ -279,6 +278,7 @@ public class CalendarViewController implements Initializable {
             pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+
                     final DayView clickedPane = (DayView) event.getSource();
                     endX = event.getX();
                     endY = event.getY();
