@@ -135,14 +135,14 @@ public class AppointmentPopupViewController  implements Initializable {
 
             appointmentDate.setValue(pane.getDate());
 
-            closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    close();
-                }
-            });
+        closeButton.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                close();
+            }
+        });
 
-            saveButton.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            saveButton.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     save();
@@ -164,7 +164,9 @@ public class AppointmentPopupViewController  implements Initializable {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
+        //mainview.refresh();
     }
+
 
     private void save () {
 
@@ -192,7 +194,7 @@ public class AppointmentPopupViewController  implements Initializable {
             Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), currentAppointment);;
         }
 
-        mainview.refresh();
+
         close();
 
     }
