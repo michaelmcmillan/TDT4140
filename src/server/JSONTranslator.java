@@ -139,6 +139,7 @@ public class JSONTranslator {
         jsonObject.put("Person_id", appointment.getPersonId());
         jsonObject.put("Room_id", appointment.getRoomId());
         jsonObject.put("description", appointment.getDescription());
+        jsonObject.put("participating",appointment.isParticipating());
 
         return jsonObject;
     }

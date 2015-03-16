@@ -14,17 +14,18 @@ public class Appointment {
     private int id;
     private String  personId;
     private String roomId;
-    private boolean participating;
+    private boolean participating = true;
 
     public Appointment () {
         this.title = "Avtaletittel";
     }
 
-    public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description) {
+    public Appointment (LocalDateTime startTime, LocalDateTime endTime, String title, String description,Boolean participating) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.description = description;
+        this.participating = participating;
     }
 
     public LocalDateTime getStartTime(){ return this.startTime;}

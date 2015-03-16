@@ -36,6 +36,7 @@ public class AppointmentPopupViewController  implements Initializable {
     DatePicker  appointmentDate;
     Button closeButton;
     Button saveButton ;
+    CheckBox participatingCheckBox;
     private boolean editExistingAppointment;
     private Appointment currentAppointment;
     @Override
@@ -122,10 +123,13 @@ public class AppointmentPopupViewController  implements Initializable {
             roomField       = (TextField) appointmentPopup.lookup("#roomTextField");
             titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
             dayPane         = pane;
+            participatingCheckBox = (CheckBox) appointmentPopup.lookup("#participatingCheckBox");
+
+            participatingCheckBox.setSelected(appointment.isParticipating());
 
 
             String startHour = Integer.toString(startDate.getHour()) + ":00";
-            String endHour = Integer.toString(endDate.getHour() + 1) + ":00";
+            String endHour = Integer.toString(endDate.getHour() +1) + ":00";
             startTime.setText(startHour);
             endTime.setText(endHour);
             titleField.setText(appointment.getTitle());
@@ -176,7 +180,7 @@ public class AppointmentPopupViewController  implements Initializable {
         int endHour = Integer.valueOf(this.endTime.getText().split(":")[0]);
 
         LocalDateTime startTime = date.atTime(startHour, 0);
-        LocalDateTime endTime = date.atTime(endHour, 0);
+        LocalDateTime endTime = date.atTime(endHour-1, 0);
 
         ArrayList<Person> participants = new ArrayList<>();
 
@@ -190,8 +194,15 @@ public class AppointmentPopupViewController  implements Initializable {
 
         if (editExistingAppointment){
             Server.getInstance().updateAppointment(currentAppointment);;
+
         } else {
             Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), currentAppointment);;
+        }
+
+        if(participatingCheckBox.isSelected()){
+            Server.getInstance().joinAppointment(currentAppointment.getId());
+        } else {
+            Server.getInstance().declineAppointment(currentAppointment.getId());
         }
 
 
