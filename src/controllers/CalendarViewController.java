@@ -195,7 +195,7 @@ public class CalendarViewController implements Initializable {
         rectangles.add(rectangle);
 
         if (showPopup)
-            popupView.show(pane,appointment,false);
+            popupView.show(pane,appointment,false,mainViewController.getCurrentPerson());
 
         // Listeners
         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -203,7 +203,7 @@ public class CalendarViewController implements Initializable {
             public void handle(MouseEvent t) {
                 if(!isDragging){
                     Appointment a = ((AppointmentView)t.getSource()).getAppointment();
-                    popupView.show(pane,a,true);
+                    popupView.show(pane,a,true,mainViewController.getCurrentPerson());
                     rectangle.setClicked(true);
                 }
             }
@@ -219,6 +219,7 @@ public class CalendarViewController implements Initializable {
 
         appointment.setStartTime(startTime);
         appointment.setEndTime(endTime);
+        appointment.setPersonId(mainViewController.getCurrentPerson().getId());
 
         createAppointmentView(pane,appointment,showPopup);
 

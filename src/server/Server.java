@@ -48,6 +48,7 @@ public class Server {
                 appointment.setTitle(json.getJSONObject(i).getString("tittel"));
                 appointment.setDescription(json.getJSONObject(i).getString("description"));
                 appointment.setId(json.getJSONObject(i).getInt("id"));
+                appointment.setPersonId(json.getJSONObject(i).getInt("Person_id"));
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0");
 

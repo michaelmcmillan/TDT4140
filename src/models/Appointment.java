@@ -12,7 +12,7 @@ public class Appointment {
     private String title;
     private String description;
     private int id;
-    private String  personId;
+    private int  personId;
     private String roomId;
     private boolean participating = true;
 
@@ -57,7 +57,11 @@ public class Appointment {
         this.participating = participating;
     }
 
-    public String getPersonId() {
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
+    public int getPersonId() {
         return personId;
     }
 

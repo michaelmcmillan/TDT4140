@@ -79,11 +79,12 @@ public class AppointmentPopupViewController  implements Initializable {
     }
     */
 
-    public void show(DayView pane,Appointment appointment,boolean editExistingAppointment){
+    public void show(DayView pane,Appointment appointment,boolean editExistingAppointment,Person currentUser){
         this.editExistingAppointment = editExistingAppointment;
         this.currentAppointment = appointment;
         LocalDateTime startDate = appointment.getStartTime();
         LocalDateTime endDate = appointment.getEndTime();
+        Boolean userCanEdit = currentUser.getId() == appointment.getPersonId();
 
         try {
             // Init popupview from FXML
@@ -124,6 +125,17 @@ public class AppointmentPopupViewController  implements Initializable {
             titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
             dayPane         = pane;
 
+            if (!userCanEdit){
+                startTime.setEditable(false);
+                endTime.setEditable(false);
+                appointmentDate.setEditable(false);
+                descriptionField.setEditable(false);
+                roomField.setEditable(false);
+                titleField.setEditable(false);
+
+
+            }
+
             participatingCheckBox = (CheckBox) appointmentPopup.lookup("#participatingCheckBox");
             participatingCheckBox.setSelected(appointment.isParticipating());
 
@@ -149,7 +161,7 @@ public class AppointmentPopupViewController  implements Initializable {
             saveButton.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    save();
+                    save(userCanEdit);
 
                 }
             });
@@ -172,7 +184,7 @@ public class AppointmentPopupViewController  implements Initializable {
     }
 
 
-    private void save () {
+    private void save (Boolean userCanEdit) {
 
         LocalDate date = appointmentDate.getValue();
 
@@ -192,11 +204,14 @@ public class AppointmentPopupViewController  implements Initializable {
         currentAppointment.setEndTime(endTime);
 
 
-        if (editExistingAppointment){
-            Server.getInstance().updateAppointment(currentAppointment);;
 
-        } else {
-            Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), currentAppointment);;
+        if (userCanEdit){
+            if (editExistingAppointment){
+                Server.getInstance().updateAppointment(currentAppointment);;
+
+            } else {
+                Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), currentAppointment);;
+            }
         }
 
         if(participatingCheckBox.isSelected()){
