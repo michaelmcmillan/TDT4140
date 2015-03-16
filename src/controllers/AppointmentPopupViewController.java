@@ -37,8 +37,10 @@ public class AppointmentPopupViewController  implements Initializable {
     Button closeButton;
     Button saveButton ;
     CheckBox participatingCheckBox;
+    Label userLabel;
     private boolean editExistingAppointment;
     private Appointment currentAppointment;
+    private ArrayList<Person> allUsers = new ArrayList<>();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //model = new Appointment();
@@ -86,6 +88,11 @@ public class AppointmentPopupViewController  implements Initializable {
         LocalDateTime endDate = appointment.getEndTime();
         Boolean userCanEdit = currentUser.getId() == appointment.getPersonId();
 
+        allUsers.addAll(Server.getInstance().getAllUsers());
+
+
+
+
         try {
             // Init popupview from FXML
             FXMLLoader testLoader = new FXMLLoader(getClass().getResource("../views/AppointmentPopupView.fxml"));
@@ -123,6 +130,7 @@ public class AppointmentPopupViewController  implements Initializable {
             descriptionField = (TextArea) appointmentPopup.lookup("#purposeTextArea");
             roomField       = (TextField) appointmentPopup.lookup("#roomTextField");
             titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
+            userLabel       = (Label) appointmentPopup.lookup("#userLabel");
             dayPane         = pane;
 
             if (!userCanEdit){
@@ -134,6 +142,19 @@ public class AppointmentPopupViewController  implements Initializable {
                 titleField.setEditable(false);
 
 
+                for (Person p : allUsers){
+                    if (p.getId() == currentAppointment.getPersonId()){
+                        String fornavn = p.getFirstName();
+                        String etternavn = p.getSurname();
+                        String email = p.getEmail();
+                        userLabel.setText(fornavn + " " + etternavn + " ("+email+")");
+                        break;
+                    }
+                }
+
+
+            } else {
+                userLabel.setText("Deg");
             }
 
             participatingCheckBox = (CheckBox) appointmentPopup.lookup("#participatingCheckBox");
