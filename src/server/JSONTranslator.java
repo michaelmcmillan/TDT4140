@@ -146,6 +146,8 @@ public class JSONTranslator {
     public static JSONObject toJSON(Group group) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", group.getName());
+        jsonObject.put("id",group.getId());
+        jsonObject.put("Calendar_id",group.getCalendar_id());
         return jsonObject;
     }
 

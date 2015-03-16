@@ -110,6 +110,9 @@ public class MainViewController implements Initializable {
         MenuItem addGroupMenuItem = itemMenuItems.get(1);
         addGroupMenuItem.setOnAction(e -> fireAddGroup(e));
 
+        MenuItem editGroupMenuItem = itemMenuItems.get(2);
+        editGroupMenuItem.setOnAction(e -> fireEditGroup(e));
+
         //HTTPConnection connection = new HTTPConnection("https://www.github.com");
     }
 
@@ -118,13 +121,18 @@ public class MainViewController implements Initializable {
         groupPopupViewController.show();
     }
 
+    void fireEditGroup(ActionEvent event) {
+        if (currentlySelectedGroup!=null){
+            editGroupPopupViewController.show(currentlySelectedGroup);
+        }
+
+    }
+
     void fireLeaveGroup(ActionEvent event) {
         if (currentlySelectedGroup != null){
             Server.getInstance().leaveGroup(currentlySelectedGroup);
             this.refresh();
         }
-
-
 
     }
 
