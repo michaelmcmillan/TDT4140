@@ -178,6 +178,7 @@ public class MainViewController implements Initializable {
 
     public void refresh(){
         sidebarViewController.refresh();
+        calendarViewController.refresh();
     }
 
 }
