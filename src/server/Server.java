@@ -104,6 +104,18 @@ public class Server {
         return server.post("appointment/" + calendarId, appointmentObject.toString());
     }
 
+    public void updateAppointment(Appointment appointment) {
+        JSONObject appointmentObject = null;
+        try {
+            appointmentObject = JSONTranslator.toJSON(appointment);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        server.put("appointment/" + appointment.getId(), appointmentObject.toString());
+    }
+
     public Group createGroup(Group group) {
         JSONObject groupObjectToBePosted = null;
         JSONObject groupObjectToBeReturned = null;
