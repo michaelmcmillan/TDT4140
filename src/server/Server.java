@@ -104,6 +104,19 @@ public class Server {
         return groups;
     }
 
+    public ArrayList<Person> getMembersOfGroup (int groupId) {
+        ArrayList<Person> persons = new ArrayList<Person>();
+        JSONArray json = server.getArray("group/" + groupId + "/members");
+
+        try {
+            persons = JSONTranslator.toPersonArrayList(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return persons;
+    }
+
     public String createAppointment(int calendarId, Appointment appointment) {
         JSONObject appointmentObject = null;
         try {
