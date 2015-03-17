@@ -52,6 +52,7 @@
             <CheckBox id="participatingCheckBox" contentDisplay="RIGHT" layoutX="110.0" layoutY="446.0" mnemonicParsing="false" selected="true" text="Deltar" />
             <Label layoutX="16.0" layoutY="97.0" text="Oppettet av:" />
             <Label id="userLabel" layoutX="110.0" layoutY="97.0" />
+            <Button id="deleteButton" disable="true" layoutX="24.0" layoutY="499.0" mnemonicParsing="false" text="Slett" />
            </children>
        </Pane>
 

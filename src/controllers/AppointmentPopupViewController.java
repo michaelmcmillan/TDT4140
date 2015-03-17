@@ -36,6 +36,7 @@ public class AppointmentPopupViewController  implements Initializable {
     DatePicker  appointmentDate;
     Button closeButton;
     Button saveButton ;
+    Button deleteButton;
     CheckBox participatingCheckBox;
     Label userLabel;
     private boolean editExistingAppointment;
@@ -106,6 +107,7 @@ public class AppointmentPopupViewController  implements Initializable {
             //Set methods
             closeButton = (Button) appointmentPopup.lookup("#closeButton");
             saveButton = (Button) appointmentPopup.lookup("#saveButton");
+            deleteButton = (Button) appointmentPopup.lookup("#deleteButton");
 
             if (editExistingAppointment)
                 saveButton.setText("Lagre");
@@ -143,6 +145,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
             } else {
                 userLabel.setText("Deg");
+                deleteButton.setDisable(false);
             }
 
             participatingCheckBox = (CheckBox) appointmentPopup.lookup("#participatingCheckBox");
@@ -172,6 +175,14 @@ public class AppointmentPopupViewController  implements Initializable {
                 public void handle(MouseEvent event) {
                     save(userCanEdit);
 
+                }
+            });
+
+            deleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Server.getInstance().deleteAppointment(appointment);
+                    close();
                 }
             });
 
