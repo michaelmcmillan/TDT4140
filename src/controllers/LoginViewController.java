@@ -1,19 +1,25 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Person;
+import org.json.JSONException;
 import server.Server;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class LoginViewController{
@@ -24,6 +30,8 @@ public class LoginViewController{
     TextField passwordField;
     Button loginButton;
     Button registerButton;
+    Label errormessage;
+    Timer timer;
 
     public LoginViewController(Stage primaryStage){
         try {
@@ -40,6 +48,8 @@ public class LoginViewController{
 
             this.usernameField = (TextField) scene.lookup("#usernameTextfield");
             this.passwordField = (TextField) scene.lookup("#passwordTextfield");
+            this.errormessage = (Label) scene.lookup("#errormessage");
+
 
             /* Debugging */
             this.usernameField.setText("jonaslaksen@live.com");
@@ -58,6 +68,8 @@ public class LoginViewController{
             });
         } catch (Exception e){
             e.printStackTrace();
+            showErrorMessage(3000, e.toString());
+
         }
 
         loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -87,7 +99,7 @@ public class LoginViewController{
         String password = passwordField.getText();
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            
+
             try {
                 // Don't use the server to login if debug is enabled
                 if (application.Config.getInstance().DEBUG == true) {
@@ -104,9 +116,28 @@ public class LoginViewController{
                         new MainViewController(primaryStage, user);
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } //nullpointerException
+            catch (Exception e){
+                showErrorMessage(3000, "Feil passord/brukernavn:(");
             }
+        }
+    }
+
+    private void showErrorMessage(long time, String message){
+        timer = new Timer();
+        errormessage.setText(message);
+        errormessage.setVisible(true);
+        timer.schedule(new errorTimer(),time);
+    }
+
+    class errorTimer extends TimerTask{
+        public void run() {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    errormessage.setVisible(false);
+                }
+            });
+            timer.cancel();
         }
     }
 

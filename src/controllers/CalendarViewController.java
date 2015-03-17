@@ -323,6 +323,7 @@ public class CalendarViewController implements Initializable {
                 }
             }
         }
+        line.toFront();
 
     }
 
