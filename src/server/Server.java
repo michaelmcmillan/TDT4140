@@ -167,6 +167,10 @@ public class Server {
         return null;
     }
 
+    public void deleteAppointment(Appointment appointment) {
+        server.delete("appointment/" + appointment.getId());
+    }
+
     public void updateGroup(Group group) {
         JSONObject groupObjectToBePosted = null;
 
