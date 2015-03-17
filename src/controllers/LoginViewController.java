@@ -68,6 +68,7 @@ public class LoginViewController{
             });
         } catch (Exception e){
             e.printStackTrace();
+            showErrorMessage(3000, e.toString());
 
         }
 
@@ -115,9 +116,9 @@ public class LoginViewController{
                         new MainViewController(primaryStage, user);
                     }
                 }
-            } //nullpointerException,
+            } //nullpointerException
             catch (Exception e){
-                showErrorMessage(3000, e.toString());
+                showErrorMessage(3000, "Feil passord/brukernavn:(");
             }
         }
     }

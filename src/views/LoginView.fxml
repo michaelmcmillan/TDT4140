@@ -19,10 +19,10 @@
          <children>
             <Pane layoutX="333.0" layoutY="264.0" prefHeight="200.0" prefWidth="358.0">
                <children>
-                  <Label layoutX="53.0" layoutY="45.0" text="Brukernavn" />
-                  <Label layoutX="53.0" layoutY="83.0" text="Passord" />
-                  <TextField fx:id="usernameTextfield" layoutX="143.0" layoutY="40.0" />
-                  <PasswordField fx:id="passwordTextfield" layoutX="143.0" layoutY="78.0" />
+                  <Label layoutX="31.0" layoutY="42.0" text="Brukernavn" />
+                  <Label layoutX="31.0" layoutY="80.0" text="Passord" />
+                  <TextField fx:id="usernameTextfield" layoutX="121.0" layoutY="37.0" prefHeight="25.0" prefWidth="207.0" />
+                  <PasswordField fx:id="passwordTextfield" layoutX="121.0" layoutY="75.0" prefHeight="25.0" prefWidth="207.0" />
                   <Button fx:id="loginButton" layoutX="95.0" layoutY="135.0" mnemonicParsing="false" text="Logg inn" />
                   <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false" text="Registrer" />
                </children>
