@@ -46,19 +46,7 @@ public class AppointmentPopupViewController  implements Initializable {
         //model = new Appointment();
         //removeEndDayForm(); // Don't show calendar repetition events at startup
     }
-/*
-    @FXML void addAppointmentButtonPressed(ActionEvent event) {
 
-    }
-
-    @FXML private void repetitionCheckboxStateChanged(ActionEvent event) {
-        if(repetitionCheckbox.isSelected()) {
-            showEndDayForm();
-        } else {
-            removeEndDayForm();
-        }
-    }
-    */
 
     public AppointmentPopupViewController(Pane calendarPane, MainViewController mainview) {
         this.mainview = mainview;
@@ -231,7 +219,7 @@ public class AppointmentPopupViewController  implements Initializable {
                 Server.getInstance().updateAppointment(currentAppointment);;
 
             } else {
-                Server.getInstance().createAppointment(mainview.getcurrentlySelectedCalendarId(), currentAppointment);;
+                Server.getInstance().createAppointment(mainview.getCurrentlySelectedGroup().getCalendar_id(), currentAppointment);;
             }
         }
 

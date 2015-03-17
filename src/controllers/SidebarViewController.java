@@ -39,9 +39,14 @@ public class SidebarViewController implements Initializable {
 
         observableGroupList = FXCollections.observableArrayList();
 
-        Group minGruppe = new Group("Min gruppe");
-        minGruppe.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
-        observableGroupList.add(minGruppe);
+
+
+
+       // minGruppe.setCalendar_id(Server.getInstance().getCurrentlyLoggedInPerson().getCalendarId());
+        Group myCalendar = new Group("Min kalender");
+        myCalendar.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
+        mainViewController.setCurrentlySelectedGroup(myCalendar);
+        observableGroupList.add(myCalendar);
 
 
         ArrayList<Group> groups = new ArrayList<>();
@@ -91,10 +96,12 @@ public class SidebarViewController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 //ArrayList<Group> groups = Server.getInstance().getGroups();
-                int calenderId = ((Group)calendarListView.getSelectionModel().getSelectedItem()).getCalendar_id();
+                Group selectedGroup = ((Group)calendarListView.getSelectionModel().getSelectedItem());
+                int calenderId = selectedGroup.getCalendar_id();
 
                 calendarViewController.removeRectangles();
-                mainViewController.setcurrentlySelectedCalendarId(calenderId);
+
+                mainViewController.setCurrentlySelectedGroup(selectedGroup);
                 calendarViewController.generateDayPanes(mainViewController.getFirstDayOfWeek());
                 calendarViewController.populateWeekWithAppointments(mainViewController.getFirstDayOfWeek());
             }
@@ -116,9 +123,16 @@ public class SidebarViewController implements Initializable {
         );
 
 
+        Group myCalendar = new Group("Min kalender");
+        myCalendar.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
+        observableGroupList.add(myCalendar);
+
+
     }
 
     private ArrayList<Group> sortGroups(ArrayList<Group> groups){
+
+
         ArrayList<Group> sortedGroups = new ArrayList<>();
         for (Group g : groups){
             if (g.getSupergroup() == 0){
