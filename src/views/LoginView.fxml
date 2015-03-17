@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.canvas.*?>
 <?import java.lang.*?>
@@ -25,6 +27,14 @@
                   <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false" text="Registrer" />
                </children>
             </Pane>
+            <Label fx:id="errormessage" alignment="CENTER" layoutX="98.0" layoutY="227.0" prefHeight="51.0" prefWidth="829.0" text="generic error message" textFill="RED" visible="false">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <effect>
+                  <Reflection fraction="0.6" topOffset="-10.0" topOpacity="0.14" />
+               </effect>
+            </Label>
          </children>
       </Pane>
    </children>
