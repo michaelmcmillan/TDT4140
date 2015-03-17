@@ -116,6 +116,9 @@ public class SidebarViewController implements Initializable {
     public void refresh(){
 
         observableGroupList.clear();
+        Group myCalendar = new Group("Min kalender");
+        myCalendar.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
+        observableGroupList.add(myCalendar);
         observableGroupList.addAll(
                 sortGroups(
                         Server.getInstance().getGroups()
@@ -123,9 +126,7 @@ public class SidebarViewController implements Initializable {
         );
 
 
-        Group myCalendar = new Group("Min kalender");
-        myCalendar.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
-        observableGroupList.add(myCalendar);
+
 
 
     }
