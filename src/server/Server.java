@@ -88,17 +88,10 @@ public class Server {
 
         JSONArray json = server.getArray("user/groups");
         ArrayList<Group> groups = new ArrayList<>();
-
-        for (int i = 0; i < json.length(); i++) {
-            try {
-                Group group = new Group();
-                group.setName(json.getJSONObject(i).getString("name"));
-                group.setId(json.getJSONObject(i).getInt("id"));
-                groups.add(group);
-                group.setCalendar_id(json.getJSONObject(i).getInt("Calendar_id"));
-            } catch (JSONException error) {
-                error.printStackTrace();
-            }
+        try {
+            groups = JSONTranslator.toGroupArrayList(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return groups;

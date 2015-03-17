@@ -5,9 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import models.Group;
 import server.Server;
 
@@ -23,7 +25,8 @@ public class SidebarViewController implements Initializable {
     private Stage primaryStage;
     private Scene mainScene;
     private ArrayList<Group> groupList = new ArrayList<>();
-    private ObservableList<String> observableGroupList;
+    //private ObservableList<String> observableGroupList;
+    private  ObservableList<Group> observableGroupList;
 
     public SidebarViewController (MainViewController mainViewController, CalendarViewController calendarViewController,  Stage primarystage) {
 
@@ -35,20 +38,52 @@ public class SidebarViewController implements Initializable {
         this.groupList = Server.getInstance().getGroups();
 
         observableGroupList = FXCollections.observableArrayList();
-        observableGroupList.add("Min kalender");
 
-        // If debug is disabled get groups from server
-        if (application.Config.getInstance().DEBUG == false)
-            for (Group group : this.groupList)
-                observableGroupList.add(group.getName());
+        Group minGruppe = new Group("Min gruppe");
+        minGruppe.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
+        observableGroupList.add(minGruppe);
+
+
+        ArrayList<Group> groups = new ArrayList<>();
+        groups.addAll(Server.getInstance().getGroups());
+
+
+
+        observableGroupList.addAll(sortGroups(groups));
+
 
         // Handle clicks in sidebar (Kalendervelger)
         calendarListView.setItems(observableGroupList);
 
+
+
         //Add checkboxes to observableGroupList:
-        //calendarListView.setCellFactory(CheckBoxListCell.forListView(callback,converter));
+        calendarListView.setCellFactory(new Callback<ListView, ListCell>() {
+            @Override
+            public ListCell call(ListView param) {
+                ListCell<Group> cell = new ListCell<Group>(){
+                    @Override
+                    protected void updateItem(Group item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty){
+                            if (item.getSupergroup() == 0 ){
+                                setText(item.getName());
+                            } else {
+                                setText("  +  " +item.getName());
+                            }
+
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+
+                return cell;
+            }
+        });
 
         // Select the first calendar in the observableGroupList as default
+
         calendarListView.getSelectionModel().select(0);
         calendarListView.getFocusModel().focus(0);
 
@@ -56,19 +91,7 @@ public class SidebarViewController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 //ArrayList<Group> groups = Server.getInstance().getGroups();
-                int selectedIndex = calendarListView.getSelectionModel().getSelectedIndex();
-                int calenderId;
-                if (selectedIndex != 0){
-                    calenderId = groupList.get(selectedIndex-1).getCalendar_id();
-                    mainViewController.setCurrentlySelectedGroup(groupList.get(selectedIndex-1));
-
-                } else {
-                    calenderId = mainViewController.getCurrentPerson().getCalendarId();
-                    mainViewController.setCurrentlySelectedGroup(null);
-                }
-
-                System.out.println(calenderId);
-
+                int calenderId = ((Group)calendarListView.getSelectionModel().getSelectedItem()).getCalendar_id();
 
                 calendarViewController.removeRectangles();
                 mainViewController.setcurrentlySelectedCalendarId(calenderId);
@@ -84,11 +107,33 @@ public class SidebarViewController implements Initializable {
     }
 
     public void refresh(){
-        this.groupList = Server.getInstance().getGroups();
+
         observableGroupList.clear();
-        observableGroupList.add("Min kalender");
-        for (Group group : this.groupList)
-            observableGroupList.add(group.getName());
+        observableGroupList.addAll(
+                sortGroups(
+                        Server.getInstance().getGroups()
+                )
+        );
+
 
     }
+
+    private ArrayList<Group> sortGroups(ArrayList<Group> groups){
+        ArrayList<Group> sortedGroups = new ArrayList<>();
+        for (Group g : groups){
+            if (g.getSupergroup() == 0){
+                sortedGroups.add(g);
+
+                for (Group subG :groups){
+                    if (g.getId() == subG.getSupergroup()){
+                        sortedGroups.add(subG);
+
+                    }
+                }
+
+            }
+        }
+
+        return sortedGroups;
+    };
 }
