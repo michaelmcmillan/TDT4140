@@ -47,7 +47,7 @@ public class CalendarViewController implements Initializable {
     private double startX, startY, endX, endY;
     private ArrayList<DayView> dayPanes = new ArrayList<DayView>();
     private Rectangle rect;
-    private final double appointmentRectangleCornerRadius = 4;
+    private final double appointmentRectangleCornerRadius = 0;
     DropShadow dropShadow = new DropShadow(2,4.0,4.0,Color.BLACK);
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;

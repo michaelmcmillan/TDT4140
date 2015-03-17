@@ -16,7 +16,7 @@
                <TextField id="endTime" fx:id="toTimeTextField" layoutX="465.0" layoutY="304.0" prefHeight="26.0" prefWidth="60.0" promptText="10.00" />
                <TextField id="startTime" fx:id="fromTimeTextField" layoutX="353.0" layoutY="303.0" prefHeight="26.0" prefWidth="60.0" promptText="08.15" />
                <TextField fx:id="roomTextField" layoutX="111.0" layoutY="250.0" prefHeight="26.0" prefWidth="190.0" promptText="Hvilket rom?" />
-               <Button id="saveButton" fx:id="addAppointmentButton" layoutX="225.0" layoutY="499.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" text="Legg til" />
+               <Button id="saveButton" fx:id="addAppointmentButton" layoutX="216.0" layoutY="495.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="109.0" stylesheets="@DarkTheme.css" text="Legg til" />
                <Label layoutX="435.0" layoutY="304.0" prefHeight="25.0" prefWidth="30.0" text="Til">
                    <font>
                        <Font name="Helvetica Neue Light" size="14.0" />
@@ -43,7 +43,7 @@
                        <Font name="Helvetica Neue Light" size="14.0" />
                    </font>
                </Label>
-            <Button fx:id="closeButton" layoutX="466.0" layoutY="499.0" mnemonicParsing="false" text="Close" />
+            <Button fx:id="closeButton" layoutX="442.0" layoutY="495.0" mnemonicParsing="false" stylesheets="@DarkTheme.css" text="Close" />
             <TextField fx:id="titleTextField" layoutX="23.0" layoutY="24.0" prefHeight="50.0" prefWidth="495.0" promptText="Tittel">
                <font>
                   <Font size="28.0" />
@@ -52,7 +52,7 @@
             <CheckBox id="participatingCheckBox" contentDisplay="RIGHT" layoutX="110.0" layoutY="446.0" mnemonicParsing="false" selected="true" text="Deltar" />
             <Label layoutX="16.0" layoutY="97.0" text="Oppettet av:" />
             <Label id="userLabel" layoutX="110.0" layoutY="97.0" />
-            <Button id="deleteButton" disable="true" layoutX="24.0" layoutY="499.0" mnemonicParsing="false" text="Slett" />
+            <Button id="deleteButton" disable="true" layoutX="16.0" layoutY="495.0" mnemonicParsing="false" stylesheets="@DarkTheme.css" text="Slett" />
            </children>
        </Pane>
 
