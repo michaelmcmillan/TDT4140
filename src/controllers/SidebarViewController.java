@@ -129,6 +129,7 @@ public class SidebarViewController implements Initializable {
 
 
 
+
     }
 
     private ArrayList<Group> sortGroups(ArrayList<Group> groups){
