@@ -104,6 +104,19 @@ public class Server {
         return groups;
     }
 
+    public ArrayList<Group> getSupergroups () {
+        ArrayList<Group> groups = new ArrayList<Group>();
+        JSONArray json = server.getArray("group/supergroups");
+
+        try {
+            groups = JSONTranslator.toGroupArrayList(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return groups;
+    }
+
     public ArrayList<Person> getMembersOfGroup (int groupId) {
         ArrayList<Person> persons = new ArrayList<Person>();
         JSONArray json = server.getArray("group/" + groupId + "/members");

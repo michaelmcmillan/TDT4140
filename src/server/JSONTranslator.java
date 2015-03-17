@@ -19,13 +19,7 @@ public class JSONTranslator {
 
     /*
 
-    public static ArrayList<Group> toGroupArrayList(JSONArray jsonArray) throws JSONException {
-        ArrayList<Group> groups = new ArrayList<>();
-        for (int i = 0 ; i <jsonArray.length() ; i ++){
-            groups.add(toGroup(jsonArray.getJSONObject(i)));
-        }
-        return groups;
-    }
+
 
 
 
@@ -222,5 +216,13 @@ public class JSONTranslator {
         appointment.setEndTime(LocalDateTime.parse(jsonObject.getString("end_time"), formatter));
         appointment.setParticipating(jsonObject.getBoolean("participating"));
         return appointment;
+    }
+
+    public static ArrayList<Group> toGroupArrayList(JSONArray jsonArray) throws JSONException {
+        ArrayList<Group> groups = new ArrayList<>();
+        for (int i = 0 ; i <jsonArray.length() ; i ++){
+            groups.add(toGroup(jsonArray.getJSONObject(i)));
+        }
+        return groups;
     }
 }
