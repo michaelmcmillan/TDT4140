@@ -106,7 +106,7 @@ public class Server {
 
     public ArrayList<Group> getSupergroups () {
         ArrayList<Group> groups = new ArrayList<Group>();
-        JSONArray json = server.getArray("group/supergroups");
+        JSONArray json = server.getArray("supergroups");
 
         try {
             groups = JSONTranslator.toGroupArrayList(json);
