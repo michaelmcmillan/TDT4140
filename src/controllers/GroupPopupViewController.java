@@ -1,6 +1,8 @@
 package controllers;
 
 import application.Main;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -34,8 +36,10 @@ public class GroupPopupViewController {
     private Scene scene;
     private ListView allPersonsList;
     private ListView groupMembersList;
+    private ComboBox<Group> groupDropdown;
     private ObservableList<Person> personsObservableList       ;
     private ObservableList<Person> groupMembersObservableList  ;
+    private ObservableList<Group> superGroupObservableList  ;
 
 
     public GroupPopupViewController(Pane calendarPane, MainViewController mainViewController, Stage primarystage){
@@ -80,10 +84,10 @@ public class GroupPopupViewController {
             Button removeButton = (Button) groupPopup.lookup("#removeButton");
 
             titleTextField = (TextField) groupPopup.lookup("#titleTextField");
+            groupDropdown = (ComboBox) groupPopup.lookup("#superGroupDropdown");
 
-            TextField startTime = (TextField) groupPopup.lookup("#startTime");
-            TextField endTime   = (TextField) groupPopup.lookup("#endTime");
-            DatePicker appointmentDate = (DatePicker) groupPopup.lookup("#startDatePicker");
+
+
 
 
 
@@ -92,18 +96,60 @@ public class GroupPopupViewController {
             groupMembersList = (ListView) groupPopup.lookup("#groupMembersList");
 
 
-
-
-
             personsObservableList        = FXCollections.observableArrayList();
             groupMembersObservableList   = FXCollections.observableArrayList();
 
 
+
+
+
             personsObservableList.addAll(Server.getInstance().getAllUsers());
+
+
+
 
             allPersonsList.setItems(personsObservableList);
             groupMembersList.setItems(groupMembersObservableList);
 
+
+
+
+            superGroupObservableList    = FXCollections.observableArrayList();
+
+            Group newGroup = new Group("-");
+            newGroup.setId(-1);
+
+            superGroupObservableList.add(newGroup);
+            superGroupObservableList.addAll(Server.getInstance().getSupergroups());
+
+            groupDropdown.setItems(superGroupObservableList);
+            groupDropdown.setValue(superGroupObservableList.get(0));
+
+            groupDropdown.setCellFactory(new Callback<ListView<Group>, ListCell<Group>>() {
+                @Override
+                public ListCell<Group> call(ListView<Group> param) {
+                    ListCell<Group> cell = new ListCell<Group>() {
+                        @Override
+                        protected void updateItem(Group g, boolean bln) {
+                            super.updateItem(g, bln);
+                            if (g != null) {
+                                setText(g.getName());
+                            }else {
+                                setText("");
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            });
+
+
+            groupDropdown.valueProperty().addListener(new ChangeListener<Group>() {
+                @Override
+                public void changed(ObservableValue<? extends Group> observable, Group oldValue, Group newValue) {
+                    getSuperGroupMembers(newValue);
+                }
+            });
 
             allPersonsList.setCellFactory(new Callback<ListView<Person>, ListCell<Person>>() {
                 @Override
@@ -194,19 +240,36 @@ public class GroupPopupViewController {
 
     private void save(){
 
+
+
+
+
         Group newGroup = new Group(titleTextField.getText());
 
+        int supergroupId = groupDropdown.valueProperty().get().getId();
+
+        if (supergroupId > 0){
+
+            newGroup.setSupergroup(supergroupId);
+        }
+
+
         newGroup = Server.getInstance().createGroup(newGroup);
+
         ArrayList<Person> groupMembers = new ArrayList<>();
         groupMembers.addAll(groupMembersObservableList);
         Server.getInstance().addMembersToGroup(newGroup, groupMembers);
         mainViewController.refresh();
 
-
-
-
-
     }
+
+
+    private void getSuperGroupMembers(Group g){
+        personsObservableList.clear();
+        groupMembersObservableList.clear();
+        personsObservableList.addAll(Server.getInstance().getMembersOfGroup(g.getId()));
+
+    };
 
 
 }

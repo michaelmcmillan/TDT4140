@@ -37,22 +37,24 @@ public class MainViewController implements Initializable {
     private Label yearLabel;
     private ArrayList<Label> labelList = new ArrayList<>();
     private ArrayList<String> labelNames = new ArrayList<>();
-    private int currentlySelectedCalendarId = Server.getInstance().getCurrentlyLoggedInPerson().getCalendarId();
-    private Group currentlySelectedGroup;
 
-    public int getcurrentlySelectedCalendarId () {
-        return currentlySelectedCalendarId;
-    }
-    public void setcurrentlySelectedCalendarId (int calendarId) { currentlySelectedCalendarId = calendarId;}
+    private Group currentlySelectedGroup;
 
 
     public void setCurrentlySelectedGroup(Group currentlySelectedGroup) {
         this.currentlySelectedGroup = currentlySelectedGroup;
     }
 
+    public Group getCurrentlySelectedGroup() {
+        return currentlySelectedGroup;
+    }
+
     public MainViewController(Stage primaryStage, Person person) throws Exception {
 
         this.person = person;
+        currentlySelectedGroup = new Group("Min kalender");
+        currentlySelectedGroup.setCalendar_id(person.getCalendarId());
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(MAINVIEW_PATH));
         Parent main = loader.load();
         loader.setController(this);

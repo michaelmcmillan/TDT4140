@@ -143,6 +143,8 @@ public class JSONTranslator {
         jsonObject.put("name", group.getName());
         jsonObject.put("id",group.getId());
         jsonObject.put("Calendar_id",group.getCalendar_id());
+        jsonObject.put("Gruppe_id",group.getSupergroup());
+
         return jsonObject;
     }
 
@@ -164,6 +166,7 @@ public class JSONTranslator {
         group.setName(jsonObject.getString("name"));
         group.setCalendar_id(jsonObject.getInt("Calendar_id"));
         group.setSupergroup(jsonObject.getInt("Gruppe_id"));
+
         return group;
     }
 

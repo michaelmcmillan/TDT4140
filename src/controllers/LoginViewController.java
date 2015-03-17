@@ -100,6 +100,7 @@ public class LoginViewController{
 
                     if (Server.getInstance().isAuthenticated()) {
                         Person user = Server.getInstance().getCurrentlyLoggedInPerson();
+                        //ArrayList<Person> persons = Server.getInstance().getAllUsers();
                         new MainViewController(primaryStage, user);
                     }
                 }

@@ -314,7 +314,7 @@ public class CalendarViewController implements Initializable {
 
         LocalDate lastDayOfWeek = firstDayOfWeek.plusDays(6);
 
-        ArrayList<Appointment> appointments = Server.getInstance().getAppointments(this.mainViewController.getcurrentlySelectedCalendarId(), firstDayOfWeek, lastDayOfWeek);
+        ArrayList<Appointment> appointments = Server.getInstance().getAppointments(this.mainViewController.getCurrentlySelectedGroup().getCalendar_id(), firstDayOfWeek, lastDayOfWeek);
 
         for (Appointment appointment : appointments) {
             for (DayView dayView : this.dayPanes) {

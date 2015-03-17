@@ -35,4 +35,10 @@ public class Group {
     public void setSupergroup(int supergroup) {
         this.supergroup = supergroup;
     }
+
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
