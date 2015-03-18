@@ -264,7 +264,7 @@ public class GroupPopupViewController {
                 calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
             }
         }
-        mainViewController.refresh();
+        mainViewController.refreshNewGroup();
 
     }
 
