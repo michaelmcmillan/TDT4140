@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -48,12 +49,12 @@ public class CalendarViewController implements Initializable {
     private ArrayList<DayView> dayPanes = new ArrayList<DayView>();
     private Rectangle rect;
     private final double appointmentRectangleCornerRadius = 0;
-    DropShadow dropShadow = new DropShadow(2,4.0,4.0,Color.BLACK);
+    DropShadow dropShadow = new DropShadow(7,4.0,4.0,Color.BLACK);
     private java.util.Calendar startOfWeek;
     private AppointmentPopupViewController popupView;
     private boolean isDragging;
     private LocalDate firstDayOfWeek;
-
+    DropShadow glow = new DropShadow(5,0,0,Color.RED);
     private Line line;
 
     public CalendarViewController(MainViewController mainViewController, Stage primarystage) {
@@ -85,9 +86,9 @@ public class CalendarViewController implements Initializable {
         return dayPanes.get((day % dayPanes.size()) - 2);
     }
 
-    public void highlightCurrentDay (DayView dayView) {
-        dayView.setStyle("-fx-background-color: #DBDBDB;");
-        dayView.setOpacity(0.85);
+    public void highlightCurrentDay (DayView dayView) {//#e6e1e1
+        dayView.setStyle("-fx-background-color: rgba(230,225,225,0.7);");
+        //dayView.setOpacity(0.85);
     }
 
     public void highlightCurrentHour (DayView dayView) {
@@ -99,6 +100,7 @@ public class CalendarViewController implements Initializable {
         line = new Line(1, yPos, dayPanes.get(0).getPrefWidth() - 1, yPos);
         line.setStroke(Color.RED);
         line.setStrokeWidth(3);
+        line.setEffect(glow);
 
         // Place the red line
         dayView.getChildren().add(line);
@@ -121,6 +123,7 @@ public class CalendarViewController implements Initializable {
             hourBreaker.setLayoutY(50 + (i * 50));
             hourBreaker.setStartX(-100);
             hourBreaker.setEndX(750);
+            hourBreaker.setOpacity(0.1);
             dayPanes.get(0).getChildren().add(hourBreaker);
         }
     }
@@ -163,6 +166,7 @@ public class CalendarViewController implements Initializable {
         detailsText.setY(minY + 20);
         detailsText.setFont(Font.font("Helvetica"));
         detailsText.setFill(Color.WHITE);
+        detailsText.setPickOnBounds(false);
 
 
 
@@ -174,14 +178,15 @@ public class CalendarViewController implements Initializable {
         rectangle.setHeight(height);
         rectangle.setArcHeight(appointmentRectangleCornerRadius);
         rectangle.setArcWidth(appointmentRectangleCornerRadius);
+        rectangle.setStroke(Color.BLACK);
 
-        rectangle.setOpacity(0.7);
+        rectangle.setOpacity(0.9);
         rectangle.setEffect(dropShadow);
 
         if (appointment.isParticipating()){
-            rectangle.setFill(Color.LIGHTGREEN);
+            rectangle.setFill(Color.valueOf("#069046"));
         } else {
-            rectangle.setFill(Color.DEEPSKYBLUE);
+            rectangle.setFill(Color.valueOf("#0C85E7"));
         }
 
 
@@ -238,7 +243,7 @@ public class CalendarViewController implements Initializable {
             dayView.setPrefSize(111, 1200);
             dayView.setLayoutY(0);
             dayView.setLayoutX(111 * i);
-            dayView.setStyle("-fx-border-color: #000000; -fx-border-width: 0.5px;");
+            dayView.setStyle("-fx-border-color: #8f8f8f; -fx-border-width: 0.5px;");
             dayView.setDate(date);
             this.weekHBox.getChildren().add(dayView);
             dayPanes.add(dayView);
