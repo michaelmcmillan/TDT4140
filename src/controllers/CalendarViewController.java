@@ -26,6 +26,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -151,12 +152,14 @@ public class CalendarViewController implements Initializable {
         int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
 
 
-        String startTimeString = Integer.toString(appointment.getStartTime().getHour());
-        String endTimeString = Integer.toString(appointment.getEndTime().getHour()+1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String startTimeString = formatter.format(appointment.getStartTime());
+        String endTimeString = formatter.format(appointment.getEndTime());
 
-        Text detailsText = new Text(
-                startTimeString +":00 - "+endTimeString +":00" + System.lineSeparator()
-                        + appointment.getTitle());
+
+
+
+        Text detailsText = new Text(startTimeString + " - " + endTimeString + System.lineSeparator() + appointment.getTitle());
 
         detailsText.setWrappingWidth(DAY_WIDTH);
         detailsText.setX(5);
