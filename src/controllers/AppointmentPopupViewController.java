@@ -14,8 +14,10 @@ import views.DayView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -152,8 +154,10 @@ public class AppointmentPopupViewController  implements Initializable {
             participatingCheckBox.setSelected(appointment.isParticipating());
 
 
-            String startHour = Integer.toString(startDate.getHour()) + ":00";
-            String endHour = Integer.toString(endDate.getHour() +1) + ":00";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            String startHour = formatter.format(startDate);
+            String endHour = formatter.format(endDate);
             startTime.setText(startHour);
             endTime.setText(endHour);
             titleField.setText(appointment.getTitle());
@@ -209,10 +213,14 @@ public class AppointmentPopupViewController  implements Initializable {
         LocalDate date = appointmentDate.getValue();
 
         int startHour = Integer.valueOf(this.startTime.getText().split(":")[0]);
+        int startMin = Integer.valueOf(this.startTime.getText().split(":")[1]);
         int endHour = Integer.valueOf(this.endTime.getText().split(":")[0]);
+        int endMin = Integer.valueOf(this.endTime.getText().split(":")[1]);
 
-        LocalDateTime startTime = date.atTime(startHour, 0);
-        LocalDateTime endTime = date.atTime(endHour-1, 0);
+
+
+        LocalDateTime startTime = date.atTime(startHour,startMin);
+        LocalDateTime endTime = date.atTime(endHour-1, endMin);
 
         ArrayList<Person> participants = new ArrayList<>();
 
