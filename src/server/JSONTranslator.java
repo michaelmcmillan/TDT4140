@@ -3,6 +3,7 @@ package server;
 import models.Appointment;
 import models.Group;
 import models.Person;
+import models.Room;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -218,6 +219,7 @@ public class JSONTranslator {
         appointment.setStartTime(LocalDateTime.parse(jsonObject.getString("start_time"), formatter));
         appointment.setEndTime(LocalDateTime.parse(jsonObject.getString("end_time"), formatter));
         appointment.setParticipating(jsonObject.getBoolean("participating"));
+
         return appointment;
     }
 
@@ -227,5 +229,21 @@ public class JSONTranslator {
             groups.add(toGroup(jsonArray.getJSONObject(i)));
         }
         return groups;
+    }
+
+    public static Room toRoom(JSONObject jsonObject) throws JSONException{
+        String name = jsonObject.getString("name");
+        int id = jsonObject.getInt("id");
+        int capacity = jsonObject.getInt("seats");
+        return new Room(id,name,capacity);
+
+    }
+
+    public static ArrayList<Room> toRoomArrayList(JSONArray jsonArray) throws JSONException{
+        ArrayList<Room> roomArrayList = new ArrayList<>();
+        for (int i = 0;i<jsonArray.length();i++){
+            roomArrayList.add(toRoom(jsonArray.getJSONObject(i)));
+        }
+        return roomArrayList;
     }
 }

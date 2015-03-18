@@ -13,7 +13,7 @@ public class Appointment {
     private String description;
     private int id;
     private int  personId;
-    private String roomId;
+    private int roomId;
     private boolean participating = true;
 
     public Appointment () {
@@ -65,7 +65,7 @@ public class Appointment {
         return personId;
     }
 
-    public String getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
@@ -82,4 +82,8 @@ public class Appointment {
         this.description = description;
     }
 
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
 }
