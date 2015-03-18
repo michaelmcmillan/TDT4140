@@ -321,27 +321,33 @@ public class AppointmentPopupViewController  implements Initializable {
         }
 
         observableRoomList.clear();
+        Room r = new Room(0,"Ikke reservert rom",0);
+        observableRoomList.add(r);
         observableRoomList.addAll(roomArrayList);
 
         if (observableRoomList.size() > 0){
             if (userCanEdit){
                 roomSelector.setDisable(false);
+
             }
+
+
 
 
         } else{
             roomSelector.setDisable(true);
-            Room r = new Room(0,"Ingen ledige rom",0);
+            r = new Room(0,"Ingen ledige rom",0);
             observableRoomList.add(r);
         }
+
 
         roomSelector.setValue(observableRoomList.get(0));
 
 
         if(editingExistingAppointment){
-            for (Room r : observableRoomList){
-                if (currentAppointment.getRoomId() == r.getId()){
-                    roomSelector.setValue(r);
+            for (Room selectedRoom : observableRoomList){
+                if (currentAppointment.getRoomId() == selectedRoom.getId()){
+                    roomSelector.setValue(selectedRoom);
                     break;
                 }
             }
