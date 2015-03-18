@@ -28,6 +28,8 @@ public class RegisterViewController implements Initializable {
     private TextField emailField, firstnameField, surnameField, confirmEmailField;
     @FXML PasswordField passwordField,confirmPasswordField;
     private MainViewController mainViewController;
+    private ArrayList<Person> personList = new ArrayList<>();
+    private ArrayList<String> mailList = new ArrayList<>();
 
     public RegisterViewController(Stage primaryStage) throws Exception {
 
@@ -39,6 +41,10 @@ public class RegisterViewController implements Initializable {
         Scene scene = new Scene(main);
         scene.getStylesheets().add(this.getClass().getResource("/views/style.css").toExternalForm());
         primaryStage.setScene(scene);
+        /*personList.addAll(Server.getInstance().getAllUsers());
+        for(int i = 0; i < personList.size();i++){
+            mailList.add(personList.get(i).getEmail());
+        }*/
 
         // Get buttons and textviews
         registerButton = (Button) scene.lookup("#registerButton");
@@ -104,6 +110,13 @@ public class RegisterViewController implements Initializable {
         if(passwordField.getText().equals("")&&!passwordField.getText().equals("fyll inn passord!")){showErrorMessage(passwordField, "fyll inn passord!");return false;}
         if(confirmPasswordField.getText().equals("")){showErrorMessage(confirmPasswordField, "fyll inn passord!");return false;}
         if(!confirmPasswordField.getText().equals(passwordField.getText())){showErrorMessage(confirmPasswordField, "Sjekk at passord stemmer!");return false;}
+
+        /*for(int i = 0; i < mailList.size(); i++){
+            if(passwordField.getText().equals(mailList.get(i))){
+                showErrorMessage(emailField, "Denne mailadressen er allerede i bruk");
+                return false;
+            }
+        }*/
         return true;
     }
 

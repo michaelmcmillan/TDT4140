@@ -25,6 +25,11 @@ public class MainViewController implements Initializable {
 
     private final String MAINVIEW_PATH = "../views/MainView.fxml";
     private CalendarViewController calendarViewController;
+
+    public SidebarViewController getSidebarViewController() {
+        return sidebarViewController;
+    }
+
     private SidebarViewController sidebarViewController;
     private GroupPopupViewController groupPopupViewController;
     private EditGroupPopupViewController editGroupPopupViewController;
@@ -188,6 +193,11 @@ public class MainViewController implements Initializable {
 
     public void refresh(){
         sidebarViewController.refresh();
+        calendarViewController.refresh();
+    }
+
+    public void refreshNewGroup(){
+        sidebarViewController.refreshNewGroup();
         calendarViewController.refresh();
     }
 

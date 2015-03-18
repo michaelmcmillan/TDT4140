@@ -42,7 +42,7 @@
                        <Font name="Helvetica Neue Light" size="14.0" />
                    </font>
                </Label>
-            <Button fx:id="closeButton" layoutX="466.0" layoutY="499.0" mnemonicParsing="false" text="Close" />
+            <Button fx:id="closeButton" layoutX="475.0" layoutY="499.0" mnemonicParsing="false" text="Lukk" />
             <TextField fx:id="titleTextField" layoutX="23.0" layoutY="24.0" prefHeight="50.0" prefWidth="495.0" promptText="Tittel">
                <font>
                   <Font size="28.0" />

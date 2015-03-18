@@ -95,17 +95,18 @@ public class SidebarViewController implements Initializable {
         calendarListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //ArrayList<Group> groups = Server.getInstance().getGroups();
-                Group selectedGroup = ((Group)calendarListView.getSelectionModel().getSelectedItem());
-                int calenderId = selectedGroup.getCalendar_id();
+                onSelectedCell();
 
-                calendarViewController.removeRectangles();
-
-                mainViewController.setCurrentlySelectedGroup(selectedGroup);
-                calendarViewController.generateDayPanes(mainViewController.getFirstDayOfWeek());
-                calendarViewController.populateWeekWithAppointments(mainViewController.getFirstDayOfWeek());
             }
         });
+    }
+
+    public void onSelectedCell(){
+        Group selectedGroup = ((Group)calendarListView.getSelectionModel().getSelectedItem());
+        calendarViewController.removeRectangles();
+        mainViewController.setCurrentlySelectedGroup(selectedGroup);
+        calendarViewController.generateDayPanes(mainViewController.getFirstDayOfWeek());
+        calendarViewController.populateWeekWithAppointments(mainViewController.getFirstDayOfWeek());
     }
 
 
@@ -114,7 +115,7 @@ public class SidebarViewController implements Initializable {
     }
 
     public void refresh(){
-
+        int currentcell = calendarListView.getSelectionModel().getSelectedIndex();
         observableGroupList.clear();
         Group myCalendar = new Group("Min kalender");
         myCalendar.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
@@ -124,12 +125,28 @@ public class SidebarViewController implements Initializable {
                         Server.getInstance().getGroups()
                 )
         );
+        setSelectedCell(currentcell);
+    }
 
+    public void refreshNewGroup(){
+        observableGroupList.clear();
+        Group myCalendar = new Group("Min kalender");
+        myCalendar.setCalendar_id(mainViewController.getCurrentPerson().getCalendarId());
+        observableGroupList.add(myCalendar);
+        observableGroupList.addAll(
+                sortGroups(
+                        Server.getInstance().getGroups()
+                )
+        );
+        int currentcell = observableGroupList.size()-1;
+        setSelectedCell(currentcell);
+    }
 
-
-
-
-
+    public void setSelectedCell(int cell){
+        calendarListView.getSelectionModel().select(cell);
+        calendarListView.getFocusModel().focus(cell);
+        calendarListView.scrollTo(cell);
+        onSelectedCell();
     }
 
     private ArrayList<Group> sortGroups(ArrayList<Group> groups){

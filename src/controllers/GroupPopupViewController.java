@@ -259,7 +259,12 @@ public class GroupPopupViewController {
         ArrayList<Person> groupMembers = new ArrayList<>();
         groupMembers.addAll(groupMembersObservableList);
         Server.getInstance().addMembersToGroup(newGroup, groupMembers);
-        mainViewController.refresh();
+        for (int i = 0; i < calendarPane.getChildren().size(); i++) {
+            if (openGroupPopups.contains(calendarPane.getChildren().get(i))) {
+                calendarPane.getChildren().remove(calendarPane.getChildren().get(i));
+            }
+        }
+        mainViewController.refreshNewGroup();
 
     }
 
