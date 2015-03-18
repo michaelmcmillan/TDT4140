@@ -280,7 +280,7 @@ public class EditGroupPopupViewController  {
         Server.getInstance().addMembersToGroup(selectedGroup, membersToAdd);
         mainViewController.refresh();
         this.close();
-        this.show(selectedGroup);
+        //this.show(selectedGroup);
 
     }
 

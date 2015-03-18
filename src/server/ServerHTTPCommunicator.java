@@ -20,7 +20,7 @@ public class ServerHTTPCommunicator {
 
     private String protocol   = "http";
     private String port       = "1342";
-    private String ip         = "kalender.michaelmcmillan.net";
+    private String ip         = "78.91.72.61";
     private String hostname   = this.protocol + "://" + this.ip + ":" + this.port;
 
     private String username;
