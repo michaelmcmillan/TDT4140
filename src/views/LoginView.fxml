@@ -23,8 +23,8 @@
                   <Label layoutX="31.0" layoutY="80.0" text="Passord" />
                   <TextField fx:id="usernameTextfield" layoutX="121.0" layoutY="37.0" prefHeight="25.0" prefWidth="207.0" />
                   <PasswordField fx:id="passwordTextfield" layoutX="121.0" layoutY="75.0" prefHeight="25.0" prefWidth="207.0" />
-                  <Button fx:id="loginButton" layoutX="95.0" layoutY="135.0" mnemonicParsing="false" text="Logg inn" />
-                  <Button fx:id="registerButton" layoutX="186.0" layoutY="135.0" mnemonicParsing="false" text="Registrer" />
+                  <Button fx:id="loginButton" layoutX="52.0" layoutY="131.0" mnemonicParsing="false" stylesheets="@DarkTheme.css" text="Logg inn" />
+                  <Button fx:id="registerButton" layoutX="192.0" layoutY="131.0" mnemonicParsing="false" stylesheets="@DarkTheme.css" text="Registrer" />
                </children>
             </Pane>
             <Label fx:id="errormessage" alignment="CENTER" layoutX="98.0" layoutY="227.0" prefHeight="51.0" prefWidth="829.0" text="generic error message" textFill="RED" visible="false">
