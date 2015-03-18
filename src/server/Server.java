@@ -304,5 +304,17 @@ public class Server {
         return persons;
     }
 
+    public ArrayList<Room> getAllRooms (){
+        ArrayList<Room> roomList = new ArrayList<>();
+        JSONArray roomArray = server.getArray("/room");
+        try {
+            roomList.addAll(JSONTranslator.toRoomArrayList(roomArray));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return roomList;
+    }
+
 
 }

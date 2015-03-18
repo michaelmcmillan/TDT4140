@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
+import models.Room;
 import server.Server;
 import views.AppointmentView;
 import views.DayView;
@@ -54,6 +55,7 @@ public class CalendarViewController implements Initializable {
     private AppointmentPopupViewController popupView;
     private boolean isDragging;
     private LocalDate firstDayOfWeek;
+    private ArrayList<Room> roomArrayList = new ArrayList<>();
 
     private Line line;
 
@@ -74,6 +76,7 @@ public class CalendarViewController implements Initializable {
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         this.generateDayPanes(firstDayOfWeek);
         this.populateWeekWithAppointments(firstDayOfWeek);
+        roomArrayList.addAll(Server.getInstance().getAllRooms());
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -158,8 +161,19 @@ public class CalendarViewController implements Initializable {
 
 
 
+        //adds title to rectangles
+        String roomName ="" ;
 
-        Text detailsText = new Text(startTimeString + " - " + endTimeString + System.lineSeparator() + appointment.getTitle());
+        if (appointment.getRoomId() != 0){
+            for (Room r:roomArrayList){
+                if (r.getId() == appointment.getRoomId()){
+                    roomName = r.getName();
+                }
+            }
+
+        }
+
+        Text detailsText = new Text(startTimeString + " - " + endTimeString + System.lineSeparator() + appointment.getTitle() + System.lineSeparator() + roomName);
 
         detailsText.setWrappingWidth(DAY_WIDTH);
         detailsText.setX(5);
