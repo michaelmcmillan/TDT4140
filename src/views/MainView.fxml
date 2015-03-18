@@ -238,11 +238,11 @@
               <MenuItem id="menu-account-logout" mnemonicParsing="false" text="Logout" />
             </items>
           </Menu>
-          <Menu id="menu-edit" mnemonicParsing="false" text="Group">
+          <Menu id="menu-edit" mnemonicParsing="false" text="Gruppe">
             <items>
-                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Leave group" />
-                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="New group" />
-                  <MenuItem mnemonicParsing="false" text="Update group" />
+                <MenuItem id="menu-edit-new-calendar" mnemonicParsing="false" text="Forlat gruppe" />
+                <MenuItem id="menu-edit-new-group" mnemonicParsing="false" text="Ny gruppe" />
+                  <MenuItem mnemonicParsing="false" text="Oppdater gruppe" />
             </items>
           </Menu>
         </menus>
