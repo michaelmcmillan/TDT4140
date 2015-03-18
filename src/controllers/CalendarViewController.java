@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Calendar;
+import models.Room;
 import server.Server;
 import views.AppointmentView;
 import views.DayView;
@@ -27,6 +28,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -54,6 +56,8 @@ public class CalendarViewController implements Initializable {
     private AppointmentPopupViewController popupView;
     private boolean isDragging;
     private LocalDate firstDayOfWeek;
+    private ArrayList<Room> roomArrayList = new ArrayList<>();
+
     DropShadow glow = new DropShadow(5,0,0,Color.RED);
     private Line line;
 
@@ -74,6 +78,7 @@ public class CalendarViewController implements Initializable {
         LocalDate firstDayOfWeek = CalendarHelper.getFirstDateOfWeek();
         this.generateDayPanes(firstDayOfWeek);
         this.populateWeekWithAppointments(firstDayOfWeek);
+        roomArrayList.addAll(Server.getInstance().getAllRooms());
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -154,12 +159,25 @@ public class CalendarViewController implements Initializable {
         int maxY = (int) Math.max(CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayStartTime), CalendarHelper.convertLocalTimeToYAxis(pane.getPrefHeight(), dayEndTime));
 
 
-        String startTimeString = Integer.toString(appointment.getStartTime().getHour());
-        String endTimeString = Integer.toString(appointment.getEndTime().getHour()+1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String startTimeString = formatter.format(appointment.getStartTime());
+        String endTimeString = formatter.format(appointment.getEndTime());
 
-        Text detailsText = new Text(
-                startTimeString +":00 - "+endTimeString +":00" + System.lineSeparator()
-                        + appointment.getTitle());
+
+
+        //adds title to rectangles
+        String roomName ="" ;
+
+        if (appointment.getRoomId() != 0){
+            for (Room r:roomArrayList){
+                if (r.getId() == appointment.getRoomId()){
+                    roomName = r.getName();
+                }
+            }
+
+        }
+
+        Text detailsText = new Text(startTimeString + " - " + endTimeString + System.lineSeparator() + appointment.getTitle() + System.lineSeparator() + roomName);
 
         detailsText.setWrappingWidth(DAY_WIDTH);
         detailsText.setX(5);

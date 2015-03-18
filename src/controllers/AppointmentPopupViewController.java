@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -7,15 +9,19 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 import models.Appointment;
 import models.Person;
+import models.Room;
 import server.Server;
 import views.DayView;
+
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -28,20 +34,23 @@ public class AppointmentPopupViewController  implements Initializable {
     private Appointment model;
     private Pane calendarPane;
     private Pane dayPane;
-    TextField   startTime;
-    TextField   endTime;
-    TextField titleField;
-    TextArea descriptionField;
-    TextField roomField;
-    DatePicker  appointmentDate;
-    Button closeButton;
-    Button saveButton ;
-    Button deleteButton;
-    CheckBox participatingCheckBox;
-    Label userLabel;
-    private boolean editExistingAppointment;
+    private TextField   startTime;
+    private TextField   endTime;
+    private TextField titleField;
+    private TextArea descriptionField;
+    private TextArea attendeesTextArea;
+    private DatePicker  appointmentDate;
+    private Button closeButton;
+    private Button saveButton ;
+    private Button deleteButton;
+    private CheckBox participatingCheckBox;
+    private Label userLabel;
+    private ComboBox<Room> roomSelector;
+    private boolean editingExistingAppointment;
+    private ObservableList<Room> observableRoomList = FXCollections.observableArrayList();
     private Appointment currentAppointment;
     private ArrayList<Person> allUsers = new ArrayList<>();
+    private boolean userCanEdit;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //model = new Appointment();
@@ -54,28 +63,14 @@ public class AppointmentPopupViewController  implements Initializable {
         this.calendarPane = calendarPane;
 
     }
-    /*
-    private void showEndDayForm() {
-        repetitionFrequencyLabel.setVisible(true);
-        repetitionFrequencyTextField.setVisible(true);
-        endDateLabel.setVisible(true);
-        endDatePicker.setVisible(true);
-    }
 
-    private void removeEndDayForm() {
-        repetitionFrequencyLabel.setVisible(false);
-        repetitionFrequencyTextField.setVisible(false);
-        endDateLabel.setVisible(false);
-        endDatePicker.setVisible(false);
-    }
-    */
 
     public void show(DayView pane,Appointment appointment,boolean editExistingAppointment,Person currentUser){
-        this.editExistingAppointment = editExistingAppointment;
+        this.editingExistingAppointment = editExistingAppointment;
         this.currentAppointment = appointment;
         LocalDateTime startDate = appointment.getStartTime();
         LocalDateTime endDate = appointment.getEndTime();
-        Boolean userCanEdit = currentUser.getId() == appointment.getPersonId();
+        userCanEdit = currentUser.getId() == appointment.getPersonId();
 
         allUsers.addAll(Server.getInstance().getAllUsers());
 
@@ -109,26 +104,80 @@ public class AppointmentPopupViewController  implements Initializable {
             saveButton = (Button) appointmentPopup.lookup("#saveButton");
             deleteButton = (Button) appointmentPopup.lookup("#deleteButton");
 
-            if (editExistingAppointment)
-                saveButton.setText("Lagre");
+
+            if (editExistingAppointment){
+                 saveButton.setText("Lagre");
+            }
+
 
 
 
             startTime       = (TextField) appointmentPopup.lookup("#startTime");
             endTime         = (TextField) appointmentPopup.lookup("#endTime");
             appointmentDate = (DatePicker) appointmentPopup.lookup("#startDatePicker");
-            descriptionField = (TextArea) appointmentPopup.lookup("#purposeTextArea");
-            roomField       = (TextField) appointmentPopup.lookup("#roomTextField");
+            descriptionField= (TextArea) appointmentPopup.lookup("#purposeTextArea");
+            attendeesTextArea = (TextArea) appointmentPopup.lookup("#attendeesTextArea");
+            roomSelector    = (ComboBox) appointmentPopup.lookup("#roomComboBox");
             titleField      = (TextField) appointmentPopup.lookup("#titleTextField");
             userLabel       = (Label) appointmentPopup.lookup("#userLabel");
             dayPane         = pane;
+
+
+
+            if (editExistingAppointment){
+                ArrayList<Person> attendees = new ArrayList<>();
+
+                attendees.addAll(Server.getInstance().getAttendees(appointment));
+
+                for (Person p : attendees){
+                    attendeesTextArea.appendText(p.getFirstName() + " " + p.getSurname() + " ("+p.getEmail()+")" + System.lineSeparator());
+                }
+            }
+
+
+
+            roomSelector.setItems(observableRoomList);
+
+            roomSelector.setCellFactory(new Callback<ListView<Room>, ListCell<Room>>() {
+                @Override
+                public ListCell<Room> call(ListView<Room> param) {
+                    ListCell<Room> cell = new ListCell<Room>(){
+                        @Override
+                        protected void updateItem(Room item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!empty){
+                                if (item.getId() == appointment.getRoomId()){
+                                    setText("[ " +item.getName() + " ] ("+item.getCapacity()+" plasser)");
+                                } else {
+                                    setText(item.getName() + " ("+item.getCapacity()+" plasser)");
+                                }
+
+                            }
+
+
+                        }
+
+
+
+
+                    };
+                    return cell;
+                }
+
+
+            });
+
+
+
 
             if (!userCanEdit){
                 startTime.setEditable(false);
                 endTime.setEditable(false);
                 appointmentDate.setEditable(false);
+                appointmentDate.setDisable(true);
                 descriptionField.setEditable(false);
-                roomField.setEditable(false);
+                roomSelector.setEditable(false);
+                roomSelector.setDisable(true);
                 titleField.setEditable(false);
 
 
@@ -152,8 +201,10 @@ public class AppointmentPopupViewController  implements Initializable {
             participatingCheckBox.setSelected(appointment.isParticipating());
 
 
-            String startHour = Integer.toString(startDate.getHour()) + ":00";
-            String endHour = Integer.toString(endDate.getHour() +1) + ":00";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            String startHour = formatter.format(startDate);
+            String endHour = formatter.format(endDate);
             startTime.setText(startHour);
             endTime.setText(endHour);
             titleField.setText(appointment.getTitle());
@@ -162,6 +213,9 @@ public class AppointmentPopupViewController  implements Initializable {
 
 
             appointmentDate.setValue(pane.getDate());
+
+
+            getRoomSuggestions();
 
         closeButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -187,6 +241,11 @@ public class AppointmentPopupViewController  implements Initializable {
             });
 
 
+            appointmentDate.valueProperty().addListener(e -> getRoomSuggestions());
+            this.startTime.textProperty().addListener(e -> getRoomSuggestions());
+            this.endTime.textProperty().addListener(e -> getRoomSuggestions());
+
+
 
 
         } catch (IOException e) {
@@ -206,13 +265,9 @@ public class AppointmentPopupViewController  implements Initializable {
 
     private void save (Boolean userCanEdit) {
 
-        LocalDate date = appointmentDate.getValue();
 
-        int startHour = Integer.valueOf(this.startTime.getText().split(":")[0]);
-        int endHour = Integer.valueOf(this.endTime.getText().split(":")[0]);
-
-        LocalDateTime startTime = date.atTime(startHour, 0);
-        LocalDateTime endTime = date.atTime(endHour-1, 0);
+        LocalDateTime startTime = parseTextToTime(this.startTime.getText());
+        LocalDateTime endTime = parseTextToTime(this.endTime.getText());
 
         ArrayList<Person> participants = new ArrayList<>();
 
@@ -222,11 +277,13 @@ public class AppointmentPopupViewController  implements Initializable {
         currentAppointment.setDescription(descriptionField.getText());
         currentAppointment.setStartTime(startTime);
         currentAppointment.setEndTime(endTime);
+        currentAppointment.setRoomId(roomSelector.getSelectionModel().getSelectedItem().getId());
+
 
 
 
         if (userCanEdit){
-            if (editExistingAppointment){
+            if (editingExistingAppointment){
                 Server.getInstance().updateAppointment(currentAppointment);;
 
             } else {
@@ -244,4 +301,62 @@ public class AppointmentPopupViewController  implements Initializable {
         close();
 
     }
+
+    private void getRoomSuggestions(){
+
+        LocalDateTime startTime = parseTextToTime(this.startTime.getText());
+        LocalDateTime endTime = parseTextToTime(this.endTime.getText());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+        String startTid = formatter.format(startTime);
+        String sluttTid = formatter.format(endTime);
+
+        ArrayList<Room> roomArrayList = new ArrayList<>();
+
+        if(editingExistingAppointment){
+            roomArrayList.addAll(Server.getInstance().getRoomSuggestions(currentAppointment,startTid,sluttTid));
+        } else {
+            roomArrayList.addAll(Server.getInstance().getRoomSuggestions(mainview.getCurrentlySelectedGroup(),startTid,sluttTid));
+        }
+
+        observableRoomList.clear();
+        observableRoomList.addAll(roomArrayList);
+
+        if (observableRoomList.size() > 0){
+            if (userCanEdit){
+                roomSelector.setDisable(false);
+            }
+
+
+        } else{
+            roomSelector.setDisable(true);
+            Room r = new Room(0,"Ingen ledige rom",0);
+            observableRoomList.add(r);
+        }
+
+        roomSelector.setValue(observableRoomList.get(0));
+
+
+        if(editingExistingAppointment){
+            for (Room r : observableRoomList){
+                if (currentAppointment.getRoomId() == r.getId()){
+                    roomSelector.setValue(r);
+                    break;
+                }
+            }
+
+        }
+    }
+
+    private LocalDateTime parseTextToTime(String text){
+        LocalDate date = appointmentDate.getValue();
+        int hour = Integer.valueOf(text.split(":")[0]);
+        int minute = Integer.valueOf(text.split(":")[1]);
+
+        return date.atTime(hour,minute);
+
+
+    };
+
 }

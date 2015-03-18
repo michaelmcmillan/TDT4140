@@ -3,6 +3,7 @@ package server;
 import models.Appointment;
 import models.Group;
 import models.Person;
+import models.Room;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,9 +50,8 @@ public class Server {
                 appointment.setDescription(json.getJSONObject(i).getString("description"));
                 appointment.setId(json.getJSONObject(i).getInt("id"));
                 appointment.setPersonId(json.getJSONObject(i).getInt("Person_id"));
-
+                appointment.setRoomId(json.getJSONObject(i).getInt("Room_id"));
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0");
-
                 appointment.setStartTime(LocalDateTime.parse(json.getJSONObject(i).getString("start_time"), formatter));
                 appointment.setEndTime(LocalDateTime.parse(json.getJSONObject(i).getString("end_time"), formatter));
                 appointment.setParticipating(json.getJSONObject(i).getBoolean("participating"));
@@ -228,6 +228,58 @@ public class Server {
         return null;
     }
 
+    public ArrayList<Room> getRoomSuggestions(Group group,String startTime,String endTime){
+        // JSONArray jsonArray = server.getArray("room/appointment/" + appointment.getId() + "/"+startTime+"/" +endTime);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("from",startTime);
+            jsonObject.put("to",endTime);
+
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        String result = server.post("room/group/"+group.getId(),jsonObject.toString());
+
+
+        try {
+            JSONArray jsonArray = new JSONArray(result);
+            return JSONTranslator.toRoomArrayList(jsonArray);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return null;
+
+
+    };
+
+    public ArrayList<Room> getRoomSuggestions(Appointment appointment ,String startTime,String endTime){
+       // JSONArray jsonArray = server.getArray("room/appointment/" + appointment.getId() + "/"+startTime+"/" +endTime);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("from",startTime);
+            jsonObject.put("to",endTime);
+
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        String result = server.post("room/appointment/"+appointment.getId(),jsonObject.toString());
+
+
+        try {
+            JSONArray jsonArray = new JSONArray(result);
+            return JSONTranslator.toRoomArrayList(jsonArray);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    };
+
     protected Server() {
         // Exists only to defeat instantiation.
     }
@@ -238,4 +290,31 @@ public class Server {
         }
         return instance;
     }
+
+    public ArrayList<Person> getAttendees (Appointment appointment) {
+        ArrayList<Person> persons = new ArrayList<Person>();
+        JSONArray json = server.getArray("appointment/" + appointment.getId() + "/members");
+
+        try {
+            persons = JSONTranslator.toPersonArrayList(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return persons;
+    }
+
+    public ArrayList<Room> getAllRooms (){
+        ArrayList<Room> roomList = new ArrayList<>();
+        JSONArray roomArray = server.getArray("/room");
+        try {
+            roomList.addAll(JSONTranslator.toRoomArrayList(roomArray));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return roomList;
+    }
+
+
 }
