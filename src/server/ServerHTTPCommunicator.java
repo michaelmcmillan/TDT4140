@@ -19,8 +19,8 @@ import java.util.HashMap;
 public class ServerHTTPCommunicator {
 
     private String protocol   = "http";
-    private String port       = "1343";
-    private String ip         = "78.91.72.61";
+    private String port       = "1345";
+    private String ip         = "127.0.0.1";
     private String hostname   = this.protocol + "://" + this.ip + ":" + this.port;
 
     private String username;

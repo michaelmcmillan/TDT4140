@@ -128,6 +128,10 @@ public class SidebarViewController implements Initializable {
         setSelectedCell(currentcell);
     }
 
+    public int getselectedCell () {
+        return calendarListView.getSelectionModel().getSelectedIndex();
+    }
+
     public void refreshNewGroup(){
         observableGroupList.clear();
         Group myCalendar = new Group("Min kalender");

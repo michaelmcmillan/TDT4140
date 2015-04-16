@@ -61,7 +61,6 @@ public class AppointmentPopupViewController  implements Initializable {
     public AppointmentPopupViewController(Pane calendarPane, MainViewController mainview) {
         this.mainview = mainview;
         this.calendarPane = calendarPane;
-
     }
 
 
@@ -306,7 +305,7 @@ public class AppointmentPopupViewController  implements Initializable {
 
         LocalDateTime startTime = parseTextToTime(this.startTime.getText());
         LocalDateTime endTime = parseTextToTime(this.endTime.getText());
-
+        
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
         String startTid = formatter.format(startTime);
@@ -314,10 +313,12 @@ public class AppointmentPopupViewController  implements Initializable {
 
         ArrayList<Room> roomArrayList = new ArrayList<>();
 
-        if(editingExistingAppointment){
-            roomArrayList.addAll(Server.getInstance().getRoomSuggestions(currentAppointment,startTid,sluttTid));
-        } else {
-            roomArrayList.addAll(Server.getInstance().getRoomSuggestions(mainview.getCurrentlySelectedGroup(),startTid,sluttTid));
+        if (this.mainview.getSidebarViewController().getselectedCell() != 0) {
+            if (editingExistingAppointment) {
+                roomArrayList.addAll(Server.getInstance().getRoomSuggestions(currentAppointment, startTid, sluttTid));
+            } else {
+                roomArrayList.addAll(Server.getInstance().getRoomSuggestions(mainview.getCurrentlySelectedGroup(), startTid, sluttTid));
+            }
         }
 
         observableRoomList.clear();
@@ -328,11 +329,7 @@ public class AppointmentPopupViewController  implements Initializable {
         if (observableRoomList.size() > 0){
             if (userCanEdit){
                 roomSelector.setDisable(false);
-
             }
-
-
-
 
         } else{
             roomSelector.setDisable(true);

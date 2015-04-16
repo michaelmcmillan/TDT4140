@@ -224,7 +224,7 @@
         <menus>
           <Menu id="menu-account" mnemonicParsing="false" text="Account">
             <items>
-              <MenuItem id="menu-account-logout" mnemonicParsing="false" text="Logout" />
+              <MenuItem id="menu-account-logout" mnemonicParsing="false" text="Logg ut" />
             </items>
           </Menu>
           <Menu id="menu-edit" mnemonicParsing="false" text="Gruppe">

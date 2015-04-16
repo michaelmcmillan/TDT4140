@@ -52,8 +52,8 @@ public class LoginViewController{
 
 
             /* Debugging */
-            this.usernameField.setText("jonaslaksen@live.com");
-            this.passwordField.setText("heisann");
+            //this.usernameField.setText("jonaslaksen@live.com");
+            //this.passwordField.setText("heisann");
 
             loginButton = (Button) scene.lookup("#loginButton");
             registerButton = (Button) scene.lookup("#registerButton");
